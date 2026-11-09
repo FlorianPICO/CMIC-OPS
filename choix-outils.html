@@ -2143,13 +2143,13 @@ function calcStep7B() {
   if (!(uvceYieldPct > 0)) errors.push("Renseignez le rendement explosion.");
 
   if (errors.length) {
-    rchState.mTnt = mTnt;
-  rchState.r50 = r50;
-  rchState.r140 = r140;
-  rchState.r200 = r200;
-  updateRchSummary();
+    rchState.mTnt = null;
+    rchState.r50 = null;
+    rchState.r140 = null;
+    rchState.r200 = null;
+    updateRchSummary();
 
-  showStepResult("resultStep7B", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
+    showStepResult("resultStep7B", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
     return;
   }
 
@@ -2160,6 +2160,13 @@ function calcStep7B() {
   const r50 = 25 * cube;
   const r140 = 9 * cube;
   const r200 = 7.5 * cube;
+
+  // Synchronisation des résultats UVCE avec la synthèse finale
+  rchState.mTnt = mTnt;
+  rchState.r50 = r50;
+  rchState.r140 = r140;
+  rchState.r200 = r200;
+  updateRchSummary();
 
   showStepResult("resultStep7B", `
     <strong>Calcul détaillé</strong><br>
@@ -2264,7 +2271,12 @@ function autoComputeRch() {
   if (rchState.emptySeconds !== null && uvceMass > 0 && uvcePci > 0 && uvceYield > 0) {
     calcStep7B();
   } else {
+    rchState.mTnt = null;
+    rchState.r50 = null;
+    rchState.r140 = null;
+    rchState.r200 = null;
     hideStepResult("resultStep7B");
+    updateRchSummary();
   }
 }
 
