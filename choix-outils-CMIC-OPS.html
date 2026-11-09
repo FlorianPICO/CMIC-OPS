@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 <html lang="fr">
 
@@ -6,7 +5,7 @@
 
   <meta charset="utf-8">
 
-  <title>CMIC-OPS – Outils opérationnels risques chimiques</title>
+  <title>CMIC-OPS – Choix des outils</title>
 
   <meta
     name="viewport"
@@ -15,39 +14,26 @@
 
   <meta
     name="description"
-    content="CMIC-OPS – Plateforme d'outils opérationnels dédiés aux risques chimiques, technologiques et industriels."
+    content="CMIC-OPS – Choix des outils opérationnels dédiés aux risques chimiques, technologiques et industriels."
   >
 
-
   <style>
-
-    /* =========================================================
-       CMIC-OPS
-       Page d'accueil
-       ========================================================= */
-
 
     * {
       box-sizing: border-box;
     }
 
-
     html {
       scroll-behavior: smooth;
     }
 
-
     :root {
-
-      /* ----- IDENTITÉ CMIC-OPS ----- */
 
       --orange: #ea580c;
       --orange-dark: #c2410c;
       --orange-deep: #9a3412;
       --orange-light: #fb923c;
       --orange-soft: #fff7ed;
-
-      /* ----- COULEURS STRUCTURE ----- */
 
       --dark: #1c1917;
       --dark-soft: #292524;
@@ -64,12 +50,6 @@
         0 10px 28px rgba(0, 0, 0, 0.08);
 
     }
-
-
-
-    /* =========================================================
-       PAGE
-       ========================================================= */
 
     body {
 
@@ -90,12 +70,6 @@
       line-height: 1.6;
 
     }
-
-
-
-    /* =========================================================
-       HEADER
-       ========================================================= */
 
     header {
 
@@ -121,7 +95,6 @@
 
       overflow: hidden;
 
-
       background:
 
         linear-gradient(
@@ -134,10 +107,6 @@
         );
 
     }
-
-
-
-    /* Cercles décoratifs */
 
     header::before {
 
@@ -160,7 +129,6 @@
 
     }
 
-
     header::after {
 
       content: "";
@@ -182,8 +150,6 @@
 
     }
 
-
-
     .hero {
 
       position: relative;
@@ -195,12 +161,6 @@
       max-width: 900px;
 
     }
-
-
-
-    /* =========================================================
-       LOGO
-       ========================================================= */
 
     .logo {
 
@@ -239,12 +199,6 @@
 
     }
 
-
-
-    /* =========================================================
-       IDENTITÉ
-       ========================================================= */
-
     h1.brand {
 
       margin: 0;
@@ -264,14 +218,11 @@
 
     }
 
-
     h1.brand span {
 
       color: #ffedd5;
 
     }
-
-
 
     .hero-title {
 
@@ -294,8 +245,6 @@
       line-height: 1.35;
 
     }
-
-
 
     .hero-description {
 
@@ -320,18 +269,29 @@
 
     }
 
+    .back-home {
+      display: inline-block;
 
+      margin-top: 20px;
 
-    /* =========================================================
-       CONTENU
-       ========================================================= */
+      padding: 10px 14px;
+
+      border-radius: 10px;
+
+      background: rgba(255,255,255,0.14);
+
+      color: white;
+
+      text-decoration: none;
+
+      font-weight: 750;
+    }
 
     main {
 
       width: 100%;
 
     }
-
 
     section.page {
 
@@ -347,12 +307,6 @@
         45px;
 
     }
-
-
-
-    /* =========================================================
-       CARTE INTRODUCTION
-       ========================================================= */
 
     .intro-card {
 
@@ -379,8 +333,6 @@
 
     }
 
-
-
     .intro-line {
 
       width: 65px;
@@ -395,8 +347,6 @@
         var(--orange);
 
     }
-
-
 
     .intro-card h2 {
 
@@ -419,8 +369,6 @@
 
     }
 
-
-
     .intro-card p {
 
       margin: 0;
@@ -429,12 +377,6 @@
         #475569;
 
     }
-
-
-
-    /* =========================================================
-       TITRES DES SECTIONS
-       ========================================================= */
 
     .section-title {
 
@@ -450,8 +392,6 @@
         20px;
 
     }
-
-
 
     .section-number {
 
@@ -483,8 +423,6 @@
 
     }
 
-
-
     .section-title h2 {
 
       margin: 0;
@@ -502,12 +440,6 @@
 
     }
 
-
-
-    /* =========================================================
-       GRILLE OUTILS
-       ========================================================= */
-
     .tools-grid {
 
       display: grid;
@@ -522,12 +454,6 @@
       gap: 18px;
 
     }
-
-
-
-    /* =========================================================
-       CARTE OUTIL
-       ========================================================= */
 
     .tool-card {
 
@@ -568,8 +494,6 @@
 
     }
 
-
-
     a.tool-card:hover {
 
       transform:
@@ -584,13 +508,6 @@
         rgba(0, 0, 0, 0.10);
 
     }
-
-
-
-    /* =========================================================
-       BANDEAU CARTE
-       Inspiré de la présentation LIF
-       ========================================================= */
 
     .tool-header {
 
@@ -623,8 +540,6 @@
 
     }
 
-
-
     .tool-icon {
 
       display: grid;
@@ -652,8 +567,6 @@
 
     }
 
-
-
     .tool-header h3 {
 
       margin: 0;
@@ -666,12 +579,6 @@
 
     }
 
-
-
-    /* =========================================================
-       CONTENU CARTE
-       ========================================================= */
-
     .tool-body {
 
       display: flex;
@@ -683,8 +590,6 @@
       padding: 20px;
 
     }
-
-
 
     .tool-description {
 
@@ -699,12 +604,6 @@
         0.96rem;
 
     }
-
-
-
-    /* =========================================================
-       STATUT
-       ========================================================= */
 
     .status {
 
@@ -742,27 +641,6 @@
 
     }
 
-
-
-    .status.available {
-
-      border-color:
-        #bbf7d0;
-
-      background:
-        #f0fdf4;
-
-      color:
-        #166534;
-
-    }
-
-
-
-    /* =========================================================
-       LIEN OUTIL
-       ========================================================= */
-
     .tool-action {
 
       display: flex;
@@ -792,8 +670,6 @@
 
     }
 
-
-
     .arrow {
 
       font-size: 1.25rem;
@@ -803,20 +679,12 @@
 
     }
 
-
-
     a.tool-card:hover .arrow {
 
       transform:
         translateX(4px);
 
     }
-
-
-
-    /* =========================================================
-       À PROPOS
-       ========================================================= */
 
     .about {
 
@@ -835,8 +703,6 @@
 
     }
 
-
-
     .about h3 {
 
       margin:
@@ -848,8 +714,6 @@
 
     }
 
-
-
     .about p {
 
       margin:
@@ -859,12 +723,6 @@
         #475569;
 
     }
-
-
-
-    /* =========================================================
-       PRINCIPES
-       ========================================================= */
 
     .principles {
 
@@ -882,8 +740,6 @@
       margin-top: 20px;
 
     }
-
-
 
     .principle {
 
@@ -904,8 +760,6 @@
 
     }
 
-
-
     .principle-icon {
 
       display: block;
@@ -918,8 +772,6 @@
 
     }
 
-
-
     .principle strong {
 
       display: block;
@@ -929,20 +781,12 @@
 
     }
 
-
-
     .principle small {
 
       color:
         #7c2d12;
 
     }
-
-
-
-    /* =========================================================
-       AVERTISSEMENT
-       ========================================================= */
 
     .warning {
 
@@ -976,20 +820,12 @@
 
     }
 
-
-
     .warning strong {
 
       color:
         #9a3412;
 
     }
-
-
-
-    /* =========================================================
-       FOOTER
-       ========================================================= */
 
     footer {
 
@@ -1010,8 +846,6 @@
 
     }
 
-
-
     .footer-logo {
 
       margin-bottom:
@@ -1031,8 +865,6 @@
 
     }
 
-
-
     footer p {
 
       margin:
@@ -1042,12 +874,6 @@
         0.86rem;
 
     }
-
-
-
-    /* =========================================================
-       RESPONSIVE
-       ========================================================= */
 
     @media
       (max-width: 700px) {
@@ -1064,7 +890,6 @@
 
       }
 
-
       section.page {
 
         padding:
@@ -1073,7 +898,6 @@
           35px;
 
       }
-
 
       .intro-card {
 
@@ -1085,14 +909,12 @@
 
       }
 
-
       .tools-grid {
 
         grid-template-columns:
           1fr;
 
       }
-
 
       .principles {
 
@@ -1102,8 +924,6 @@
       }
 
     }
-
-
 
     @media
       (max-width: 420px) {
@@ -1121,7 +941,6 @@
 
       }
 
-
       h1.brand {
 
         font-size:
@@ -1129,14 +948,12 @@
 
       }
 
-
       .tool-header {
 
         padding:
           15px;
 
       }
-
 
       .tool-body {
 
@@ -1147,7 +964,6 @@
 
     }
 
-
   </style>
 
 </head>
@@ -1157,16 +973,9 @@
 <body>
 
 
-  <!-- =======================================================
-       HEADER
-       ======================================================= -->
-
   <header>
 
     <div class="hero">
-
-
-      <!-- Logo provisoire -->
 
       <div
         class="logo"
@@ -1175,55 +984,38 @@
         ☣
       </div>
 
-
-
       <h1 class="brand">
 
         CMIC<span>-OPS</span>
 
       </h1>
 
-
-
       <div class="hero-title">
 
-        Outils opérationnels
-        pour les risques chimiques
-        et technologiques
+        Choix des outils opérationnels
 
       </div>
 
-
-
       <p class="hero-description">
 
-        Une plateforme regroupant des outils simples,
-        rapides et directement exploitables
-        pour accompagner l'analyse et la décision
-        en intervention.
+        Sélectionnez l'outil adapté à la problématique
+        rencontrée en intervention.
 
       </p>
 
+      <a class="back-home" href="index.html">
+        ← Retour à l'accueil
+      </a>
 
     </div>
 
   </header>
 
 
-
-  <!-- =======================================================
-       CONTENU
-       ======================================================= -->
-
   <main>
-
 
     <section class="page">
 
-
-      <!-- ===================================================
-           INTRODUCTION
-           =================================================== -->
 
       <div class="intro-card">
 
@@ -1231,28 +1023,20 @@
 
         <h2>
 
-          Bienvenue sur CMIC-OPS
+          Outils CMIC-OPS
 
         </h2>
 
-
         <p>
 
-          CMIC-OPS a vocation à centraliser
-          différents outils opérationnels destinés
-          aux interventions impliquant
-          des risques chimiques,
-          technologiques ou industriels.
+          Cette page centralise les différents modules
+          opérationnels disponibles ou en développement
+          sur CMIC-OPS.
 
         </p>
 
       </div>
 
-
-
-      <!-- ===================================================
-           OUTILS
-           =================================================== -->
 
       <div class="section-title">
 
@@ -1267,13 +1051,8 @@
       </div>
 
 
-
       <div class="tools-grid">
 
-
-        <!-- =================================================
-             RISQUES CHIMIQUES
-             ================================================= -->
 
         <div class="tool-card">
 
@@ -1289,7 +1068,6 @@
 
           </div>
 
-
           <div class="tool-body">
 
             <p class="tool-description">
@@ -1301,11 +1079,9 @@
 
             </p>
 
-
             <span class="status">
               En développement
             </span>
-
 
             <div class="tool-action">
 
@@ -1319,11 +1095,6 @@
 
         </div>
 
-
-
-        <!-- =================================================
-             IDENTIFICATION PRODUIT
-             ================================================= -->
 
         <div class="tool-card">
 
@@ -1339,7 +1110,6 @@
 
           </div>
 
-
           <div class="tool-body">
 
             <p class="tool-description">
@@ -1351,11 +1121,9 @@
 
             </p>
 
-
             <span class="status">
               En développement
             </span>
-
 
             <div class="tool-action">
 
@@ -1369,11 +1137,6 @@
 
         </div>
 
-
-
-        <!-- =================================================
-             DISPERSION
-             ================================================= -->
 
         <div class="tool-card">
 
@@ -1389,7 +1152,6 @@
 
           </div>
 
-
           <div class="tool-body">
 
             <p class="tool-description">
@@ -1401,11 +1163,9 @@
 
             </p>
 
-
             <span class="status">
               En développement
             </span>
-
 
             <div class="tool-action">
 
@@ -1419,11 +1179,6 @@
 
         </div>
 
-
-
-        <!-- =================================================
-             CALCULS
-             ================================================= -->
 
         <div class="tool-card">
 
@@ -1439,7 +1194,6 @@
 
           </div>
 
-
           <div class="tool-body">
 
             <p class="tool-description">
@@ -1451,11 +1205,9 @@
 
             </p>
 
-
             <span class="status">
               En développement
             </span>
-
 
             <div class="tool-action">
 
@@ -1473,11 +1225,6 @@
       </div>
 
 
-
-      <!-- ===================================================
-           À PROPOS
-           =================================================== -->
-
       <div class="section-title">
 
         <div class="section-number">
@@ -1489,7 +1236,6 @@
         </h2>
 
       </div>
-
 
 
       <div class="about">
@@ -1513,14 +1259,13 @@
 
         <p>
 
-          Les différents outils seront organisés
+          Les différents outils sont organisés
           autour d'une charte commune,
           afin de conserver les mêmes repères
           graphiques et les mêmes principes
           d'utilisation d'une page à l'autre.
 
         </p>
-
 
 
         <div class="principles">
@@ -1543,7 +1288,6 @@
           </div>
 
 
-
           <div class="principle">
 
             <span class="principle-icon">
@@ -1559,7 +1303,6 @@
             </small>
 
           </div>
-
 
 
           <div class="principle">
@@ -1585,11 +1328,6 @@
       </div>
 
 
-
-      <!-- ===================================================
-           AVERTISSEMENT
-           =================================================== -->
-
       <div class="warning">
 
         <strong>
@@ -1614,11 +1352,6 @@
 
   </main>
 
-
-
-  <!-- =======================================================
-       FOOTER
-       ======================================================= -->
 
   <footer>
 
@@ -1650,4 +1383,3 @@
 </body>
 
 </html>
-```
