@@ -639,6 +639,100 @@
     font-weight: 900;
     color: #9a3412;
   }
+
+  .field-help-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .help-btn {
+    border: 1px solid #fdba74;
+    background: #fff7ed;
+    color: #9a3412;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .help-btn:hover {
+    background: #ffedd5;
+  }
+
+  .cd-help {
+    display: none;
+    margin-top: 10px;
+    padding: 14px;
+    border: 1px solid #fed7aa;
+    border-left: 4px solid var(--orange);
+    border-radius: 12px;
+    background: #fffaf5;
+  }
+
+  .cd-help.open {
+    display: block;
+  }
+
+  .cd-help h5 {
+    margin: 0 0 10px;
+    color: #7c2d12;
+    font-size: 0.98rem;
+  }
+
+  .cd-options {
+    display: grid;
+    gap: 8px;
+  }
+
+  .cd-option {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .cd-option strong {
+    color: #9a3412;
+  }
+
+  .cd-option small {
+    display: block;
+    margin-top: 2px;
+    color: #78716c;
+  }
+
+  .cd-use-btn {
+    border: 0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    background: var(--orange);
+    color: #fff;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .cd-option {
+      grid-template-columns: 1fr;
+    }
+
+    .cd-use-btn {
+      width: 100%;
+    }
+  }
+
 </style>
 
 </style>
@@ -784,7 +878,10 @@
           </div>
 
           <div class="calc-field">
-            <label for="leakCdPreset">Coefficient de décharge Cd</label>
+            <div class="field-help-row">
+              <label for="leakCdPreset">Coefficient de décharge Cd</label>
+              <button type="button" class="help-btn" id="toggleCdHelp">? Aide au remplissage</button>
+            </div>
             <select id="leakCdPreset">
               <option value="0.50">Orifice de Borda - Cd 0,50</option>
               <option value="0.62" selected>Orifice mince / arêtes aiguës - Cd 0,62</option>
@@ -793,6 +890,69 @@
               <option value="0.95">Ajutage convergent - Cd 0,95</option>
               <option value="custom">Valeur personnalisée</option>
             </select>
+
+            <div class="cd-help" id="cdHelp">
+              <h5>Aide au choix du coefficient Cd</h5>
+
+              <div class="cd-options">
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Orifice de Borda</strong>
+                    <small>1,6 D &lt; L &lt; 2 D</small>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="0.50">Utiliser 0,50</button>
+                </div>
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Orifice mince ou aigu</strong>
+                    <small>e &lt;&lt; D</small>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="0.62">Utiliser 0,62</button>
+                </div>
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Orifice de Poleni</strong>
+                    <small>2 D &lt; L &lt; 5 D</small>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="0.82">Utiliser 0,82</button>
+                </div>
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Orifice arrondi</strong>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="0.96">Utiliser 0,96</button>
+                </div>
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Ajustage convergent</strong>
+                    <small>Cd = 0,95 pour α = 12° ; Cd ≈ 1 pour α = 30°</small>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="0.95">Utiliser 0,95</button>
+                </div>
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Rupture guillotine parfaite</strong>
+                    <small>Canalisation seulement</small>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="1">Utiliser 1,00</button>
+                </div>
+
+                <div class="cd-option">
+                  <div>
+                    <strong>Ajustage convergent puis divergent (Venturi)</strong>
+                    <small>Cd &gt; 1 et dépend de l'angle α. Utiliser une valeur déterminée spécifiquement.</small>
+                  </div>
+                  <button type="button" class="cd-use-btn" data-cd="custom">Saisie manuelle</button>
+                </div>
+
+              </div>
+            </div>
           </div>
 
           <div class="calc-field" id="leakCdCustomWrap" style="display:none;">
@@ -1212,5 +1372,49 @@ document.getElementById("resetLeak").addEventListener("click", () => {
 });
 
 </script>
+
+<script>
+(() => {
+  const helpBtn = document.getElementById("toggleCdHelp");
+  const helpPanel = document.getElementById("cdHelp");
+  const cdPreset = document.getElementById("leakCdPreset");
+  const customWrap = document.getElementById("leakCdCustomWrap");
+  const customInput = document.getElementById("leakCdCustom");
+
+  if (helpBtn && helpPanel) {
+    helpBtn.addEventListener("click", () => {
+      const isOpen = helpPanel.classList.toggle("open");
+      helpBtn.textContent = isOpen ? "Masquer l'aide" : "? Aide au remplissage";
+    });
+  }
+
+  document.querySelectorAll(".cd-use-btn[data-cd]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!cdPreset) return;
+
+      const value = btn.dataset.cd;
+
+      if (value === "custom") {
+        cdPreset.value = "custom";
+        if (customWrap) customWrap.style.display = "";
+        if (customInput) customInput.focus();
+      } else {
+        cdPreset.value = value;
+
+        if (customWrap) {
+          customWrap.style.display =
+            cdPreset.value === "custom" ? "" : "none";
+        }
+
+        cdPreset.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+
+      if (helpPanel) helpPanel.classList.remove("open");
+      if (helpBtn) helpBtn.textContent = "? Aide au remplissage";
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
