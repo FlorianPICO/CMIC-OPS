@@ -1,33 +1,1653 @@
-<!DOCTYPE html>
+```html
+<!doctype html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CmicOps</title>
+
+  <meta charset="utf-8">
+
+  <title>CMIC-OPS – Outils opérationnels risques chimiques</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="description"
+    content="CMIC-OPS – Plateforme d'outils opérationnels dédiés aux risques chimiques, technologiques et industriels."
+  >
+
+
   <style>
+
+    /* =========================================================
+       CMIC-OPS
+       Page d'accueil
+       ========================================================= */
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    :root {
+
+      /* ----- IDENTITÉ CMIC-OPS ----- */
+
+      --orange: #ea580c;
+      --orange-dark: #c2410c;
+      --orange-deep: #9a3412;
+      --orange-light: #fb923c;
+      --orange-soft: #fff7ed;
+
+      /* ----- COULEURS STRUCTURE ----- */
+
+      --dark: #1c1917;
+      --dark-soft: #292524;
+
+      --text: #1f2937;
+      --muted: #64748b;
+
+      --background: #f5f7fa;
+      --white: #ffffff;
+
+      --border: #e2e8f0;
+
+      --shadow:
+        0 10px 28px rgba(0, 0, 0, 0.08);
+
+    }
+
+
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
     body {
-      font-family: Arial, sans-serif;
+
       margin: 0;
-      background: #101827;
-      color: white;
-      text-align: center;
+
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background: var(--background);
+
+      color: var(--text);
+
+      line-height: 1.6;
+
     }
+
+
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
     header {
-      padding: 80px 20px;
+
+      position: relative;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-height: 430px;
+
+      padding:
+        55px 18px
+        95px;
+
+      text-align: center;
+
+      color: white;
+
+      overflow: hidden;
+
+
+      background:
+
+        linear-gradient(
+          135deg,
+          #7c2d12 0%,
+          #9a3412 22%,
+          #c2410c 50%,
+          #ea580c 78%,
+          #fb923c 100%
+        );
+
     }
-    h1 {
-      font-size: 48px;
+
+
+
+    /* Cercles décoratifs */
+
+    header::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 420px;
+
+      height: 420px;
+
+      top: -230px;
+
+      right: -130px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
     }
-    p {
-      font-size: 20px;
+
+
+    header::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 330px;
+
+      height: 330px;
+
+      bottom: -220px;
+
+      left: -130px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255, 255, 255, 0.06);
+
     }
+
+
+
+    .hero {
+
+      position: relative;
+
+      z-index: 2;
+
+      width: 100%;
+
+      max-width: 900px;
+
+    }
+
+
+
+    /* =========================================================
+       LOGO
+       ========================================================= */
+
+    .logo {
+
+      display: grid;
+
+      place-items: center;
+
+      width: 94px;
+
+      height: 94px;
+
+      margin:
+        0 auto
+        20px;
+
+      border:
+
+        2px solid
+        rgba(255, 255, 255, 0.35);
+
+      border-radius: 22px;
+
+      background:
+
+        rgba(255, 255, 255, 0.14);
+
+      box-shadow:
+
+        0 12px 30px
+        rgba(0, 0, 0, 0.18);
+
+      font-size: 2.8rem;
+
+      backdrop-filter:
+        blur(4px);
+
+    }
+
+
+
+    /* =========================================================
+       IDENTITÉ
+       ========================================================= */
+
+    h1.brand {
+
+      margin: 0;
+
+      font-size:
+        clamp(
+          2.6rem,
+          9vw,
+          5rem
+        );
+
+      font-weight: 900;
+
+      line-height: 1;
+
+      letter-spacing: 0.035em;
+
+    }
+
+
+    h1.brand span {
+
+      color: #ffedd5;
+
+    }
+
+
+
+    .hero-title {
+
+      margin:
+        22px auto
+        0;
+
+      max-width: 720px;
+
+      font-size:
+
+        clamp(
+          1.2rem,
+          4vw,
+          2rem
+        );
+
+      font-weight: 750;
+
+      line-height: 1.35;
+
+    }
+
+
+
+    .hero-description {
+
+      max-width: 700px;
+
+      margin:
+        17px auto
+        0;
+
+      font-size:
+
+        clamp(
+          0.95rem,
+          3vw,
+          1.1rem
+        );
+
+      color:
+        rgba(255, 255, 255, 0.92);
+
+      line-height: 1.55;
+
+    }
+
+
+
+    /* =========================================================
+       CONTENU
+       ========================================================= */
+
+    main {
+
+      width: 100%;
+
+    }
+
+
+    section.page {
+
+      width: 100%;
+
+      max-width: 1000px;
+
+      margin: auto;
+
+      padding:
+
+        0 20px
+        45px;
+
+    }
+
+
+
+    /* =========================================================
+       CARTE INTRODUCTION
+       ========================================================= */
+
+    .intro-card {
+
+      position: relative;
+
+      z-index: 10;
+
+      margin-top: -60px;
+
+      padding: 27px;
+
+      border:
+
+        1px solid
+        var(--border);
+
+      border-radius: 17px;
+
+      background:
+        var(--white);
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+
+    .intro-line {
+
+      width: 65px;
+
+      height: 5px;
+
+      margin-bottom: 17px;
+
+      border-radius: 999px;
+
+      background:
+        var(--orange);
+
+    }
+
+
+
+    .intro-card h2 {
+
+      margin:
+        0 0
+        10px;
+
+      color:
+        var(--dark);
+
+      font-size:
+
+        clamp(
+          1.4rem,
+          4vw,
+          1.8rem
+        );
+
+      line-height: 1.3;
+
+    }
+
+
+
+    .intro-card p {
+
+      margin: 0;
+
+      color:
+        #475569;
+
+    }
+
+
+
+    /* =========================================================
+       TITRES DES SECTIONS
+       ========================================================= */
+
+    .section-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 13px;
+
+      margin:
+
+        40px 0
+        20px;
+
+    }
+
+
+
+    .section-number {
+
+      display: grid;
+
+      place-items: center;
+
+      flex-shrink: 0;
+
+      width: 42px;
+
+      height: 42px;
+
+      border-radius: 11px;
+
+      background:
+        var(--orange);
+
+      color: white;
+
+      font-size: 1.05rem;
+
+      font-weight: 850;
+
+      box-shadow:
+
+        0 4px 12px
+        rgba(234, 88, 12, 0.23);
+
+    }
+
+
+
+    .section-title h2 {
+
+      margin: 0;
+
+      color:
+        var(--dark);
+
+      font-size:
+
+        clamp(
+          1.3rem,
+          4vw,
+          1.7rem
+        );
+
+    }
+
+
+
+    /* =========================================================
+       GRILLE OUTILS
+       ========================================================= */
+
+    .tools-grid {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+
+      gap: 18px;
+
+    }
+
+
+
+    /* =========================================================
+       CARTE OUTIL
+       ========================================================= */
+
+    .tool-card {
+
+      display: flex;
+
+      flex-direction: column;
+
+      min-width: 0;
+
+      overflow: hidden;
+
+      border:
+
+        1px solid
+        var(--border);
+
+      border-radius: 15px;
+
+      background:
+        var(--white);
+
+      box-shadow:
+
+        0 4px 14px
+        rgba(0, 0, 0, 0.05);
+
+      color: inherit;
+
+      text-decoration: none;
+
+      transition:
+
+        transform 0.18s ease,
+
+        box-shadow 0.18s ease,
+
+        border-color 0.18s ease;
+
+    }
+
+
+
+    a.tool-card:hover {
+
+      transform:
+        translateY(-4px);
+
+      border-color:
+        #fdba74;
+
+      box-shadow:
+
+        0 12px 28px
+        rgba(0, 0, 0, 0.10);
+
+    }
+
+
+
+    /* =========================================================
+       BANDEAU CARTE
+       Inspiré de la présentation LIF
+       ========================================================= */
+
+    .tool-header {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      padding:
+
+        18px 19px;
+
+      color:
+        white;
+
+      background:
+
+        linear-gradient(
+          105deg,
+          #9a3412,
+          #c2410c,
+          #ea580c
+        );
+
+      border-left:
+
+        4px solid
+        #fdba74;
+
+    }
+
+
+
+    .tool-icon {
+
+      display: grid;
+
+      place-items: center;
+
+      flex-shrink: 0;
+
+      width: 44px;
+
+      height: 44px;
+
+      border-radius: 11px;
+
+      background:
+
+        rgba(255, 255, 255, 0.15);
+
+      border:
+
+        1px solid
+        rgba(255, 255, 255, 0.25);
+
+      font-size: 1.55rem;
+
+    }
+
+
+
+    .tool-header h3 {
+
+      margin: 0;
+
+      font-size: 1.08rem;
+
+      font-weight: 800;
+
+      line-height: 1.3;
+
+    }
+
+
+
+    /* =========================================================
+       CONTENU CARTE
+       ========================================================= */
+
+    .tool-body {
+
+      display: flex;
+
+      flex-direction: column;
+
+      flex: 1;
+
+      padding: 20px;
+
+    }
+
+
+
+    .tool-description {
+
+      flex: 1;
+
+      margin: 0;
+
+      color:
+        #475569;
+
+      font-size:
+        0.96rem;
+
+    }
+
+
+
+    /* =========================================================
+       STATUT
+       ========================================================= */
+
+    .status {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      align-self:
+        flex-start;
+
+      margin-top: 20px;
+
+      padding:
+
+        6px 10px;
+
+      border:
+
+        1px solid
+        #fed7aa;
+
+      border-radius: 999px;
+
+      background:
+        #fff7ed;
+
+      color:
+        #9a3412;
+
+      font-size: 0.78rem;
+
+      font-weight: 800;
+
+    }
+
+
+
+    .status.available {
+
+      border-color:
+        #bbf7d0;
+
+      background:
+        #f0fdf4;
+
+      color:
+        #166534;
+
+    }
+
+
+
+    /* =========================================================
+       LIEN OUTIL
+       ========================================================= */
+
+    .tool-action {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content:
+        space-between;
+
+      gap: 10px;
+
+      margin-top:
+        18px;
+
+      padding-top:
+        14px;
+
+      border-top:
+
+        1px solid
+        #f1f5f9;
+
+      color:
+        var(--orange-dark);
+
+      font-weight: 800;
+
+    }
+
+
+
+    .arrow {
+
+      font-size: 1.25rem;
+
+      transition:
+        transform 0.18s ease;
+
+    }
+
+
+
+    a.tool-card:hover .arrow {
+
+      transform:
+        translateX(4px);
+
+    }
+
+
+
+    /* =========================================================
+       À PROPOS
+       ========================================================= */
+
+    .about {
+
+      padding: 23px;
+
+      border:
+
+        1px solid
+        var(--border);
+
+      border-radius:
+        15px;
+
+      background:
+        white;
+
+    }
+
+
+
+    .about h3 {
+
+      margin:
+        0 0
+        10px;
+
+      color:
+        var(--dark);
+
+    }
+
+
+
+    .about p {
+
+      margin:
+        10px 0;
+
+      color:
+        #475569;
+
+    }
+
+
+
+    /* =========================================================
+       PRINCIPES
+       ========================================================= */
+
+    .principles {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(
+          3,
+          1fr
+        );
+
+      gap: 12px;
+
+      margin-top: 20px;
+
+    }
+
+
+
+    .principle {
+
+      padding: 15px;
+
+      text-align: center;
+
+      border:
+
+        1px solid
+        #fed7aa;
+
+      border-radius:
+        12px;
+
+      background:
+        var(--orange-soft);
+
+    }
+
+
+
+    .principle-icon {
+
+      display: block;
+
+      margin-bottom:
+        5px;
+
+      font-size:
+        1.5rem;
+
+    }
+
+
+
+    .principle strong {
+
+      display: block;
+
+      color:
+        #9a3412;
+
+    }
+
+
+
+    .principle small {
+
+      color:
+        #7c2d12;
+
+    }
+
+
+
+    /* =========================================================
+       AVERTISSEMENT
+       ========================================================= */
+
+    .warning {
+
+      margin-top:
+        24px;
+
+      padding:
+        16px 18px;
+
+      border:
+
+        1px solid
+        #fed7aa;
+
+      border-left:
+
+        5px solid
+        var(--orange);
+
+      border-radius:
+        12px;
+
+      background:
+        #fff7ed;
+
+      color:
+        #7c2d12;
+
+      font-size:
+        0.92rem;
+
+    }
+
+
+
+    .warning strong {
+
+      color:
+        #9a3412;
+
+    }
+
+
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+
+      margin-top:
+        20px;
+
+      padding:
+
+        34px 20px;
+
+      text-align: center;
+
+      color:
+        #d6d3d1;
+
+      background:
+        var(--dark);
+
+    }
+
+
+
+    .footer-logo {
+
+      margin-bottom:
+        8px;
+
+      color:
+        white;
+
+      font-size:
+        1.3rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        0.04em;
+
+    }
+
+
+
+    footer p {
+
+      margin:
+        4px 0;
+
+      font-size:
+        0.86rem;
+
+    }
+
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media
+      (max-width: 700px) {
+
+      header {
+
+        min-height:
+          390px;
+
+        padding:
+
+          42px 15px
+          90px;
+
+      }
+
+
+      section.page {
+
+        padding:
+
+          0 10px
+          35px;
+
+      }
+
+
+      .intro-card {
+
+        margin-top:
+          -55px;
+
+        padding:
+          20px;
+
+      }
+
+
+      .tools-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .principles {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+    }
+
+
+
+    @media
+      (max-width: 420px) {
+
+      .logo {
+
+        width:
+          78px;
+
+        height:
+          78px;
+
+        font-size:
+          2.2rem;
+
+      }
+
+
+      h1.brand {
+
+        font-size:
+          2.5rem;
+
+      }
+
+
+      .tool-header {
+
+        padding:
+          15px;
+
+      }
+
+
+      .tool-body {
+
+        padding:
+          16px;
+
+      }
+
+    }
+
+
   </style>
+
 </head>
+
+
+
 <body>
+
+
+  <!-- =======================================================
+       HEADER
+       ======================================================= -->
+
   <header>
-    <h1>Bienvenue sur CmicOps</h1>
-    <p>Site officiel de CmicOps</p>
-    <p>Notre site est en cours de création.</p>
+
+    <div class="hero">
+
+
+      <!-- Logo provisoire -->
+
+      <div
+        class="logo"
+        aria-hidden="true"
+      >
+        ☣
+      </div>
+
+
+
+      <h1 class="brand">
+
+        CMIC<span>-OPS</span>
+
+      </h1>
+
+
+
+      <div class="hero-title">
+
+        Outils opérationnels
+        pour les risques chimiques
+        et technologiques
+
+      </div>
+
+
+
+      <p class="hero-description">
+
+        Une plateforme regroupant des outils simples,
+        rapides et directement exploitables
+        pour accompagner l'analyse et la décision
+        en intervention.
+
+      </p>
+
+
+    </div>
+
   </header>
+
+
+
+  <!-- =======================================================
+       CONTENU
+       ======================================================= -->
+
+  <main>
+
+
+    <section class="page">
+
+
+      <!-- ===================================================
+           INTRODUCTION
+           =================================================== -->
+
+      <div class="intro-card">
+
+        <div class="intro-line"></div>
+
+        <h2>
+
+          Bienvenue sur CMIC-OPS
+
+        </h2>
+
+
+        <p>
+
+          CMIC-OPS a vocation à centraliser
+          différents outils opérationnels destinés
+          aux interventions impliquant
+          des risques chimiques,
+          technologiques ou industriels.
+
+        </p>
+
+      </div>
+
+
+
+      <!-- ===================================================
+           OUTILS
+           =================================================== -->
+
+      <div class="section-title">
+
+        <div class="section-number">
+          1
+        </div>
+
+        <h2>
+          Outils opérationnels
+        </h2>
+
+      </div>
+
+
+
+      <div class="tools-grid">
+
+
+        <!-- =================================================
+             RISQUES CHIMIQUES
+             ================================================= -->
+
+        <div class="tool-card">
+
+          <div class="tool-header">
+
+            <div class="tool-icon">
+              ☣
+            </div>
+
+            <h3>
+              Risques chimiques
+            </h3>
+
+          </div>
+
+
+          <div class="tool-body">
+
+            <p class="tool-description">
+
+              Outils destinés à accompagner
+              l'analyse d'une intervention
+              impliquant un produit chimique
+              ou une matière dangereuse.
+
+            </p>
+
+
+            <span class="status">
+              En développement
+            </span>
+
+
+            <div class="tool-action">
+
+              <span>
+                Prochainement
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             IDENTIFICATION PRODUIT
+             ================================================= -->
+
+        <div class="tool-card">
+
+          <div class="tool-header">
+
+            <div class="tool-icon">
+              🧪
+            </div>
+
+            <h3>
+              Identification produit
+            </h3>
+
+          </div>
+
+
+          <div class="tool-body">
+
+            <p class="tool-description">
+
+              Accès futur à des fonctions
+              facilitant l'identification
+              et l'exploitation des informations
+              relatives à un produit.
+
+            </p>
+
+
+            <span class="status">
+              En développement
+            </span>
+
+
+            <div class="tool-action">
+
+              <span>
+                Prochainement
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DISPERSION
+             ================================================= -->
+
+        <div class="tool-card">
+
+          <div class="tool-header">
+
+            <div class="tool-icon">
+              🌬️
+            </div>
+
+            <h3>
+              Dispersion atmosphérique
+            </h3>
+
+          </div>
+
+
+          <div class="tool-body">
+
+            <p class="tool-description">
+
+              Outils destinés à accompagner
+              l'évaluation d'un rejet
+              et de ses conséquences
+              potentielles dans l'environnement.
+
+            </p>
+
+
+            <span class="status">
+              En développement
+            </span>
+
+
+            <div class="tool-action">
+
+              <span>
+                Prochainement
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CALCULS
+             ================================================= -->
+
+        <div class="tool-card">
+
+          <div class="tool-header">
+
+            <div class="tool-icon">
+              📐
+            </div>
+
+            <h3>
+              Calculs opérationnels
+            </h3>
+
+          </div>
+
+
+          <div class="tool-body">
+
+            <p class="tool-description">
+
+              Calculateurs et outils
+              d'aide à la décision adaptés
+              aux différentes problématiques
+              rencontrées en intervention.
+
+            </p>
+
+
+            <span class="status">
+              En développement
+            </span>
+
+
+            <div class="tool-action">
+
+              <span>
+                Prochainement
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ===================================================
+           À PROPOS
+           =================================================== -->
+
+      <div class="section-title">
+
+        <div class="section-number">
+          2
+        </div>
+
+        <h2>
+          L'esprit CMIC-OPS
+        </h2>
+
+      </div>
+
+
+
+      <div class="about">
+
+
+        <h3>
+          Une interface pensée pour le terrain
+        </h3>
+
+
+        <p>
+
+          CMIC-OPS est conçu pour proposer
+          des interfaces simples,
+          lisibles et directement utilisables
+          depuis un ordinateur,
+          une tablette ou un smartphone.
+
+        </p>
+
+
+        <p>
+
+          Les différents outils seront organisés
+          autour d'une charte commune,
+          afin de conserver les mêmes repères
+          graphiques et les mêmes principes
+          d'utilisation d'une page à l'autre.
+
+        </p>
+
+
+
+        <div class="principles">
+
+
+          <div class="principle">
+
+            <span class="principle-icon">
+              ⚡
+            </span>
+
+            <strong>
+              Rapide
+            </strong>
+
+            <small>
+              Accès direct aux fonctions utiles
+            </small>
+
+          </div>
+
+
+
+          <div class="principle">
+
+            <span class="principle-icon">
+              👁️
+            </span>
+
+            <strong>
+              Lisible
+            </strong>
+
+            <small>
+              Informations clairement hiérarchisées
+            </small>
+
+          </div>
+
+
+
+          <div class="principle">
+
+            <span class="principle-icon">
+              📱
+            </span>
+
+            <strong>
+              Mobile
+            </strong>
+
+            <small>
+              Utilisable sur le terrain
+            </small>
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ===================================================
+           AVERTISSEMENT
+           =================================================== -->
+
+      <div class="warning">
+
+        <strong>
+          ⚠️ Avertissement opérationnel :
+        </strong>
+
+        les outils proposés sur CMIC-OPS
+        constituent une aide à la décision.
+
+        Ils ne se substituent ni à la doctrine
+        opérationnelle applicable,
+        ni à l'analyse du commandement
+        des opérations de secours,
+        ni aux données fournies
+        par l'exploitant,
+        les experts ou les organismes compétents.
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
+
+  <footer>
+
+
+    <div class="footer-logo">
+      CMIC-OPS
+    </div>
+
+
+    <p>
+      Outils opérationnels –
+      Risques chimiques et technologiques
+    </p>
+
+
+    <p>
+      © Florian PICO – Tous droits réservés
+    </p>
+
+
+    <p>
+      Version 1.0 – 2026
+    </p>
+
+
+  </footer>
+
+
 </body>
+
 </html>
+```
