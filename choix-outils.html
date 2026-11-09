@@ -454,6 +454,184 @@
       }
     }
 
+
+    /* ===== OUTIL 2 : CALCUL DE DÉBIT DE FUITE ===== */
+    .calc-panel {
+      grid-column: 1 / -1;
+      display: none;
+      padding: 22px;
+      border: 1px solid #fed7aa;
+      border-left: 5px solid var(--orange);
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(0,0,0,.06);
+    }
+
+    .calc-panel.open { display: block; }
+
+    .calc-panel h3 {
+      margin: 0 0 8px;
+      color: var(--dark);
+      font-size: 1.3rem;
+    }
+
+    .calc-panel > p {
+      margin: 0 0 18px;
+      color: #475569;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .calc-box {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .calc-box.full { grid-column: 1 / -1; }
+
+    .calc-box h4 {
+      margin: 0 0 12px;
+      color: var(--orange-deep);
+      font-size: 1rem;
+    }
+
+    .calc-field {
+      margin-bottom: 12px;
+    }
+
+    .calc-field:last-child { margin-bottom: 0; }
+
+    .calc-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 750;
+      color: var(--dark);
+    }
+
+    .calc-field input,
+    .calc-field select {
+      width: 100%;
+      min-height: 45px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      font-size: 16px;
+    }
+
+    .calc-field small {
+      display: block;
+      margin-top: 5px;
+      color: #64748b;
+      line-height: 1.35;
+    }
+
+    .calc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .calc-btn {
+      appearance: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      background: linear-gradient(105deg, var(--orange-dark), var(--orange));
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .calc-btn.secondary {
+      background: #fff;
+      color: var(--orange-dark);
+      border: 1px solid #fdba74;
+    }
+
+    .calc-result {
+      margin-top: 18px;
+      display: none;
+      padding: 18px;
+      border: 1px solid #fed7aa;
+      border-radius: 13px;
+      background: var(--orange-soft);
+    }
+
+    .calc-result.show { display: block; }
+
+    .result-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .result-kpi {
+      padding: 13px;
+      border-radius: 11px;
+      background: #fff;
+      border: 1px solid #fed7aa;
+    }
+
+    .result-kpi span {
+      display: block;
+      color: #7c2d12;
+      font-size: .78rem;
+      font-weight: 750;
+    }
+
+    .result-kpi strong {
+      display: block;
+      margin-top: 3px;
+      color: #9a3412;
+      font-size: 1.08rem;
+    }
+
+    .calc-note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #7c2d12;
+      font-size: .88rem;
+    }
+
+    .calc-error {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: #9f1239;
+      font-weight: 700;
+    }
+
+    @media (max-width: 800px) {
+      .result-kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .calc-grid { grid-template-columns: 1fr; }
+      .calc-box.full { grid-column: auto; }
+      .calc-panel { padding: 16px; }
+    }
+
+    @media (max-width: 460px) {
+      .result-kpis { grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 
@@ -526,15 +704,115 @@
     </section>
 
 
+    <button type="button" class="tool-card" id="openLeakCalc" aria-expanded="false" aria-controls="leakCalcPanel">
+      <div class="tool-header">
+        <div class="tool-icon">💨</div>
+        <h3>Calcul de débit de fuite</h3>
+      </div>
+      <div class="tool-body">
+        <p class="tool-description">Calculez la masse volumique du gaz, la section de fuite, le débit massique et le temps théorique de vidange d'un contenant sous pression.</p>
+        <span class="status available">Disponible</span>
+        <div class="tool-action"><span>Ouvrir l'outil</span><span>↓</span></div>
+      </div>
+    </button>
+
+    <section class="calc-panel" id="leakCalcPanel" aria-labelledby="leakCalcTitle">
+      <h3 id="leakCalcTitle">Calcul de débit de fuite - phase gazeuse</h3>
+      <p>Calcul basé sur le mémento RCH 001 « Fuite de gaz inflammable + dispersion » du 11/06/2024. Renseignez les données disponibles puis lancez le calcul.</p>
+
+      <div class="calc-grid">
+        <div class="calc-box">
+          <h4>1. Données du produit et du réservoir</h4>
+
+          <div class="calc-field">
+            <label for="leakMolarMass">Masse molaire M (g/mol)</label>
+            <input id="leakMolarMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 44.1 pour le propane">
+            <small>La formule convertit automatiquement les g/mol en kg/mol.</small>
+          </div>
+
+          <div class="calc-field">
+            <label for="leakPressure">Pression du réservoir (bar absolu)</label>
+            <input id="leakPressure" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 8">
+            <small>La fiche demande de prendre la pression du réservoir. La pression atmosphérique utilisée est 1,013 bar.</small>
+          </div>
+
+          <div class="calc-field">
+            <label for="leakTemp">Température du gaz (°C)</label>
+            <input id="leakTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20">
+            <small>T(K) = T(°C) + 273.</small>
+          </div>
+
+          <div class="calc-field">
+            <label for="leakVolume">Volume du contenant (m³) - facultatif</label>
+            <input id="leakVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 1.0">
+            <small>Utilisé pour estimer la masse totale et le temps de vidange. Le mémento rappelle un taux de remplissage maximal de 85 %.</small>
+          </div>
+        </div>
+
+        <div class="calc-box">
+          <h4>2. Fuite et coefficient de décharge</h4>
+
+          <div class="calc-field">
+            <label for="leakDiameter">Diamètre de la fuite</label>
+            <input id="leakDiameter" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 10">
+          </div>
+
+          <div class="calc-field">
+            <label for="leakDiameterUnit">Unité du diamètre</label>
+            <select id="leakDiameterUnit">
+              <option value="mm">mm</option>
+              <option value="cm">cm</option>
+              <option value="m">m</option>
+              <option value="inch">pouce</option>
+            </select>
+            <small>Pour les pouces, le calcul utilise 1 pouce = 0,0254 m.</small>
+          </div>
+
+          <div class="calc-field">
+            <label for="leakCdPreset">Coefficient de décharge Cd</label>
+            <select id="leakCdPreset">
+              <option value="0.50">Orifice de Borda - Cd 0,50</option>
+              <option value="0.62" selected>Orifice mince / arêtes aiguës - Cd 0,62</option>
+              <option value="0.82">Orifice intermédiaire - Cd 0,82</option>
+              <option value="0.96">Orifice arrondi - Cd 0,96</option>
+              <option value="0.95">Ajutage convergent - Cd 0,95</option>
+              <option value="custom">Valeur personnalisée</option>
+            </select>
+          </div>
+
+          <div class="calc-field" id="leakCdCustomWrap" style="display:none;">
+            <label for="leakCdCustom">Cd personnalisé</label>
+            <input id="leakCdCustom" type="number" inputmode="decimal" step="0.01" min="0" max="2" placeholder="Ex. 0.70">
+          </div>
+        </div>
+
+        <div class="calc-box full">
+          <h4>3. Formules utilisées</h4>
+          <div class="calc-note">
+            <strong>Masse volumique :</strong> ρ = (P × M) / (R × T), avec R = 8,314.<br>
+            <strong>Section :</strong> S = π × R².<br>
+            <strong>Différence de pression :</strong> ΔP = P<sub>réservoir</sub> - 1,013 bar.<br>
+            <strong>Débit massique gazeux :</strong> Q = Cd × S × √(ρ × ΔP / 2).<br>
+            <strong>Temps théorique de vidange :</strong> t = masse du produit / Q.
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-actions">
+        <button class="calc-btn" type="button" id="calculateLeak">Calculer le débit</button>
+        <button class="calc-btn secondary" type="button" id="resetLeak">Réinitialiser</button>
+        <button class="calc-btn secondary" type="button" id="closeLeakCalc">Fermer l'outil</button>
+      </div>
+
+      <div class="calc-result" id="leakResult" aria-live="polite"></div>
+    </section>
+
     <div class="tool-card">
       <div class="tool-header"><div class="tool-icon">🌬️</div><h3>Dispersion atmosphérique</h3></div>
       <div class="tool-body"><p class="tool-description">Outils destinés à accompagner l'évaluation d'un rejet et de ses conséquences potentielles dans l'environnement.</p><span class="status">En développement</span><div class="tool-action"><span>Prochainement</span></div></div>
     </div>
 
-    <div class="tool-card">
-      <div class="tool-header"><div class="tool-icon">📐</div><h3>Calculs opérationnels</h3></div>
-      <div class="tool-body"><p class="tool-description">Calculateurs et outils d'aide à la décision adaptés aux différentes problématiques rencontrées en intervention.</p><span class="status">En développement</span><div class="tool-action"><span>Prochainement</span></div></div>
-    </div>
+
 
     <div class="tool-card">
       <div class="tool-header"><div class="tool-icon">☣</div><h3>Autres outils CMIC</h3></div>
@@ -718,6 +996,146 @@ document.getElementById("searchUn").addEventListener("click", searchByUn);
 document.getElementById("searchName").addEventListener("click", searchByName);
 document.getElementById("unNumber").addEventListener("keydown", e => { if (e.key === "Enter") searchByUn(); });
 document.getElementById("productName").addEventListener("keydown", e => { if (e.key === "Enter") searchByName(); });
+
+// ===== OUTIL 2 : CALCUL DE DÉBIT DE FUITE =====
+const leakPanel = document.getElementById("leakCalcPanel");
+const openLeakCalc = document.getElementById("openLeakCalc");
+const leakResult = document.getElementById("leakResult");
+const leakCdPreset = document.getElementById("leakCdPreset");
+const leakCdCustomWrap = document.getElementById("leakCdCustomWrap");
+
+function toggleLeakPanel(forceOpen) {
+  const open = typeof forceOpen === "boolean"
+    ? forceOpen
+    : !leakPanel.classList.contains("open");
+
+  leakPanel.classList.toggle("open", open);
+  openLeakCalc.setAttribute("aria-expanded", String(open));
+
+  if (open) {
+    setTimeout(() => leakPanel.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+  }
+}
+
+openLeakCalc.addEventListener("click", () => toggleLeakPanel());
+document.getElementById("closeLeakCalc").addEventListener("click", () => {
+  toggleLeakPanel(false);
+  openLeakCalc.scrollIntoView({behavior:"smooth", block:"nearest"});
+});
+
+leakCdPreset.addEventListener("change", () => {
+  leakCdCustomWrap.style.display = leakCdPreset.value === "custom" ? "block" : "none";
+});
+
+function numberValue(id) {
+  const raw = document.getElementById(id).value.trim().replace(",", ".");
+  return raw === "" ? null : Number(raw);
+}
+
+function formatNumber(value, digits = 4) {
+  if (!Number.isFinite(value)) return "-";
+  if (Math.abs(value) >= 1000 || (Math.abs(value) > 0 && Math.abs(value) < 0.001)) {
+    return value.toExponential(3).replace(".", ",");
+  }
+  return value.toLocaleString("fr-FR", {maximumFractionDigits: digits});
+}
+
+function diameterToMeters(value, unit) {
+  if (unit === "mm") return value / 1000;
+  if (unit === "cm") return value / 100;
+  if (unit === "inch") return value * 0.0254;
+  return value;
+}
+
+function calculateLeakFlow() {
+  const molarMassG = numberValue("leakMolarMass");
+  const pressureBar = numberValue("leakPressure");
+  const tempC = numberValue("leakTemp");
+  const volumeM3 = numberValue("leakVolume");
+  const diameterInput = numberValue("leakDiameter");
+  const diameterUnit = document.getElementById("leakDiameterUnit").value;
+
+  let cd = leakCdPreset.value === "custom"
+    ? numberValue("leakCdCustom")
+    : Number(leakCdPreset.value);
+
+  const errors = [];
+  if (!(molarMassG > 0)) errors.push("Renseignez une masse molaire supérieure à 0 g/mol.");
+  if (!(pressureBar > 1.013)) errors.push("La pression du réservoir doit être supérieure à 1,013 bar pour obtenir une fuite vers l'atmosphère.");
+  if (tempC === null || tempC <= -273) errors.push("Renseignez une température supérieure à -273 °C.");
+  if (!(diameterInput > 0)) errors.push("Renseignez un diamètre de fuite supérieur à 0.");
+  if (!(cd > 0)) errors.push("Renseignez un coefficient de décharge Cd supérieur à 0.");
+  if (volumeM3 !== null && volumeM3 <= 0) errors.push("Le volume du contenant doit être supérieur à 0 m³, ou laissé vide.");
+
+  if (errors.length) {
+    leakResult.classList.add("show");
+    leakResult.innerHTML = `<div class="calc-error">${errors.join("<br>")}</div>`;
+    return;
+  }
+
+  const R = 8.314;
+  const pressurePa = pressureBar * 100000;
+  const molarMassKg = molarMassG / 1000;
+  const tempK = tempC + 273;
+  const rho = (pressurePa * molarMassKg) / (R * tempK);
+
+  const diameterM = diameterToMeters(diameterInput, diameterUnit);
+  const radiusM = diameterM / 2;
+  const areaM2 = Math.PI * radiusM * radiusM;
+
+  const deltaPBar = pressureBar - 1.013;
+  const deltaPPa = deltaPBar * 100000;
+
+  // Formule reprise du mémento RCH 001 fourni par l'utilisateur.
+  const flowKgS = cd * areaM2 * Math.sqrt((rho * deltaPPa) / 2);
+  const flowKgMin = flowKgS * 60;
+  const flowKgH = flowKgS * 3600;
+
+  let massKg = null;
+  let emptySeconds = null;
+  let volumeBlock = "";
+
+  if (volumeM3 !== null) {
+    massKg = rho * volumeM3;
+    emptySeconds = flowKgS > 0 ? massKg / flowKgS : null;
+    const emptyMinutes = emptySeconds / 60;
+    volumeBlock = `
+      <div class="result-kpi"><span>Masse théorique dans le contenant</span><strong>${formatNumber(massKg, 3)} kg</strong></div>
+      <div class="result-kpi"><span>Temps théorique de vidange</span><strong>${formatNumber(emptySeconds, 1)} s (${formatNumber(emptyMinutes, 2)} min)</strong></div>`;
+  }
+
+  leakResult.classList.add("show");
+  leakResult.innerHTML = `
+    <strong>Résultats du calcul</strong>
+    <div class="result-kpis">
+      <div class="result-kpi"><span>Masse volumique ρ</span><strong>${formatNumber(rho, 4)} kg/m³</strong></div>
+      <div class="result-kpi"><span>Section de fuite S</span><strong>${formatNumber(areaM2, 6)} m²</strong></div>
+      <div class="result-kpi"><span>ΔP</span><strong>${formatNumber(deltaPBar, 3)} bar</strong></div>
+      <div class="result-kpi"><span>Débit massique Q</span><strong>${formatNumber(flowKgS, 5)} kg/s</strong></div>
+      <div class="result-kpi"><span>Débit massique</span><strong>${formatNumber(flowKgMin, 3)} kg/min</strong></div>
+      <div class="result-kpi"><span>Débit massique</span><strong>${formatNumber(flowKgH, 2)} kg/h</strong></div>
+      ${volumeBlock}
+    </div>
+    <div class="calc-note">
+      Calcul indicatif selon le mémento fourni. Il suppose l'application directe de la formule de fuite en phase gazeuse indiquée dans RCH 001 et ne remplace pas l'analyse opérationnelle ni la validation des hypothèses physiques du scénario réel.
+    </div>`;
+
+  leakResult.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+document.getElementById("calculateLeak").addEventListener("click", calculateLeakFlow);
+
+document.getElementById("resetLeak").addEventListener("click", () => {
+  ["leakMolarMass","leakPressure","leakTemp","leakVolume","leakDiameter","leakCdCustom"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("leakDiameterUnit").value = "mm";
+  leakCdPreset.value = "0.62";
+  leakCdCustomWrap.style.display = "none";
+  leakResult.classList.remove("show");
+  leakResult.innerHTML = "";
+});
+
 </script>
 </body>
 </html>
