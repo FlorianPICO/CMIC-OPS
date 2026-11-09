@@ -814,6 +814,137 @@
     color: #9a3412;
   }
 
+
+  .final-summary {
+    margin-top: 28px;
+    padding: 18px;
+    border: 2px solid #fb923c;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+    box-shadow: 0 10px 30px rgba(154, 52, 18, 0.08);
+  }
+
+  .final-summary-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .final-summary-kicker {
+    display: inline-block;
+    margin-bottom: 4px;
+    color: #ea580c;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .final-summary h4 {
+    margin: 0;
+    color: #7c2d12;
+    font-size: 1.2rem;
+  }
+
+  .final-summary-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #f5f5f4;
+    color: #57534e;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .final-summary-status.ready {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .final-summary-status.partial {
+    background: #ffedd5;
+    color: #9a3412;
+  }
+
+  .final-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .summary-card {
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .summary-card > span {
+    display: block;
+    margin-bottom: 5px;
+    color: #9a3412;
+    font-size: 0.76rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .summary-card strong {
+    display: block;
+    color: #1c1917;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .summary-card small {
+    display: block;
+    margin-top: 4px;
+    color: #78716c;
+    line-height: 1.3;
+  }
+
+  .summary-card.emphasis {
+    border-color: #fb923c;
+    background: #fff7ed;
+  }
+
+  .summary-card.emphasis strong {
+    color: #9a3412;
+    font-size: 1.14rem;
+  }
+
+  .summary-card.uvce-card {
+    background: #fffaf5;
+  }
+
+  .final-summary-note {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #fed7aa;
+    color: #57534e;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 900px) {
+    .final-summary-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .final-summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
 </style>
 
 </style>
@@ -1135,6 +1266,82 @@
         Le CTA et la masse réellement libérée pour l'UVCE ne sont jamais inventés.
       </div>
 
+      <div class="final-summary" id="rchFinalSummary" aria-live="polite">
+        <div class="final-summary-head">
+          <div>
+            <span class="final-summary-kicker">Synthèse opérationnelle</span>
+            <h4>Résumé de tous les résultats</h4>
+          </div>
+          <span class="final-summary-status" id="rchSummaryStatus">En attente de données</span>
+        </div>
+
+        <div class="final-summary-grid" id="rchSummaryGrid">
+          <div class="summary-card">
+            <span>Étape 2</span>
+            <strong id="sumRho">—</strong>
+            <small>Masse volumique du gaz</small>
+          </div>
+
+          <div class="summary-card">
+            <span>Étape 3</span>
+            <strong id="sumMass">—</strong>
+            <small>Masse totale calculée</small>
+          </div>
+
+          <div class="summary-card emphasis">
+            <span>Étape 4</span>
+            <strong id="sumFlow">—</strong>
+            <small>Débit de fuite</small>
+          </div>
+
+          <div class="summary-card emphasis">
+            <span>Étape 5</span>
+            <strong id="sumEmptyTime">—</strong>
+            <small>Temps théorique de vidange</small>
+          </div>
+
+          <div class="summary-card">
+            <span>Étape 6</span>
+            <strong id="sumReleaseType">—</strong>
+            <small>Nature du rejet</small>
+          </div>
+
+          <div class="summary-card">
+            <span>Étape 7A</span>
+            <strong id="sumConcentration">—</strong>
+            <small>Concentration / position LIE-LSE</small>
+          </div>
+
+          <div class="summary-card uvce-card">
+            <span>Étape 7B</span>
+            <strong id="sumTnt">—</strong>
+            <small>Masse équivalente TNT</small>
+          </div>
+
+          <div class="summary-card uvce-card">
+            <span>UVCE 50 mbar</span>
+            <strong id="sumR50">—</strong>
+            <small>Effets irréversibles</small>
+          </div>
+
+          <div class="summary-card uvce-card">
+            <span>UVCE 140 mbar</span>
+            <strong id="sumR140">—</strong>
+            <small>Premiers effets létaux</small>
+          </div>
+
+          <div class="summary-card uvce-card">
+            <span>UVCE 200 mbar</span>
+            <strong id="sumR200">—</strong>
+            <small>Effets létaux</small>
+          </div>
+        </div>
+
+        <div class="final-summary-note" id="rchSummaryNote">
+          Les valeurs apparaissent automatiquement au fur et à mesure du remplissage des étapes.
+        </div>
+      </div>
+
       <div class="calc-actions">
         <button class="calc-btn secondary" type="button" id="resetLeak">Réinitialiser</button>
         <button class="calc-btn secondary" type="button" id="closeLeakCalc">Fermer l'outil</button>
@@ -1394,6 +1601,20 @@ const rchState = {
   areaM2: null,
   deltaPPa: null,
   emptySeconds: null
+,
+  concentrationPct: null
+,
+  concentrationLabel: null
+,
+  releaseType: null
+,
+  mTnt: null
+,
+  r50: null
+,
+  r140: null
+,
+  r200: null
 };
 
 function toggleLeakPanel(forceOpen) {
@@ -1466,6 +1687,107 @@ function formatDuration(totalSeconds) {
   }
 
   return `${sec} s`;
+}
+
+
+function updateRchSummary() {
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value ?? "—";
+  };
+
+  setText("sumRho",
+    Number.isFinite(rchState.rho)
+      ? `${formatNumber(rchState.rho,4)} kg/m³`
+      : "—"
+  );
+
+  setText("sumMass",
+    Number.isFinite(rchState.massKg)
+      ? `${formatNumber(rchState.massKg,3)} kg`
+      : "—"
+  );
+
+  setText("sumFlow",
+    Number.isFinite(rchState.flowKgS)
+      ? `${formatNumber(rchState.flowKgS,6)} kg/s · ${formatNumber(rchState.flowKgS*60,3)} kg/min`
+      : "—"
+  );
+
+  setText("sumEmptyTime",
+    Number.isFinite(rchState.emptySeconds)
+      ? formatDuration(rchState.emptySeconds)
+      : "—"
+  );
+
+  setText("sumReleaseType", rchState.releaseType || "—");
+
+  setText("sumConcentration",
+    Number.isFinite(rchState.concentrationPct)
+      ? `${formatNumber(rchState.concentrationPct,5)} % vol. · ${rchState.concentrationLabel || ""}`
+      : "—"
+  );
+
+  setText("sumTnt",
+    Number.isFinite(rchState.mTnt)
+      ? `${formatNumber(rchState.mTnt,3)} kg TNT`
+      : "—"
+  );
+
+  setText("sumR50",
+    Number.isFinite(rchState.r50)
+      ? `${formatNumber(rchState.r50,1)} m`
+      : "—"
+  );
+
+  setText("sumR140",
+    Number.isFinite(rchState.r140)
+      ? `${formatNumber(rchState.r140,1)} m`
+      : "—"
+  );
+
+  setText("sumR200",
+    Number.isFinite(rchState.r200)
+      ? `${formatNumber(rchState.r200,1)} m`
+      : "—"
+  );
+
+  const completed = [
+    Number.isFinite(rchState.rho),
+    Number.isFinite(rchState.massKg),
+    Number.isFinite(rchState.flowKgS),
+    Number.isFinite(rchState.emptySeconds),
+    !!rchState.releaseType,
+    Number.isFinite(rchState.concentrationPct),
+    Number.isFinite(rchState.mTnt)
+  ].filter(Boolean).length;
+
+  const status = document.getElementById("rchSummaryStatus");
+  const note = document.getElementById("rchSummaryNote");
+
+  if (status) {
+    status.classList.remove("ready", "partial");
+
+    if (completed === 0) {
+      status.textContent = "En attente de données";
+    } else if (completed < 7) {
+      status.textContent = `Synthèse partielle · ${completed}/7`;
+      status.classList.add("partial");
+    } else {
+      status.textContent = "Synthèse complète";
+      status.classList.add("ready");
+    }
+  }
+
+  if (note) {
+    if (completed === 0) {
+      note.textContent = "Les valeurs apparaissent automatiquement au fur et à mesure du remplissage des étapes.";
+    } else if (completed < 7) {
+      note.textContent = "Synthèse en cours : les résultats disponibles sont affichés. Les cases restantes se complèteront automatiquement dès que les données nécessaires seront renseignées.";
+    } else {
+      note.textContent = "Toutes les étapes disponibles ont été calculées. Vérifier les hypothèses de saisie, les valeurs lues sur abaques et les données produit avant utilisation opérationnelle.";
+    }
+  }
 }
 
 function diameterToMeters(value, unit) {
@@ -1588,6 +1910,7 @@ function calcStep2() {
   const rho = (pressurePa * molarMassKg) / (R * tempK);
 
   rchState.rho = rho;
+  updateRchSummary();
   rchState.massKg = null;
   rchState.flowKgS = null;
   rchState.emptySeconds = null;
@@ -1614,6 +1937,7 @@ function calcStep3() {
 
   rchState.retainedVolume = retainedVolume;
   rchState.massKg = massKg;
+  updateRchSummary();
   rchState.flowKgS = null;
   rchState.emptySeconds = null;
 
@@ -1662,6 +1986,7 @@ function calcStep4() {
   rchState.areaM2 = areaM2;
   rchState.deltaPPa = deltaPPa;
   rchState.flowKgS = flowKgS;
+  updateRchSummary();
   rchState.emptySeconds = null;
 
   clearResultsFrom(5);
@@ -1697,6 +2022,7 @@ function calcStep5() {
 
   const emptySeconds = rchState.massKg / rchState.flowKgS;
   rchState.emptySeconds = emptySeconds;
+  updateRchSummary();
 
   clearResultsFrom(6);
 
@@ -1732,6 +2058,9 @@ function calcStep6() {
   } else {
     nature = "CAS LIMITE - égalité non précisée par la fiche";
   }
+
+  rchState.releaseType = nature;
+  updateRchSummary();
 
   showStepResult("resultStep6", `
     <strong>Calcul détaillé</strong><br>
@@ -1780,6 +2109,10 @@ function calcStep7A() {
     }
   }
 
+  rchState.concentrationPct = cPct;
+  rchState.concentrationLabel = comparison;
+  updateRchSummary();
+
   showStepResult("resultStep7A", `
     <strong>Calcul détaillé - diffusion ${diffusion}</strong><br>
     CTA = <strong>${formatNumber(cta,10)} s/m³</strong><br>
@@ -1810,7 +2143,13 @@ function calcStep7B() {
   if (!(uvceYieldPct > 0)) errors.push("Renseignez le rendement explosion.");
 
   if (errors.length) {
-    showStepResult("resultStep7B", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
+    rchState.mTnt = mTnt;
+  rchState.r50 = r50;
+  rchState.r140 = r140;
+  rchState.r200 = r200;
+  updateRchSummary();
+
+  showStepResult("resultStep7B", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
     return;
   }
 
@@ -1973,6 +2312,8 @@ document.getElementById("resetLeak").addEventListener("click", () => {
     rchState[key] = null;
   });
 
+  updateRchSummary();
+
   [
     "resultStep1","resultStep2","resultStep3","resultStep4",
     "resultStep5","resultStep6","resultStep7A","resultStep7B"
@@ -2026,6 +2367,7 @@ document.getElementById("resetLeak").addEventListener("click", () => {
     if (event.key === "Escape") closeHelp();
   });
 })();
+updateRchSummary();
 </script>
 
 </body>
