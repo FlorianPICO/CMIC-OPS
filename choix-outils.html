@@ -632,7 +632,16 @@
       .result-kpis { grid-template-columns: 1fr; }
     }
 
-  </style>
+  
+<style>
+  .human-value {
+    font-size: 1.08em;
+    font-weight: 900;
+    color: #9a3412;
+  }
+</style>
+
+</style>
 </head>
 
 <body>
@@ -1042,10 +1051,49 @@ function numberValue(id) {
 
 function formatNumber(value, digits = 4) {
   if (!Number.isFinite(value)) return "-";
-  if (Math.abs(value) >= 1000 || (Math.abs(value) > 0 && Math.abs(value) < 0.001)) {
-    return value.toExponential(3).replace(".", ",");
+  return value.toLocaleString("fr-FR", {
+    maximumFractionDigits: digits,
+    minimumFractionDigits: 0
+  });
+}
+
+function formatArea(areaM2) {
+  if (!Number.isFinite(areaM2)) return "-";
+
+  const areaMm2 = areaM2 * 1e6;
+  const areaCm2 = areaM2 * 1e4;
+
+  return `
+    <span class="human-value">${formatNumber(areaMm2, 2)} mm²</span>
+    <small style="display:block;margin-top:4px;font-weight:600;color:#7c2d12;">
+      ${formatNumber(areaCm2, 4)} cm² · ${areaM2.toLocaleString("fr-FR", {minimumFractionDigits: 8, maximumFractionDigits: 8})} m²
+    </small>`;
+}
+
+function formatDuration(totalSeconds) {
+  if (!Number.isFinite(totalSeconds) || totalSeconds < 0) return "-";
+
+  const rounded = Math.round(totalSeconds);
+  const hours = Math.floor(rounded / 3600);
+  const minutes = Math.floor((rounded % 3600) / 60);
+  const seconds = rounded % 60;
+
+  let readable = "";
+  if (hours > 0) {
+    readable = `${hours} h ${minutes.toString().padStart(2, "0")} min`;
+    if (seconds > 0) readable += ` ${seconds.toString().padStart(2, "0")} s`;
+  } else if (minutes > 0) {
+    readable = `${minutes} min`;
+    if (seconds > 0) readable += ` ${seconds.toString().padStart(2, "0")} s`;
+  } else {
+    readable = `${seconds} s`;
   }
-  return value.toLocaleString("fr-FR", {maximumFractionDigits: digits});
+
+  return `
+    <span class="human-value">${readable}</span>
+    <small style="display:block;margin-top:4px;font-weight:600;color:#7c2d12;">
+      ${formatNumber(totalSeconds, 0)} s
+    </small>`;
 }
 
 function diameterToMeters(value, unit) {
@@ -1113,7 +1161,7 @@ function calculateLeakFlow() {
     volumeBlock = `
       <div class="result-kpi"><span>Taux de remplissage</span><strong>${formatNumber(fillRatePct, 1)} %</strong></div>
       <div class="result-kpi"><span>Masse théorique dans le contenant</span><strong>${formatNumber(massKg, 3)} kg</strong></div>
-      <div class="result-kpi"><span>Temps théorique de vidange</span><strong>${formatNumber(emptySeconds, 1)} s (${formatNumber(emptyMinutes, 2)} min)</strong></div>`;
+      <div class="result-kpi"><span>Temps théorique de vidange</span><strong>${formatDuration(emptySeconds)}</strong></div>`;
   }
 
   leakResult.classList.add("show");
@@ -1121,7 +1169,7 @@ function calculateLeakFlow() {
     <strong>Résultats du calcul</strong>
     <div class="result-kpis">
       <div class="result-kpi"><span>Masse volumique ρ</span><strong>${formatNumber(rho, 4)} kg/m³</strong></div>
-      <div class="result-kpi"><span>Section de fuite S</span><strong>${formatNumber(areaM2, 6)} m²</strong></div>
+      <div class="result-kpi"><span>Section de fuite S</span><strong>${formatArea(areaM2)}</strong></div>
       <div class="result-kpi"><span>ΔP</span><strong>${formatNumber(deltaPBar, 3)} bar</strong></div>
       <div class="result-kpi"><span>Débit massique Q</span><strong>${formatNumber(flowKgS, 5)} kg/s</strong></div>
       <div class="result-kpi"><span>Débit massique</span><strong>${formatNumber(flowKgMin, 3)} kg/min</strong></div>
@@ -1135,12 +1183,12 @@ function calculateLeakFlow() {
       3. Température : T = ${formatNumber(tempC, 2)} °C = ${formatNumber(tempK, 2)} K.<br>
       4. Masse volumique : ρ = (P × M)/(8,314 × T) = ${formatNumber(rho, 6)} kg/m³.<br>
       5. Diamètre : d = ${formatNumber(diameterM, 6)} m ; rayon r = ${formatNumber(radiusM, 6)} m.<br>
-      6. Section : S = π × r² = ${formatNumber(areaM2, 8)} m².<br>
+      6. Section : S = π × r² = ${formatNumber(areaM2 * 1e6, 2)} mm² = ${areaM2.toLocaleString("fr-FR", {minimumFractionDigits: 8, maximumFractionDigits: 8})} m².<br>
       7. ΔP = (${formatNumber(pressureBar, 4)} - 1,013) bar = ${formatNumber(deltaPPa, 2)} Pa.<br>
       8. Cd = ${formatNumber(cd, 3)}.<br>
       9. Terme racine = √(ρ × ΔP / 2) = ${formatNumber(Math.sqrt((rho * deltaPPa) / 2), 6)} kg/(m²·s) selon la formule du mémento.<br>
       10. Q = Cd × S × terme racine = ${formatNumber(flowKgS, 6)} kg/s = ${formatNumber(flowKgMin, 4)} kg/min = ${formatNumber(flowKgH, 3)} kg/h.
-      ${volumeM3 !== null ? `<br>11. Masse = ρ × V × (${formatNumber(fillRatePct,1)}/100) = ${formatNumber(massKg,3)} kg.<br>12. Temps = m/Q = ${formatNumber(emptySeconds,1)} s.` : ''}
+      ${volumeM3 !== null ? `<br>11. Masse = ρ × V × (${formatNumber(fillRatePct,1)}/100) = ${formatNumber(massKg,3)} kg.<br>12. Temps = m/Q = ${formatDuration(emptySeconds)}.` : ''}
     </div>
     <div class="calc-note">
       Calcul indicatif selon le mémento fourni. Il suppose l'application directe de la formule de fuite en phase gazeuse indiquée dans RCH 001 et ne remplace pas l'analyse opérationnelle ni la validation des hypothèses physiques du scénario réel.
