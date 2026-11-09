@@ -745,7 +745,13 @@
           <div class="calc-field">
             <label for="leakVolume">Volume du contenant (m³) - facultatif</label>
             <input id="leakVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 1.0">
-            <small>Utilisé pour estimer la masse totale et le temps de vidange. Le mémento rappelle un taux de remplissage maximal de 85 %.</small>
+            <small>Utilisé pour estimer la masse totale et le temps de vidange.</small>
+          </div>
+
+          <div class="calc-field">
+            <label for="leakFillRate">Taux de remplissage (%)</label>
+            <input id="leakFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85">
+            <small>Valeur proposée : 85 %, conformément au rappel du mémento RCH 001. Modifiable selon la situation réelle.</small>
           </div>
         </div>
 
@@ -792,8 +798,10 @@
             <strong>Masse volumique :</strong> ρ = (P × M) / (R × T), avec R = 8,314.<br>
             <strong>Section :</strong> S = π × R².<br>
             <strong>Différence de pression :</strong> ΔP = P<sub>réservoir</sub> - 1,013 bar.<br>
-            <strong>Débit massique gazeux :</strong> Q = Cd × S × √(ρ × ΔP / 2).<br>
-            <strong>Temps théorique de vidange :</strong> t = masse du produit / Q.
+            <strong>Débit massique gazeux (méthode RCH 001) :</strong> Q = Cd × S × √(ρ × ΔP / 2).<br>
+            <strong>Masse estimée :</strong> m = ρ × V × taux de remplissage.<br>
+            <strong>Temps théorique de vidange :</strong> t = m / Q.<br><br>
+            <strong>Attention :</strong> cette formule de débit est reproduite telle qu'elle figure dans le mémento RCH 001. Elle ne modélise pas explicitement les effets de compressibilité ni le débit sonique (écoulement étranglé) pouvant apparaître lors d'une détente de gaz sous forte pression. Le résultat doit donc être considéré comme une estimation selon la méthode du mémento.
           </div>
         </div>
       </div>
@@ -1052,6 +1060,7 @@ function calculateLeakFlow() {
   const pressureBar = numberValue("leakPressure");
   const tempC = numberValue("leakTemp");
   const volumeM3 = numberValue("leakVolume");
+  const fillRatePct = numberValue("leakFillRate");
   const diameterInput = numberValue("leakDiameter");
   const diameterUnit = document.getElementById("leakDiameterUnit").value;
 
@@ -1066,6 +1075,7 @@ function calculateLeakFlow() {
   if (!(diameterInput > 0)) errors.push("Renseignez un diamètre de fuite supérieur à 0.");
   if (!(cd > 0)) errors.push("Renseignez un coefficient de décharge Cd supérieur à 0.");
   if (volumeM3 !== null && volumeM3 <= 0) errors.push("Le volume du contenant doit être supérieur à 0 m³, ou laissé vide.");
+  if (volumeM3 !== null && (fillRatePct === null || fillRatePct <= 0 || fillRatePct > 100)) errors.push("Le taux de remplissage doit être compris entre 0 et 100 %.");
 
   if (errors.length) {
     leakResult.classList.add("show");
@@ -1076,7 +1086,7 @@ function calculateLeakFlow() {
   const R = 8.314;
   const pressurePa = pressureBar * 100000;
   const molarMassKg = molarMassG / 1000;
-  const tempK = tempC + 273;
+  const tempK = tempC + 273.15;
   const rho = (pressurePa * molarMassKg) / (R * tempK);
 
   const diameterM = diameterToMeters(diameterInput, diameterUnit);
@@ -1096,10 +1106,12 @@ function calculateLeakFlow() {
   let volumeBlock = "";
 
   if (volumeM3 !== null) {
-    massKg = rho * volumeM3;
+    const fillFraction = fillRatePct / 100;
+    massKg = rho * volumeM3 * fillFraction;
     emptySeconds = flowKgS > 0 ? massKg / flowKgS : null;
     const emptyMinutes = emptySeconds / 60;
     volumeBlock = `
+      <div class="result-kpi"><span>Taux de remplissage</span><strong>${formatNumber(fillRatePct, 1)} %</strong></div>
       <div class="result-kpi"><span>Masse théorique dans le contenant</span><strong>${formatNumber(massKg, 3)} kg</strong></div>
       <div class="result-kpi"><span>Temps théorique de vidange</span><strong>${formatNumber(emptySeconds, 1)} s (${formatNumber(emptyMinutes, 2)} min)</strong></div>`;
   }
@@ -1116,6 +1128,20 @@ function calculateLeakFlow() {
       <div class="result-kpi"><span>Débit massique</span><strong>${formatNumber(flowKgH, 2)} kg/h</strong></div>
       ${volumeBlock}
     </div>
+    <div class="calc-note" style="margin-top:16px;">
+      <strong>Détail du calcul</strong><br>
+      1. Pression absolue : P = ${formatNumber(pressureBar, 4)} bar = ${formatNumber(pressurePa, 2)} Pa.<br>
+      2. Masse molaire : M = ${formatNumber(molarMassG, 4)} g/mol = ${formatNumber(molarMassKg, 6)} kg/mol.<br>
+      3. Température : T = ${formatNumber(tempC, 2)} °C = ${formatNumber(tempK, 2)} K.<br>
+      4. Masse volumique : ρ = (P × M)/(8,314 × T) = ${formatNumber(rho, 6)} kg/m³.<br>
+      5. Diamètre : d = ${formatNumber(diameterM, 6)} m ; rayon r = ${formatNumber(radiusM, 6)} m.<br>
+      6. Section : S = π × r² = ${formatNumber(areaM2, 8)} m².<br>
+      7. ΔP = (${formatNumber(pressureBar, 4)} - 1,013) bar = ${formatNumber(deltaPPa, 2)} Pa.<br>
+      8. Cd = ${formatNumber(cd, 3)}.<br>
+      9. Terme racine = √(ρ × ΔP / 2) = ${formatNumber(Math.sqrt((rho * deltaPPa) / 2), 6)} kg/(m²·s) selon la formule du mémento.<br>
+      10. Q = Cd × S × terme racine = ${formatNumber(flowKgS, 6)} kg/s = ${formatNumber(flowKgMin, 4)} kg/min = ${formatNumber(flowKgH, 3)} kg/h.
+      ${volumeM3 !== null ? `<br>11. Masse = ρ × V × (${formatNumber(fillRatePct,1)}/100) = ${formatNumber(massKg,3)} kg.<br>12. Temps = m/Q = ${formatNumber(emptySeconds,1)} s.` : ''}
+    </div>
     <div class="calc-note">
       Calcul indicatif selon le mémento fourni. Il suppose l'application directe de la formule de fuite en phase gazeuse indiquée dans RCH 001 et ne remplace pas l'analyse opérationnelle ni la validation des hypothèses physiques du scénario réel.
     </div>`;
@@ -1130,6 +1156,7 @@ document.getElementById("resetLeak").addEventListener("click", () => {
     document.getElementById(id).value = "";
   });
   document.getElementById("leakDiameterUnit").value = "mm";
+  document.getElementById("leakFillRate").value = "85";
   leakCdPreset.value = "0.62";
   leakCdCustomWrap.style.display = "none";
   leakResult.classList.remove("show");
