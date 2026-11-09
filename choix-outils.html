@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="CMIC-OPS - Choix des outils opérationnels dédiés aux risques chimiques, technologiques et industriels.">
 
-  
   <style>
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -793,6 +792,28 @@
     color: #7c2d12;
   }
 
+
+  .step-actions {
+    margin-top: 14px;
+    margin-bottom: 0;
+  }
+
+  .step-result {
+    margin-top: 12px;
+  }
+
+  .step-result.show {
+    display: block;
+  }
+
+  .step-result .big-result {
+    display: block;
+    margin-top: 8px;
+    font-size: 1.12rem;
+    font-weight: 900;
+    color: #9a3412;
+  }
+
 </style>
 
 </style>
@@ -881,94 +902,129 @@
 
     <section class="calc-panel" id="leakCalcPanel" aria-labelledby="leakCalcTitle">
       <h3 id="leakCalcTitle">RCH 001 - Fuite de gaz inflammable + dispersion</h3>
+
       <div class="school-intro">
-        <strong>Méthode pédagogique :</strong> le calcul suit les 7 étapes de la fiche RCH 001 dans l'ordre. Chaque résultat affiche les données utilisées, les conversions, la formule et le résultat intermédiaire. Les valeurs qui doivent être lues sur un abaque restent saisies manuellement afin de ne pas inventer une donnée absente de la fiche.
+        <strong>Méthode pédagogique :</strong> chaque étape est calculée séparément.
+        Le résultat apparaît immédiatement sous l'étape concernée, avant de passer à l'étape suivante.
+        Les valeurs qui doivent être lues sur un abaque restent saisies manuellement.
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">1</span>Récupération des données</h4>
+
         <div class="calc-grid">
           <div class="calc-field">
             <label for="leakProduct">Produit</label>
             <input id="leakProduct" type="text" placeholder="Ex. Propane">
           </div>
+
           <div class="calc-field">
             <label for="leakGasDensityRef">Densité du gaz - donnée de référence (facultatif)</label>
             <input id="leakGasDensityRef" type="number" inputmode="decimal" step="any" min="0" placeholder="Donnée SPG / BIG">
-            <small>Information de référence de l'étape 1. La masse volumique ρ est calculée à l'étape 2.</small>
           </div>
+
           <div class="calc-field">
             <label for="leakMolarMass">Masse molaire M (g/mol)</label>
             <input id="leakMolarMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 44,1 pour le propane">
           </div>
+
           <div class="calc-field">
-            <label for="leakPvs">Pression de vapeur saturante PVS (bar) - information</label>
+            <label for="leakPvs">Pression de vapeur saturante PVS (bar)</label>
             <input id="leakPvs" type="number" inputmode="decimal" step="any" min="0" placeholder="Donnée SPG / BIG">
-            <small>Conservée comme donnée de la fiche ; elle n'entre pas dans la formule de débit gazeux RCH 001 utilisée ici.</small>
           </div>
+
           <div class="calc-field">
             <label for="leakLie">LIE (% vol.)</label>
             <input id="leakLie" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 2,1">
           </div>
+
           <div class="calc-field">
             <label for="leakLse">LSE (% vol.)</label>
             <input id="leakLse" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 9,5">
           </div>
+
           <div class="calc-field">
             <label for="leakPressure">Pression du réservoir (bar absolu)</label>
             <input id="leakPressure" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 10">
           </div>
+
           <div class="calc-field">
             <label for="leakTemp">Température du gaz (°C)</label>
             <input id="leakTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20">
           </div>
+
           <div class="calc-field">
             <label for="leakVolume">Volume du contenant (m³)</label>
             <input id="leakVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55">
           </div>
+
           <div class="calc-field">
             <label for="leakFillRate">Taux de remplissage (%)</label>
             <input id="leakFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85">
             <small>La fiche rappelle un taux de remplissage maximal de 85 %.</small>
           </div>
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep1">Valider l'étape 1</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep1" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">2</span>Calcul de la masse volumique ρ du gaz</h4>
+
         <div class="formula-card">
           <code>ρ = (P × M) / (R × T)</code><br>
           P en Pa ; M en kg/mol ; T = °C + 273 ; R = 8,314.
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep2">Calculer l'étape 2</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep2" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">3</span>Calcul de la masse totale de produit</h4>
+
         <div class="formula-card">
-          <code>m = ρ × V</code><br>
-          Dans l'outil, si le volume saisi est le volume nominal du contenant, le volume retenu est d'abord corrigé par le taux de remplissage : <code>Vretenu = V × taux / 100</code>.
+          <code>Vretenu = V × taux / 100</code><br>
+          <code>m = ρ × Vretenu</code>
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep3">Calculer l'étape 3</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep3" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">4</span>Calcul du débit de fuite</h4>
+
         <div class="calc-grid">
           <div class="calc-field">
             <label for="leakDiameter">Diamètre de la fuite</label>
             <input id="leakDiameter" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 10">
           </div>
+
           <div class="calc-field">
             <label for="leakDiameterUnit">Unité du diamètre</label>
             <select id="leakDiameterUnit">
-              <option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option>
+              <option value="mm">mm</option>
+              <option value="cm">cm</option>
+              <option value="m">m</option>
+              <option value="inch">pouce</option>
             </select>
             <small>Conversion utilisée : 1 pouce = 0,0254 m.</small>
           </div>
+
           <div class="calc-field">
             <div class="field-help-row">
               <label for="leakCdPreset">Coefficient de décharge Cd</label>
               <button type="button" class="help-btn" id="openCdImageHelp">? Aide</button>
             </div>
+
             <select id="leakCdPreset">
               <option value="0.50">Orifice de Borda - Cd 0,50</option>
               <option value="0.62" selected>Orifice mince ou aigu - Cd 0,62</option>
@@ -979,101 +1035,141 @@
               <option value="venturi">Ajustage convergent puis divergent (Venturi) - Cd &gt; 1</option>
             </select>
           </div>
+
           <div class="calc-field" id="leakCdCustomWrap" style="display:none;">
             <label for="leakCdCustom">Cd du Venturi (&gt; 1)</label>
             <input id="leakCdCustom" type="number" inputmode="decimal" step="0.01" min="1" placeholder="Valeur selon α">
           </div>
         </div>
+
         <div class="formula-card">
           <code>S = π × R²</code><br>
           <code>ΔP = (Préservoir - 1,013) × 10⁵</code> Pa<br>
           <code>Qgaz = Cd × S × √(ρgaz × ΔP / 2)</code>
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep4">Calculer l'étape 4</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep4" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">5</span>Temps de vidange du contenant</h4>
+
         <div class="formula-card">
           <code>T = mproduit / Q</code> en secondes.<br>
-          <small>Le schéma de la fiche affiche Q<sub>liquide</sub>. Pour ce module « phase gazeuse », l'outil utilise le Q<sub>gaz</sub> calculé à l'étape 4 et le signale dans le résultat.</small>
+          <small>Pour ce module phase gazeuse, l'outil utilise le Qgaz obtenu à l'étape 4.</small>
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep5">Calculer l'étape 5</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep5" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">6</span>Détermination du rejet : panache ou bouffée</h4>
+
         <div class="calc-grid">
           <div class="calc-field">
             <label for="leakTargetDistance">Distance de la cible / observateur (m)</label>
             <input id="leakTargetDistance" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 500">
           </div>
+
           <div class="calc-field">
             <label for="leakWindKmh">Vitesse du vent (km/h)</label>
             <input id="leakWindKmh" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 14,4">
           </div>
         </div>
+
         <div class="formula-card">
           <code>Vvent (m/s) = Vvent (km/h) × 1000 / 3600</code><br>
           <code>ttransfert = distance / vitesse_vent</code><br>
           <code>tdurée_rejet = mproduit / Qtotal_fuite</code><br>
-          Si <code>tdurée_rejet &gt; 4 × ttransfert</code> → rejet prolongé = <strong>panache</strong>.<br>
-          Si <code>tdurée_rejet &lt; 4 × ttransfert</code> → rejet instantané = <strong>bouffée</strong>.
+          Si <code>tdurée_rejet &gt; 4 × ttransfert</code> → <strong>panache</strong>.<br>
+          Si <code>tdurée_rejet &lt; 4 × ttransfert</code> → <strong>bouffée</strong>.
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep6">Calculer l'étape 6</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep6" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
         <h4><span class="step-badge">7</span>Conséquences du rejet</h4>
-        <p>La fiche numérote « 7 » à la fois la concentration et les effets UVCE. Ils sont donc présentés ici comme 7A et 7B.</p>
 
         <div class="substep-title">7A - Calcul de la concentration en gaz à une distance donnée</div>
+
         <div class="calc-grid">
           <div class="calc-field">
             <label for="leakDiffusion">Condition de diffusion utilisée pour l'abaque</label>
-            <select id="leakDiffusion"><option value="normale">Diffusion normale</option><option value="faible">Diffusion faible</option></select>
+            <select id="leakDiffusion">
+              <option value="normale">Diffusion normale</option>
+              <option value="faible">Diffusion faible</option>
+            </select>
           </div>
+
           <div class="calc-field">
             <label for="leakCta">CTA lu sur l'abaque (s/m³)</label>
             <input id="leakCta" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 0,000001">
-            <small>À lire sur les abaques selon diffusion, hauteur du rejet, vitesse du vent et distance. L'outil ne devine pas cette valeur.</small>
+            <small>À lire sur l'abaque selon diffusion, hauteur du rejet, vitesse du vent et distance.</small>
           </div>
         </div>
+
         <div class="formula-card">
-          <code>C (mg/m³) = CTA (s/m³) × Q (kg/s) × 10⁶</code><br>
+          <code>C (mg/m³) = CTA × Q × 10⁶</code><br>
           <code>Cppm = Cmg/m³ × 24 / M</code><br>
-          <code>C%vol = Cppm / 10⁴</code><br>
-          La concentration en % vol. est ensuite comparée à la LIE et à la LSE renseignées à l'étape 1.
+          <code>C%vol = Cppm / 10⁴</code>
         </div>
 
-        <div class="substep-title">7B - Effets de l'UVCE</div>
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep7A">Calculer 7A - Concentration</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep7A" aria-live="polite"></div>
+
+        <div class="substep-title" style="margin-top:22px;">7B - Effets de l'UVCE</div>
+
         <div class="calc-grid">
           <div class="calc-field">
             <label for="uvceMassReleased">Masse de gaz libérée dans l'atmosphère mc (kg)</label>
             <input id="uvceMassReleased" type="number" inputmode="decimal" step="any" min="0" placeholder="À renseigner selon le scénario">
-            <small>La fiche définit mc comme la masse de gaz réellement libérée dans l'atmosphère.</small>
           </div>
+
           <div class="calc-field">
             <label for="uvcePci">PCI du produit (MJ/kg)</label>
             <input id="uvcePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. propane : 45,8">
           </div>
+
           <div class="calc-field">
             <label for="uvceYield">Rendement explosion a (%)</label>
             <input id="uvceYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="5">
-            <small>La fiche indique 5 % pour un UVCE et 10 % pour un BLEVE.</small>
+            <small>La fiche indique 5 % pour un UVCE.</small>
           </div>
         </div>
+
         <div class="formula-card">
-          <code>mTNT = a × (PCI / 4,69) × mc</code>, avec a exprimé en fraction (5 % = 0,05).<br>
+          <code>mTNT = a × (PCI / 4,69) × mc</code><br>
           <code>R = λ × ∛mTNT</code><br>
           λ = 25 pour 50 mbar ; λ = 9 pour 140 mbar ; λ = 7,5 pour 200 mbar.
         </div>
+
+        <div class="calc-actions step-actions">
+          <button class="calc-btn" type="button" id="calcStep7B">Calculer 7B - UVCE</button>
+        </div>
+        <div class="calc-result step-result" id="resultStep7B" aria-live="polite"></div>
+      </div>
+
+      <div class="calc-note">
+        <strong>Transparence :</strong> les calculs restent séparés par étape.
+        Le CTA et la masse réellement libérée pour l'UVCE ne sont jamais inventés.
       </div>
 
       <div class="calc-actions">
-        <button class="calc-btn" type="button" id="calculateLeak">Calculer les 7 étapes</button>
         <button class="calc-btn secondary" type="button" id="resetLeak">Réinitialiser</button>
         <button class="calc-btn secondary" type="button" id="closeLeakCalc">Fermer l'outil</button>
       </div>
-
-      <div class="calc-result" id="leakResult" aria-live="polite"></div>
     </section>
 
     <div class="tool-card">
@@ -1266,56 +1362,91 @@ document.getElementById("searchName").addEventListener("click", searchByName);
 document.getElementById("unNumber").addEventListener("keydown", e => { if (e.key === "Enter") searchByUn(); });
 document.getElementById("productName").addEventListener("keydown", e => { if (e.key === "Enter") searchByName(); });
 
-// ===== OUTIL 2 : RCH 001 - 7 ETAPES =====
+// ===== OUTIL 2 : RCH 001 - CALCUL ETAPE PAR ETAPE =====
 const leakPanel = document.getElementById("leakCalcPanel");
 const openLeakCalc = document.getElementById("openLeakCalc");
-const leakResult = document.getElementById("leakResult");
 const leakCdPreset = document.getElementById("leakCdPreset");
 const leakCdCustomWrap = document.getElementById("leakCdCustomWrap");
 
+const rchState = {
+  step1: null,
+  rho: null,
+  massKg: null,
+  retainedVolume: null,
+  flowKgS: null,
+  areaM2: null,
+  deltaPPa: null,
+  emptySeconds: null
+};
+
 function toggleLeakPanel(forceOpen) {
-  const open = typeof forceOpen === "boolean" ? forceOpen : !leakPanel.classList.contains("open");
+  const open = typeof forceOpen === "boolean"
+    ? forceOpen
+    : !leakPanel.classList.contains("open");
+
   leakPanel.classList.toggle("open", open);
   openLeakCalc.setAttribute("aria-expanded", String(open));
-  if (open) setTimeout(() => leakPanel.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+
+  if (open) {
+    setTimeout(() => leakPanel.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+  }
 }
 
 openLeakCalc.addEventListener("click", () => toggleLeakPanel());
+
 document.getElementById("closeLeakCalc").addEventListener("click", () => {
   toggleLeakPanel(false);
   openLeakCalc.scrollIntoView({behavior:"smooth", block:"nearest"});
 });
 
 leakCdPreset.addEventListener("change", () => {
-  leakCdCustomWrap.style.display = leakCdPreset.value === "venturi" ? "block" : "none";
+  leakCdCustomWrap.style.display =
+    leakCdPreset.value === "venturi" ? "block" : "none";
 });
 
 function numberValue(id) {
   const el = document.getElementById(id);
   if (!el) return null;
+
   const raw = String(el.value).trim().replace(",", ".");
   return raw === "" ? null : Number(raw);
 }
 
 function formatNumber(value, digits = 4) {
   if (!Number.isFinite(value)) return "-";
-  return value.toLocaleString("fr-FR", {maximumFractionDigits: digits, minimumFractionDigits: 0});
+
+  return value.toLocaleString("fr-FR", {
+    maximumFractionDigits: digits,
+    minimumFractionDigits: 0
+  });
 }
 
 function formatArea(areaM2) {
   const mm2 = areaM2 * 1e6;
   const cm2 = areaM2 * 1e4;
-  return `${formatNumber(mm2,2)} mm² (${formatNumber(cm2,4)} cm² ; ${areaM2.toLocaleString("fr-FR", {minimumFractionDigits:8, maximumFractionDigits:8})} m²)`;
+
+  return `${formatNumber(mm2,2)} mm² (${formatNumber(cm2,4)} cm² ; ${areaM2.toLocaleString("fr-FR", {
+    minimumFractionDigits:8,
+    maximumFractionDigits:8
+  })} m²)`;
 }
 
 function formatDuration(totalSeconds) {
   if (!Number.isFinite(totalSeconds) || totalSeconds < 0) return "-";
+
   const s = Math.round(totalSeconds);
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
-  if (h) return `${h} h ${String(m).padStart(2,"0")} min ${String(sec).padStart(2,"0")} s (${formatNumber(s,0)} s)`;
-  if (m) return `${m} min ${String(sec).padStart(2,"0")} s (${formatNumber(s,0)} s)`;
+
+  if (h) {
+    return `${h} h ${String(m).padStart(2,"0")} min ${String(sec).padStart(2,"0")} s (${formatNumber(s,0)} s)`;
+  }
+
+  if (m) {
+    return `${m} min ${String(sec).padStart(2,"0")} s (${formatNumber(s,0)} s)`;
+  }
+
   return `${sec} s`;
 }
 
@@ -1326,193 +1457,416 @@ function diameterToMeters(value, unit) {
   return value;
 }
 
-function stepBlock(n, title, body) {
-  return `<div class="result-step"><h4><span class="step-badge">${n}</span>${title}</h4>${body}</div>`;
+function showStepResult(id, html, isError = false) {
+  const box = document.getElementById(id);
+  box.classList.add("show");
+  box.innerHTML = isError
+    ? `<div class="calc-error">${html}</div>`
+    : html;
 }
 
-function calculateLeakFlow() {
+function requirePrevious(value, id, message) {
+  if (value === null || value === undefined || !Number.isFinite(value)) {
+    showStepResult(id, `<strong>Étape précédente requise :</strong><br>${message}`, true);
+    return false;
+  }
+  return true;
+}
+
+function clearResultsFrom(stepNumber) {
+  const ids = [
+    "resultStep1","resultStep2","resultStep3","resultStep4",
+    "resultStep5","resultStep6","resultStep7A","resultStep7B"
+  ];
+
+  for (let i = stepNumber - 1; i < ids.length; i++) {
+    const el = document.getElementById(ids[i]);
+    if (el) {
+      el.classList.remove("show");
+      el.innerHTML = "";
+    }
+  }
+}
+
+function calcStep1() {
   const product = document.getElementById("leakProduct").value.trim() || "Produit non renseigné";
+  const gasDensityRef = numberValue("leakGasDensityRef");
   const molarMassG = numberValue("leakMolarMass");
+  const pvs = numberValue("leakPvs");
+  const lie = numberValue("leakLie");
+  const lse = numberValue("leakLse");
   const pressureBar = numberValue("leakPressure");
   const tempC = numberValue("leakTemp");
   const volumeM3 = numberValue("leakVolume");
   const fillRatePct = numberValue("leakFillRate");
-  const pvs = numberValue("leakPvs");
-  const lie = numberValue("leakLie");
-  const lse = numberValue("leakLse");
+
+  const errors = [];
+
+  if (!(molarMassG > 0)) errors.push("Renseignez la masse molaire M.");
+  if (!(pressureBar > 1.013)) errors.push("La pression du réservoir doit être supérieure à 1,013 bar absolu.");
+  if (tempC === null || tempC <= -273) errors.push("Renseignez une température supérieure à -273 °C.");
+  if (!(volumeM3 > 0)) errors.push("Renseignez le volume du contenant.");
+  if (!(fillRatePct > 0 && fillRatePct <= 100)) errors.push("Le taux de remplissage doit être compris entre 0 et 100 %.");
+
+  if (errors.length) {
+    showStepResult("resultStep1", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
+    return;
+  }
+
+  rchState.step1 = {
+    product,
+    gasDensityRef,
+    molarMassG,
+    pvs,
+    lie,
+    lse,
+    pressureBar,
+    tempC,
+    volumeM3,
+    fillRatePct
+  };
+
+  rchState.rho = null;
+  rchState.massKg = null;
+  rchState.retainedVolume = null;
+  rchState.flowKgS = null;
+  rchState.areaM2 = null;
+  rchState.deltaPPa = null;
+  rchState.emptySeconds = null;
+
+  clearResultsFrom(2);
+
+  showStepResult("resultStep1", `
+    <strong>Étape 1 validée - données retenues</strong>
+    <div class="result-kpis">
+      <div class="result-kpi"><span>Produit</span><strong>${product}</strong></div>
+      <div class="result-kpi"><span>Masse molaire M</span><strong>${formatNumber(molarMassG,4)} g/mol</strong></div>
+      <div class="result-kpi"><span>Pression réservoir</span><strong>${formatNumber(pressureBar,3)} bar abs.</strong></div>
+      <div class="result-kpi"><span>Température</span><strong>${formatNumber(tempC,2)} °C</strong></div>
+      <div class="result-kpi"><span>Volume nominal</span><strong>${formatNumber(volumeM3,3)} m³</strong></div>
+      <div class="result-kpi"><span>Remplissage</span><strong>${formatNumber(fillRatePct,1)} %</strong></div>
+    </div>
+    <div style="margin-top:10px;">
+      Densité gaz réf. : <strong>${gasDensityRef === null ? "non renseignée" : formatNumber(gasDensityRef,4)}</strong><br>
+      PVS : <strong>${pvs === null ? "non renseignée" : formatNumber(pvs,3)+" bar"}</strong><br>
+      LIE : <strong>${lie === null ? "non renseignée" : formatNumber(lie,4)+" % vol."}</strong> ;
+      LSE : <strong>${lse === null ? "non renseignée" : formatNumber(lse,4)+" % vol."}</strong>
+    </div>
+  `);
+}
+
+function calcStep2() {
+  if (!rchState.step1) {
+    showStepResult("resultStep2", "<strong>Commencez par valider l'étape 1.</strong>", true);
+    return;
+  }
+
+  const {molarMassG, pressureBar, tempC} = rchState.step1;
+
+  const R = 8.314;
+  const pressurePa = pressureBar * 100000;
+  const molarMassKg = molarMassG / 1000;
+  const tempK = tempC + 273;
+  const rho = (pressurePa * molarMassKg) / (R * tempK);
+
+  rchState.rho = rho;
+  rchState.massKg = null;
+  rchState.flowKgS = null;
+  rchState.emptySeconds = null;
+
+  clearResultsFrom(3);
+
+  showStepResult("resultStep2", `
+    <strong>Calcul détaillé</strong><br>
+    P = ${formatNumber(pressureBar,3)} × 100 000 = <strong>${formatNumber(pressurePa,0)} Pa</strong><br>
+    M = ${formatNumber(molarMassG,4)} / 1000 = <strong>${formatNumber(molarMassKg,6)} kg/mol</strong><br>
+    T = ${formatNumber(tempC,2)} + 273 = <strong>${formatNumber(tempK,2)} K</strong><br><br>
+    ρ = (${formatNumber(pressurePa,0)} × ${formatNumber(molarMassKg,6)}) /
+    (8,314 × ${formatNumber(tempK,2)})
+    <span class="big-result">ρ = ${formatNumber(rho,4)} kg/m³</span>
+  `);
+}
+
+function calcStep3() {
+  if (!requirePrevious(rchState.rho, "resultStep3", "Calculez d'abord l'étape 2 - masse volumique.")) return;
+
+  const {volumeM3, fillRatePct} = rchState.step1;
+  const retainedVolume = volumeM3 * (fillRatePct / 100);
+  const massKg = rchState.rho * retainedVolume;
+
+  rchState.retainedVolume = retainedVolume;
+  rchState.massKg = massKg;
+  rchState.flowKgS = null;
+  rchState.emptySeconds = null;
+
+  clearResultsFrom(4);
+
+  showStepResult("resultStep3", `
+    <strong>Calcul détaillé</strong><br>
+    Vretenu = ${formatNumber(volumeM3,3)} × ${formatNumber(fillRatePct,1)} / 100
+    = <strong>${formatNumber(retainedVolume,3)} m³</strong><br>
+    m = ρ × Vretenu
+    = ${formatNumber(rchState.rho,4)} × ${formatNumber(retainedVolume,3)}
+    <span class="big-result">m = ${formatNumber(massKg,3)} kg</span>
+  `);
+}
+
+function calcStep4() {
+  if (!requirePrevious(rchState.rho, "resultStep4", "Calculez d'abord l'étape 2 - masse volumique.")) return;
+
   const diameterInput = numberValue("leakDiameter");
   const diameterUnit = document.getElementById("leakDiameterUnit").value;
+  const cd = leakCdPreset.value === "venturi"
+    ? numberValue("leakCdCustom")
+    : Number(leakCdPreset.value);
+
+  const errors = [];
+  if (!(diameterInput > 0)) errors.push("Renseignez le diamètre de fuite.");
+  if (!(cd > 0)) errors.push("Renseignez un coefficient Cd valide.");
+  if (leakCdPreset.value === "venturi" && !(cd > 1)) errors.push("Pour le Venturi, la fiche indique Cd > 1.");
+
+  if (errors.length) {
+    showStepResult("resultStep4", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
+    return;
+  }
+
+  const diameterM = diameterToMeters(diameterInput, diameterUnit);
+  const radiusM = diameterM / 2;
+  const areaM2 = Math.PI * radiusM * radiusM;
+
+  const pressureBar = rchState.step1.pressureBar;
+  const deltaPBar = pressureBar - 1.013;
+  const deltaPPa = deltaPBar * 100000;
+
+  const rootTerm = Math.sqrt((rchState.rho * deltaPPa) / 2);
+  const flowKgS = cd * areaM2 * rootTerm;
+
+  rchState.areaM2 = areaM2;
+  rchState.deltaPPa = deltaPPa;
+  rchState.flowKgS = flowKgS;
+  rchState.emptySeconds = null;
+
+  clearResultsFrom(5);
+
+  showStepResult("resultStep4", `
+    <strong>Calcul détaillé</strong><br>
+    d = <strong>${formatNumber(diameterM,6)} m</strong><br>
+    R = d / 2 = <strong>${formatNumber(radiusM,6)} m</strong><br>
+    S = π × R² = <strong>${formatArea(areaM2)}</strong><br><br>
+
+    ΔP = (${formatNumber(pressureBar,3)} - 1,013) × 10⁵
+    = <strong>${formatNumber(deltaPPa,0)} Pa</strong><br>
+
+    Cd = <strong>${formatNumber(cd,3)}</strong><br>
+
+    √(ρ × ΔP / 2)
+    = √(${formatNumber(rchState.rho,4)} × ${formatNumber(deltaPPa,0)} / 2)
+    = <strong>${formatNumber(rootTerm,4)}</strong><br><br>
+
+    Q = Cd × S × √(ρ × ΔP / 2)
+
+    <span class="big-result">
+      Q = ${formatNumber(flowKgS,6)} kg/s<br>
+      = ${formatNumber(flowKgS*60,3)} kg/min<br>
+      = ${formatNumber(flowKgS*3600,1)} kg/h
+    </span>
+  `);
+}
+
+function calcStep5() {
+  if (!requirePrevious(rchState.massKg, "resultStep5", "Calculez d'abord l'étape 3 - masse totale.")) return;
+  if (!requirePrevious(rchState.flowKgS, "resultStep5", "Calculez d'abord l'étape 4 - débit de fuite.")) return;
+
+  const emptySeconds = rchState.massKg / rchState.flowKgS;
+  rchState.emptySeconds = emptySeconds;
+
+  clearResultsFrom(6);
+
+  showStepResult("resultStep5", `
+    <strong>Calcul détaillé</strong><br>
+    T = m / Q<br>
+    T = ${formatNumber(rchState.massKg,3)} / ${formatNumber(rchState.flowKgS,6)}
+    = <strong>${formatNumber(emptySeconds,0)} s</strong>
+    <span class="big-result">Temps théorique = ${formatDuration(emptySeconds)}</span>
+  `);
+}
+
+function calcStep6() {
+  if (!requirePrevious(rchState.emptySeconds, "resultStep6", "Calculez d'abord l'étape 5 - temps de vidange.")) return;
+
   const distanceM = numberValue("leakTargetDistance");
   const windKmh = numberValue("leakWindKmh");
+
+  if (!(distanceM > 0) || !(windKmh > 0)) {
+    showStepResult("resultStep6", "<strong>Renseignez une distance et une vitesse de vent supérieures à 0.</strong>", true);
+    return;
+  }
+
+  const windMs = windKmh * (1000 / 3600);
+  const transferS = distanceM / windMs;
+  const threshold = 4 * transferS;
+
+  let nature;
+  if (rchState.emptySeconds > threshold) {
+    nature = "PANACHE - rejet prolongé";
+  } else if (rchState.emptySeconds < threshold) {
+    nature = "BOUFFÉE - rejet instantané";
+  } else {
+    nature = "CAS LIMITE - égalité non précisée par la fiche";
+  }
+
+  showStepResult("resultStep6", `
+    <strong>Calcul détaillé</strong><br>
+    Vvent = ${formatNumber(windKmh,2)} × 1000 / 3600
+    = <strong>${formatNumber(windMs,3)} m/s</strong><br>
+
+    ttransfert = ${formatNumber(distanceM,2)} / ${formatNumber(windMs,3)}
+    = <strong>${formatDuration(transferS)}</strong><br>
+
+    tdurée_rejet = <strong>${formatDuration(rchState.emptySeconds)}</strong><br>
+
+    4 × ttransfert = <strong>${formatDuration(threshold)}</strong>
+
+    <span class="big-result">${nature}</span>
+  `);
+}
+
+function calcStep7A() {
+  if (!requirePrevious(rchState.flowKgS, "resultStep7A", "Calculez d'abord l'étape 4 - débit de fuite.")) return;
+
   const cta = numberValue("leakCta");
   const diffusion = document.getElementById("leakDiffusion").value;
+
+  if (!(cta > 0)) {
+    showStepResult("resultStep7A", "<strong>Renseignez le CTA lu sur l'abaque.</strong>", true);
+    return;
+  }
+
+  const molarMassG = rchState.step1.molarMassG;
+  const lie = rchState.step1.lie;
+  const lse = rchState.step1.lse;
+
+  const cMgM3 = cta * rchState.flowKgS * 1e6;
+  const cPpm = cMgM3 * 24 / molarMassG;
+  const cPct = cPpm / 1e4;
+
+  let comparison = "LIE/LSE non renseignées : comparaison impossible.";
+
+  if (lie !== null && lse !== null && lie >= 0 && lse > lie) {
+    if (cPct < lie) {
+      comparison = `Sous la LIE (${formatNumber(lie,4)} % vol.)`;
+    } else if (cPct <= lse) {
+      comparison = `ENTRE LIE et LSE (${formatNumber(lie,4)} à ${formatNumber(lse,4)} % vol.)`;
+    } else {
+      comparison = `Au-dessus de la LSE (${formatNumber(lse,4)} % vol.)`;
+    }
+  }
+
+  showStepResult("resultStep7A", `
+    <strong>Calcul détaillé - diffusion ${diffusion}</strong><br>
+    CTA = <strong>${formatNumber(cta,10)} s/m³</strong><br>
+    Q = <strong>${formatNumber(rchState.flowKgS,6)} kg/s</strong><br><br>
+
+    C = CTA × Q × 10⁶<br>
+    C = ${formatNumber(cta,10)} × ${formatNumber(rchState.flowKgS,6)} × 10⁶
+    <span class="big-result">C = ${formatNumber(cMgM3,3)} mg/m³</span>
+
+    Cppm = C × 24 / M
+    = <strong>${formatNumber(cPpm,2)} ppm</strong><br>
+
+    C%vol = Cppm / 10⁴
+    = <strong>${formatNumber(cPct,5)} % vol.</strong>
+
+    <span class="status-pill">${comparison}</span>
+  `);
+}
+
+function calcStep7B() {
   const uvceMass = numberValue("uvceMassReleased");
   const uvcePci = numberValue("uvcePci");
   const uvceYieldPct = numberValue("uvceYield");
 
-  const cd = leakCdPreset.value === "venturi" ? numberValue("leakCdCustom") : Number(leakCdPreset.value);
-
   const errors = [];
-  if (!(molarMassG > 0)) errors.push("Étape 1 : renseignez la masse molaire M.");
-  if (!(pressureBar > 1.013)) errors.push("Étape 1 : la pression du réservoir doit être supérieure à 1,013 bar absolu.");
-  if (tempC === null || tempC <= -273) errors.push("Étape 1 : renseignez une température supérieure à -273 °C.");
-  if (!(volumeM3 > 0)) errors.push("Étape 1 : renseignez le volume du contenant.");
-  if (!(fillRatePct > 0 && fillRatePct <= 100)) errors.push("Étape 1 : le taux de remplissage doit être compris entre 0 et 100 %.");
-  if (!(diameterInput > 0)) errors.push("Étape 4 : renseignez le diamètre de fuite.");
-  if (!(cd > 0)) errors.push("Étape 4 : renseignez un Cd valide.");
+  if (!(uvceMass > 0)) errors.push("Renseignez la masse de gaz réellement libérée mc.");
+  if (!(uvcePci > 0)) errors.push("Renseignez le PCI du produit.");
+  if (!(uvceYieldPct > 0)) errors.push("Renseignez le rendement explosion.");
 
   if (errors.length) {
-    leakResult.classList.add("show");
-    leakResult.innerHTML = `<div class="calc-error"><strong>Calcul interrompu :</strong><br>${errors.join("<br>")}</div>`;
+    showStepResult("resultStep7B", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
     return;
   }
 
-  // ETAPE 2
-  const R = 8.314;
-  const pressurePa = pressureBar * 100000;
-  const molarMassKg = molarMassG / 1000;
-  const tempK = tempC + 273; // fiche RCH 001
-  const rho = (pressurePa * molarMassKg) / (R * tempK);
+  const a = uvceYieldPct / 100;
+  const mTnt = a * (uvcePci / 4.69) * uvceMass;
+  const cube = Math.cbrt(mTnt);
 
-  // ETAPE 3
-  const retainedVolume = volumeM3 * (fillRatePct / 100);
-  const massKg = rho * retainedVolume;
+  const r50 = 25 * cube;
+  const r140 = 9 * cube;
+  const r200 = 7.5 * cube;
 
-  // ETAPE 4
-  const diameterM = diameterToMeters(diameterInput, diameterUnit);
-  const radiusM = diameterM / 2;
-  const areaM2 = Math.PI * radiusM * radiusM;
-  const deltaPBar = pressureBar - 1.013;
-  const deltaPPa = deltaPBar * 100000;
-  const rootTerm = Math.sqrt((rho * deltaPPa) / 2);
-  const flowKgS = cd * areaM2 * rootTerm;
+  showStepResult("resultStep7B", `
+    <strong>Calcul détaillé</strong><br>
+    a = ${formatNumber(uvceYieldPct,2)} % = <strong>${formatNumber(a,4)}</strong><br>
 
-  // ETAPE 5
-  const emptySeconds = massKg / flowKgS;
+    mTNT = a × (PCI / 4,69) × mc<br>
+    mTNT = ${formatNumber(a,4)} × (${formatNumber(uvcePci,3)} / 4,69) × ${formatNumber(uvceMass,3)}
+    <span class="big-result">mTNT = ${formatNumber(mTnt,3)} kg TNT</span>
 
-  // ETAPE 6
-  let step6 = `<p>Renseignez une distance et une vitesse de vent pour déterminer panache ou bouffée.</p>`;
-  if (distanceM > 0 && windKmh > 0) {
-    const windMs = windKmh * (1000/3600);
-    const transferS = distanceM / windMs;
-    const threshold = 4 * transferS;
-    let nature;
-    if (emptySeconds > threshold) nature = "PANACHE - rejet prolongé";
-    else if (emptySeconds < threshold) nature = "BOUFFÉE - rejet instantané";
-    else nature = "CAS LIMITE : t durée rejet = 4 × t transfert (la fiche ne précise pas l'égalité)";
-    step6 = `
-      <div>Vvent = ${formatNumber(windKmh,2)} × 1000 / 3600 = <strong>${formatNumber(windMs,3)} m/s</strong></div>
-      <div>ttransfert = ${formatNumber(distanceM,2)} / ${formatNumber(windMs,3)} = <strong>${formatDuration(transferS)}</strong></div>
-      <div>tdurée_rejet = m / Q = ${formatNumber(massKg,3)} / ${formatNumber(flowKgS,6)} = <strong>${formatDuration(emptySeconds)}</strong></div>
-      <div>4 × ttransfert = <strong>${formatDuration(threshold)}</strong></div>
-      <span class="status-pill">${nature}</span>`;
-  }
+    ∛mTNT = <strong>${formatNumber(cube,4)}</strong><br><br>
 
-  // ETAPE 7A
-  let step7a = `<p>CTA non renseigné : la concentration n'est pas calculée. Lire le CTA sur l'abaque correspondant puis le saisir.</p>`;
-  if (cta > 0) {
-    const cMgM3 = cta * flowKgS * 1e6;
-    const cPpm = cMgM3 * 24 / molarMassG;
-    const cPct = cPpm / 1e4;
-    let comparison = "LIE/LSE non renseignées : comparaison impossible.";
-    if (lie !== null && lse !== null && lie >= 0 && lse > lie) {
-      if (cPct < lie) comparison = `Sous la LIE (${formatNumber(lie,4)} % vol.)`;
-      else if (cPct <= lse) comparison = `ENTRE LIE et LSE : domaine d'inflammabilité (${formatNumber(lie,4)} à ${formatNumber(lse,4)} % vol.)`;
-      else comparison = `Au-dessus de la LSE (${formatNumber(lse,4)} % vol.)`;
-    }
-    step7a = `
-      <div>Diffusion retenue pour la lecture de l'abaque : <strong>${diffusion}</strong></div>
-      <div>CTA saisi = <strong>${formatNumber(cta,10)} s/m³</strong></div>
-      <div>C = CTA × Q × 10⁶ = ${formatNumber(cta,10)} × ${formatNumber(flowKgS,6)} × 10⁶</div>
-      <span class="big-result">C = ${formatNumber(cMgM3,3)} mg/m³</span>
-      <div>Cppm = C × 24 / M = ${formatNumber(cMgM3,3)} × 24 / ${formatNumber(molarMassG,4)} = <strong>${formatNumber(cPpm,2)} ppm</strong></div>
-      <div>C%vol = Cppm / 10⁴ = <strong>${formatNumber(cPct,5)} % vol.</strong></div>
-      <span class="status-pill">${comparison}</span>`;
-  }
+    <strong>50 mbar - effets irréversibles</strong><br>
+    R = 25 × ∛mTNT = <strong>${formatNumber(r50,1)} m</strong><br><br>
 
-  // ETAPE 7B
-  let step7b = `<p>Pour calculer l'UVCE, renseignez mc (masse de gaz réellement libérée), le PCI et le rendement.</p>`;
-  if (uvceMass > 0 && uvcePci > 0 && uvceYieldPct > 0) {
-    const a = uvceYieldPct / 100;
-    const mTnt = a * (uvcePci / 4.69) * uvceMass;
-    const cube = Math.cbrt(mTnt);
-    const r50 = 25 * cube;
-    const r140 = 9 * cube;
-    const r200 = 7.5 * cube;
-    step7b = `
-      <div>a = ${formatNumber(uvceYieldPct,2)} % = ${formatNumber(a,4)}</div>
-      <div>mTNT = ${formatNumber(a,4)} × (${formatNumber(uvcePci,3)} / 4,69) × ${formatNumber(uvceMass,3)}</div>
-      <span class="big-result">mTNT = ${formatNumber(mTnt,3)} kg TNT</span>
-      <div>∛mTNT = ${formatNumber(cube,4)}</div>
-      <div><strong>50 mbar - effets irréversibles :</strong> R = 25 × ∛mTNT = ${formatNumber(r50,1)} m</div>
-      <div><strong>140 mbar - premiers effets létaux :</strong> R = 9 × ∛mTNT = ${formatNumber(r140,1)} m</div>
-      <div><strong>200 mbar - effets létaux :</strong> R = 7,5 × ∛mTNT = ${formatNumber(r200,1)} m</div>`;
-  }
+    <strong>140 mbar - premiers effets létaux</strong><br>
+    R = 9 × ∛mTNT = <strong>${formatNumber(r140,1)} m</strong><br><br>
 
-  leakResult.classList.add("show");
-  leakResult.innerHTML = `
-    <strong>Déroulé pédagogique RCH 001</strong>
-    ${stepBlock("1", "Récupération des données", `
-      <div>Produit : <strong>${product}</strong></div>
-      <div>M = <strong>${formatNumber(molarMassG,4)} g/mol</strong> ; P réservoir = <strong>${formatNumber(pressureBar,3)} bar abs.</strong> ; T = <strong>${formatNumber(tempC,2)} °C</strong></div>
-      <div>Volume nominal = <strong>${formatNumber(volumeM3,3)} m³</strong> ; remplissage = <strong>${formatNumber(fillRatePct,1)} %</strong></div>
-      <div>PVS : <strong>${pvs === null ? "non renseignée" : formatNumber(pvs,3)+" bar"}</strong> ; LIE : <strong>${lie === null ? "non renseignée" : formatNumber(lie,4)+" % vol."}</strong> ; LSE : <strong>${lse === null ? "non renseignée" : formatNumber(lse,4)+" % vol."}</strong></div>`)}
-
-    ${stepBlock("2", "Masse volumique du gaz", `
-      <div>P = ${formatNumber(pressureBar,3)} × 100 000 = <strong>${formatNumber(pressurePa,0)} Pa</strong></div>
-      <div>M = ${formatNumber(molarMassG,4)} / 1000 = <strong>${formatNumber(molarMassKg,6)} kg/mol</strong></div>
-      <div>T = ${formatNumber(tempC,2)} + 273 = <strong>${formatNumber(tempK,2)} K</strong></div>
-      <div>ρ = (${formatNumber(pressurePa,0)} × ${formatNumber(molarMassKg,6)}) / (8,314 × ${formatNumber(tempK,2)})</div>
-      <span class="big-result">ρ = ${formatNumber(rho,4)} kg/m³</span>`)}
-
-    ${stepBlock("3", "Masse totale de produit", `
-      <div>Vretenu = ${formatNumber(volumeM3,3)} × ${formatNumber(fillRatePct,1)} / 100 = <strong>${formatNumber(retainedVolume,3)} m³</strong></div>
-      <div>m = ρ × Vretenu = ${formatNumber(rho,4)} × ${formatNumber(retainedVolume,3)}</div>
-      <span class="big-result">m = ${formatNumber(massKg,3)} kg</span>`)}
-
-    ${stepBlock("4", "Débit de fuite", `
-      <div>d = <strong>${formatNumber(diameterM,6)} m</strong> ; R = d/2 = <strong>${formatNumber(radiusM,6)} m</strong></div>
-      <div>S = π × R² = <strong>${formatArea(areaM2)}</strong></div>
-      <div>ΔP = (${formatNumber(pressureBar,3)} - 1,013) × 10⁵ = <strong>${formatNumber(deltaPPa,0)} Pa</strong></div>
-      <div>Cd = <strong>${formatNumber(cd,3)}</strong></div>
-      <div>√(ρ × ΔP / 2) = √(${formatNumber(rho,4)} × ${formatNumber(deltaPPa,0)} / 2) = <strong>${formatNumber(rootTerm,4)}</strong></div>
-      <div>Q = Cd × S × √(ρ × ΔP / 2)</div>
-      <span class="big-result">Q = ${formatNumber(flowKgS,6)} kg/s = ${formatNumber(flowKgS*60,3)} kg/min = ${formatNumber(flowKgS*3600,1)} kg/h</span>`)}
-
-    ${stepBlock("5", "Temps de vidange", `
-      <div>T = m / Q = ${formatNumber(massKg,3)} / ${formatNumber(flowKgS,6)}</div>
-      <span class="big-result">T = ${formatDuration(emptySeconds)}</span>
-      <small>Application au Qgaz calculé à l'étape 4 pour ce module phase gazeuse.</small>`)}
-
-    ${stepBlock("6", "Détermination du rejet : panache ou bouffée", step6)}
-
-    <div class="result-step">
-      <h4><span class="step-badge">7</span>Conséquences du rejet</h4>
-      <div class="substep-title">7A - Concentration à la distance considérée</div>
-      ${step7a}
-      <div class="substep-title">7B - Effets de l'UVCE</div>
-      ${step7b}
-    </div>
-
-    <div class="calc-note"><strong>Transparence :</strong> les calculs suivent les formules de RCH 001 fournies. Les valeurs d'abaque (CTA) et la masse réellement libérée pour l'UVCE ne sont pas inventées : elles doivent être saisies selon le scénario et les documents opérationnels.</div>`;
-
-  leakResult.scrollIntoView({behavior:"smooth", block:"nearest"});
+    <strong>200 mbar - effets létaux</strong><br>
+    R = 7,5 × ∛mTNT = <strong>${formatNumber(r200,1)} m</strong>
+  `);
 }
 
-document.getElementById("calculateLeak").addEventListener("click", calculateLeakFlow);
+document.getElementById("calcStep1").addEventListener("click", calcStep1);
+document.getElementById("calcStep2").addEventListener("click", calcStep2);
+document.getElementById("calcStep3").addEventListener("click", calcStep3);
+document.getElementById("calcStep4").addEventListener("click", calcStep4);
+document.getElementById("calcStep5").addEventListener("click", calcStep5);
+document.getElementById("calcStep6").addEventListener("click", calcStep6);
+document.getElementById("calcStep7A").addEventListener("click", calcStep7A);
+document.getElementById("calcStep7B").addEventListener("click", calcStep7B);
 
 document.getElementById("resetLeak").addEventListener("click", () => {
-  ["leakProduct","leakGasDensityRef","leakMolarMass","leakPvs","leakLie","leakLse","leakPressure","leakTemp","leakVolume","leakDiameter","leakCdCustom","leakTargetDistance","leakWindKmh","leakCta","uvceMassReleased","uvcePci"].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = "";
+  [
+    "leakProduct","leakGasDensityRef","leakMolarMass","leakPvs",
+    "leakLie","leakLse","leakPressure","leakTemp","leakVolume",
+    "leakDiameter","leakCdCustom","leakTargetDistance","leakWindKmh",
+    "leakCta","uvceMassReleased","uvcePci"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
   });
+
   document.getElementById("leakFillRate").value = "85";
   document.getElementById("uvceYield").value = "5";
   document.getElementById("leakDiameterUnit").value = "mm";
   document.getElementById("leakDiffusion").value = "normale";
+
   leakCdPreset.value = "0.62";
   leakCdCustomWrap.style.display = "none";
-  leakResult.classList.remove("show");
-  leakResult.innerHTML = "";
+
+  Object.keys(rchState).forEach(key => {
+    rchState[key] = null;
+  });
+
+  [
+    "resultStep1","resultStep2","resultStep3","resultStep4",
+    "resultStep5","resultStep6","resultStep7A","resultStep7B"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove("show");
+      el.innerHTML = "";
+    }
+  });
 });
 
 </script>
