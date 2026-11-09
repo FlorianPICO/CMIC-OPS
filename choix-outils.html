@@ -653,7 +653,7 @@
     background: #fff7ed;
     color: #9a3412;
     border-radius: 999px;
-    padding: 6px 10px;
+    padding: 6px 11px;
     font: inherit;
     font-size: 0.82rem;
     font-weight: 800;
@@ -664,73 +664,54 @@
     background: #ffedd5;
   }
 
-  .cd-help {
+  .image-help-overlay {
     display: none;
-    margin-top: 10px;
-    padding: 14px;
-    border: 1px solid #fed7aa;
-    border-left: 4px solid var(--orange);
-    border-radius: 12px;
-    background: #fffaf5;
-  }
-
-  .cd-help.open {
-    display: block;
-  }
-
-  .cd-help h5 {
-    margin: 0 0 10px;
-    color: #7c2d12;
-    font-size: 0.98rem;
-  }
-
-  .cd-options {
-    display: grid;
-    gap: 8px;
-  }
-
-  .cd-option {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.72);
+    padding: 20px;
     align-items: center;
-    padding: 10px;
-    border: 1px solid #fed7aa;
-    border-radius: 10px;
-    background: #fff;
+    justify-content: center;
   }
 
-  .cd-option strong {
-    color: #9a3412;
+  .image-help-overlay.open {
+    display: flex;
   }
 
-  .cd-option small {
+  .image-help-box {
+    position: relative;
+    width: min(920px, 96vw);
+    max-height: 92vh;
+    overflow: auto;
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+
+  .image-help-box img {
     display: block;
-    margin-top: 2px;
-    color: #78716c;
-  }
-
-  .cd-use-btn {
-    border: 0;
+    width: 100%;
+    height: auto;
     border-radius: 8px;
-    padding: 8px 10px;
-    background: var(--orange);
-    color: #fff;
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 800;
-    cursor: pointer;
-    white-space: nowrap;
   }
 
-  @media (max-width: 600px) {
-    .cd-option {
-      grid-template-columns: 1fr;
-    }
-
-    .cd-use-btn {
-      width: 100%;
-    }
+  .image-help-close {
+    position: sticky;
+    top: 0;
+    float: right;
+    z-index: 2;
+    margin: 0 0 8px 8px;
+    border: 0;
+    border-radius: 999px;
+    width: 38px;
+    height: 38px;
+    background: #1c1917;
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 900;
+    cursor: pointer;
   }
 
 </style>
@@ -880,7 +861,7 @@
           <div class="calc-field">
             <div class="field-help-row">
               <label for="leakCdPreset">Coefficient de décharge Cd</label>
-              <button type="button" class="help-btn" id="toggleCdHelp">? Aide au remplissage</button>
+              <button type="button" class="help-btn" id="openCdImageHelp">? Aide</button>
             </div>
             <select id="leakCdPreset">
               <option value="0.50">Orifice de Borda - Cd 0,50</option>
@@ -890,69 +871,6 @@
               <option value="0.95">Ajutage convergent - Cd 0,95</option>
               <option value="custom">Valeur personnalisée</option>
             </select>
-
-            <div class="cd-help" id="cdHelp">
-              <h5>Aide au choix du coefficient Cd</h5>
-
-              <div class="cd-options">
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Orifice de Borda</strong>
-                    <small>1,6 D &lt; L &lt; 2 D</small>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="0.50">Utiliser 0,50</button>
-                </div>
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Orifice mince ou aigu</strong>
-                    <small>e &lt;&lt; D</small>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="0.62">Utiliser 0,62</button>
-                </div>
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Orifice de Poleni</strong>
-                    <small>2 D &lt; L &lt; 5 D</small>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="0.82">Utiliser 0,82</button>
-                </div>
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Orifice arrondi</strong>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="0.96">Utiliser 0,96</button>
-                </div>
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Ajustage convergent</strong>
-                    <small>Cd = 0,95 pour α = 12° ; Cd ≈ 1 pour α = 30°</small>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="0.95">Utiliser 0,95</button>
-                </div>
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Rupture guillotine parfaite</strong>
-                    <small>Canalisation seulement</small>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="1">Utiliser 1,00</button>
-                </div>
-
-                <div class="cd-option">
-                  <div>
-                    <strong>Ajustage convergent puis divergent (Venturi)</strong>
-                    <small>Cd &gt; 1 et dépend de l'angle α. Utiliser une valeur déterminée spécifiquement.</small>
-                  </div>
-                  <button type="button" class="cd-use-btn" data-cd="custom">Saisie manuelle</button>
-                </div>
-
-              </div>
-            </div>
           </div>
 
           <div class="calc-field" id="leakCdCustomWrap" style="display:none;">
@@ -1373,45 +1291,41 @@ document.getElementById("resetLeak").addEventListener("click", () => {
 
 </script>
 
+  <div class="image-help-overlay" id="cdImageHelp" aria-hidden="true">
+    <div class="image-help-box" role="dialog" aria-modal="true" aria-label="Aide coefficient de décharge Cd">
+      <button type="button" class="image-help-close" id="closeCdImageHelp" aria-label="Fermer">×</button>
+      <img src="images/aide-cd.png" alt="Tableau d'aide au choix du coefficient de décharge Cd">
+    </div>
+  </div>
+
+
 <script>
 (() => {
-  const helpBtn = document.getElementById("toggleCdHelp");
-  const helpPanel = document.getElementById("cdHelp");
-  const cdPreset = document.getElementById("leakCdPreset");
-  const customWrap = document.getElementById("leakCdCustomWrap");
-  const customInput = document.getElementById("leakCdCustom");
+  const openBtn = document.getElementById("openCdImageHelp");
+  const closeBtn = document.getElementById("closeCdImageHelp");
+  const overlay = document.getElementById("cdImageHelp");
 
-  if (helpBtn && helpPanel) {
-    helpBtn.addEventListener("click", () => {
-      const isOpen = helpPanel.classList.toggle("open");
-      helpBtn.textContent = isOpen ? "Masquer l'aide" : "? Aide au remplissage";
-    });
+  if (!openBtn || !overlay) return;
+
+  function openHelp() {
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
   }
 
-  document.querySelectorAll(".cd-use-btn[data-cd]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (!cdPreset) return;
+  function closeHelp() {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+  }
 
-      const value = btn.dataset.cd;
+  openBtn.addEventListener("click", openHelp);
+  closeBtn?.addEventListener("click", closeHelp);
 
-      if (value === "custom") {
-        cdPreset.value = "custom";
-        if (customWrap) customWrap.style.display = "";
-        if (customInput) customInput.focus();
-      } else {
-        cdPreset.value = value;
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) closeHelp();
+  });
 
-        if (customWrap) {
-          customWrap.style.display =
-            cdPreset.value === "custom" ? "" : "none";
-        }
-
-        cdPreset.dispatchEvent(new Event("change", { bubbles: true }));
-      }
-
-      if (helpPanel) helpPanel.classList.remove("open");
-      if (helpBtn) helpBtn.textContent = "? Aide au remplissage";
-    });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeHelp();
   });
 })();
 </script>
