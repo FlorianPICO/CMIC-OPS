@@ -1317,6 +1317,221 @@
       .inrs-data-table td { padding: 9px 10px; }
     }
 
+
+    /* ===== INRS : LECTURE OPÉRATIONNELLE AVANCÉE ===== */
+    .inrs-op-section {
+      margin: 0 0 16px;
+      border: 1px solid #e7e5e4;
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .inrs-op-title {
+      margin: 0;
+      padding: 11px 14px;
+      background: #f5f5f4;
+      border-bottom: 1px solid #e7e5e4;
+      color: #7c2d12;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .inrs-op-body {
+      padding: 14px 15px;
+    }
+
+    .inrs-op-subtitle {
+      margin: 16px 0 8px;
+      padding-left: 10px;
+      border-left: 4px solid #fb923c;
+      color: #9a3412;
+      font-size: .96rem;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .inrs-op-subtitle:first-child {
+      margin-top: 0;
+    }
+
+    .inrs-op-paragraph {
+      margin: 0 0 11px;
+      color: #3f3f46;
+      font-size: .97rem;
+      line-height: 1.65;
+    }
+
+    .inrs-op-list {
+      display: grid;
+      gap: 8px;
+      margin: 8px 0 14px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .inrs-op-list li {
+      position: relative;
+      padding: 9px 11px 9px 34px;
+      border: 1px solid #e7e5e4;
+      border-radius: 10px;
+      background: #fafaf9;
+      color: #3f3f46;
+      line-height: 1.5;
+    }
+
+    .inrs-op-list li::before {
+      content: "•";
+      position: absolute;
+      left: 13px;
+      top: 7px;
+      color: #ea580c;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .inrs-alert-block {
+      margin: 10px 0 14px;
+      padding: 12px 14px;
+      border: 1px solid #fdba74;
+      border-left: 5px solid #ea580c;
+      border-radius: 10px;
+      background: #fff7ed;
+      color: #7c2d12;
+      font-weight: 750;
+      line-height: 1.55;
+    }
+
+    .inrs-danger-block {
+      margin: 10px 0 14px;
+      padding: 12px 14px;
+      border: 1px solid #fecaca;
+      border-left: 5px solid #dc2626;
+      border-radius: 10px;
+      background: #fff1f2;
+      color: #881337;
+      line-height: 1.55;
+    }
+
+    .inrs-ref-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: ref;
+    }
+
+    .inrs-ref-list li {
+      position: relative;
+      padding: 10px 12px 10px 48px;
+      border-bottom: 1px solid #e7e5e4;
+      color: #44403c;
+      line-height: 1.5;
+    }
+
+    .inrs-ref-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .inrs-ref-list li::before {
+      counter-increment: ref;
+      content: counter(ref);
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      font-size: .78rem;
+      font-weight: 900;
+    }
+
+    .inrs-history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .93rem;
+    }
+
+    .inrs-history-table th,
+    .inrs-history-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e7e5e4;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .inrs-history-table thead th {
+      background: #57534e;
+      color: #fff;
+      font-weight: 850;
+    }
+
+    .inrs-history-table tbody tr:nth-child(even) td {
+      background: #fffaf5;
+    }
+
+    .inrs-history-table td:first-child {
+      width: 24%;
+      font-weight: 800;
+      color: #7c2d12;
+    }
+
+    .inrs-history-table td:nth-child(2) {
+      width: 18%;
+      white-space: nowrap;
+      color: #57534e;
+      font-weight: 750;
+    }
+
+    .inrs-reg-card {
+      margin: 0 0 10px;
+      padding: 12px 13px;
+      border: 1px solid #e7e5e4;
+      border-radius: 11px;
+      background: #fafaf9;
+    }
+
+    .inrs-reg-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #7c2d12;
+      font-size: .95rem;
+    }
+
+    .inrs-reg-card p {
+      margin: 0;
+      color: #44403c;
+      line-height: 1.55;
+    }
+
+    .inrs-command-card {
+      margin: 12px 0;
+      border: 2px solid #fb923c;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fffaf5;
+    }
+
+    .inrs-command-card h6 {
+      margin: 0;
+      padding: 11px 14px;
+      background: #ea580c;
+      color: #fff;
+      font-size: .98rem;
+      font-weight: 900;
+    }
+
+    .inrs-command-card .inrs-op-body {
+      background: #fffaf5;
+    }
+
 </style>
 </head>
 
@@ -1953,9 +2168,9 @@ function formatInrsCharacteristics(value) {
   if (noteMatch) note = cleanLine(noteMatch[0]);
 
   return `
-    ${before ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Description et utilisations</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(before)}</div></div>` : ""}
+    ${before ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Utilisations et comportement général</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(before)}</div></div>` : ""}
     ${rows.length ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Propriétés physico-chimiques</h5><div class="inrs-section-body">${renderKeyValueTable(rows)}${note ? `<div class="inrs-key-note">${escapeHtml(note)}</div>` : ""}</div></div>` : ""}
-    ${after ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Propriétés chimiques</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(after)}</div></div>` : ""}
+    ${after ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Réactivité et propriétés chimiques</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(after)}</div></div>` : ""}
   `;
 }
 
@@ -2018,7 +2233,7 @@ function formatInrsVlep(value) {
   return `
     ${intro ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Valeurs limites d'exposition professionnelle</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(intro)}</div></div>` : ""}
     <div class="inrs-section-block"><h5 class="inrs-section-title">Tableau des VLEP</h5><div class="inrs-section-body">${table}</div></div>
-    ${after ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Méthodes d'évaluation et de mesurage</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(after)}</div></div>` : ""}
+    ${after ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Évaluation de l’exposition et mesurage</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(after)}</div></div>` : ""}
   `;
 }
 
@@ -2080,10 +2295,262 @@ function formatInrsModuleTextGeneric(value) {
   }).join("");
 }
 
+
+function inrsLineObjects(value) {
+  return String(value || "").replace(/\r/g, "").split("\n").map(raw => ({
+    raw,
+    text: cleanLine(raw),
+    indent: (raw.match(/^\s*/) || [""])[0].length
+  }));
+}
+
+function looksLikeSectionHeading(text) {
+  const t = cleanLine(text);
+  if (!t || t.length > 105) return false;
+  if (/^\[\d/.test(t)) return false;
+  if (/^\d+\s*\|/.test(t)) return false;
+  if (/^(H|EUH)\d{3}\b/.test(t)) return false;
+  if (/[.;:]$/.test(t) && t.length > 45) return false;
+  const words = t.split(/\s+/);
+  return words.length <= 12 && (
+    /^[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿ0-9'’()\/,\-– ]+$/.test(t) ||
+    /^[A-ZÀ-ÖØ-Ý0-9'’()\/,\-– ]+$/.test(t)
+  );
+}
+
+function formatNarrativeOperational(value, options = {}) {
+  const rows = inrsLineObjects(value);
+  const out = [];
+  let list = [];
+
+  const flushList = () => {
+    if (!list.length) return;
+    out.push(`<ul class="inrs-op-list">${list.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>`);
+    list = [];
+  };
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (!row.text || /^\[[^\]]+\]$/.test(row.text)) continue;
+
+    const next = rows.slice(i + 1).find(r => r.text);
+    const isHeading = looksLikeSectionHeading(row.text) && (
+      row.indent <= 8 ||
+      (next && next.indent > row.indent)
+    );
+
+    if (isHeading) {
+      flushList();
+      out.push(`<div class="inrs-op-subtitle">${escapeHtml(row.text)}</div>`);
+      continue;
+    }
+
+    const isAlert = /(urgence|incendie|explosion|fuite|accident|projection|inhalation|contact avec les yeux|contact avec la peau|ingestion)/i.test(row.text)
+      && row.text.length < 240;
+
+    const likelyBullet = row.indent >= 6 && row.text.length < 320;
+
+    if (likelyBullet && !isAlert) {
+      list.push(row.text);
+      continue;
+    }
+
+    flushList();
+
+    if (isAlert && options.alerts !== false) {
+      out.push(`<div class="inrs-alert-block">${escapeHtml(row.text)}</div>`);
+    } else {
+      out.push(`<p class="inrs-op-paragraph">${escapeHtml(row.text)}</p>`);
+    }
+  }
+
+  flushList();
+  return out.join("");
+}
+
+function splitByHeadings(value, preferredHeadings = []) {
+  const lines = inrsLineObjects(value);
+  const sections = [];
+  let current = {title: "", lines: []};
+
+  const normalizedPreferred = preferredHeadings.map(x => normalizeText(x));
+
+  for (const row of lines) {
+    if (!row.text) continue;
+    const norm = normalizeText(row.text);
+    const preferred = normalizedPreferred.some(h => norm === h || norm.startsWith(h));
+    const heading = preferred || (row.indent <= 6 && looksLikeSectionHeading(row.text));
+
+    if (heading && current.lines.length) {
+      sections.push(current);
+      current = {title: row.text, lines: []};
+    } else if (heading && !current.lines.length && !current.title) {
+      current.title = row.text;
+    } else {
+      current.lines.push(row.raw);
+    }
+  }
+  if (current.title || current.lines.length) sections.push(current);
+  return sections;
+}
+
+function formatInrsFireExplosion(value) {
+  const body = formatNarrativeOperational(value, {alerts:true});
+  return `
+    <div class="inrs-op-section">
+      <h5 class="inrs-op-title">Incendie - Explosion</h5>
+      <div class="inrs-op-body">${body}</div>
+    </div>`;
+}
+
+function formatInrsPathology(value) {
+  const sections = splitByHeadings(value, [
+    "Toxicocinétique - Métabolisme", "Mode d'action", "Toxicité expérimentale",
+    "Toxicité aiguë", "Toxicité subchronique", "Toxicité chronique",
+    "Effets génotoxiques", "Effets cancérogènes", "Effets sur la reproduction",
+    "Toxicité sur l'Homme"
+  ]);
+
+  return sections.map((s, idx) => `
+    <div class="inrs-op-section">
+      <h5 class="inrs-op-title">${escapeHtml(s.title || (idx === 0 ? "Pathologie - Toxicologie" : "Données toxicologiques"))}</h5>
+      <div class="inrs-op-body">${formatNarrativeOperational(s.lines.join("\n"), {alerts:false})}</div>
+    </div>`).join("");
+}
+
+function formatInrsRegulation(value) {
+  const rows = inrsLineObjects(value);
+  const intro = [];
+  const cards = [];
+  let current = null;
+
+  for (const row of rows) {
+    if (!row.text) continue;
+    if (/^Rappel\s*:/i.test(row.text)) {
+      intro.push(row.text);
+      continue;
+    }
+
+    const heading = row.indent <= 6 && looksLikeSectionHeading(row.text) && row.text.length < 95;
+    if (heading) {
+      if (current) cards.push(current);
+      current = {title: row.text, content: []};
+    } else if (current) {
+      current.content.push(row.text);
+    } else {
+      intro.push(row.text);
+    }
+  }
+  if (current) cards.push(current);
+
+  return `
+    ${intro.length ? `<div class="inrs-alert-block">${intro.map(escapeHtml).join("<br>")}</div>` : ""}
+    <div class="inrs-op-section">
+      <h5 class="inrs-op-title">Réglementation</h5>
+      <div class="inrs-op-body">
+        ${cards.map(c => `<div class="inrs-reg-card"><strong>${escapeHtml(c.title)}</strong><p>${c.content.map(escapeHtml).join("<br>")}</p></div>`).join("")}
+      </div>
+    </div>`;
+}
+
+function formatInrsRecommendations(value) {
+  const sections = splitByHeadings(value, [
+    "Au point de vue technique", "Information et formation des travailleurs", "Manipulation",
+    "Stockage", "Au point de vue médical", "Conduite à tenir en cas d'urgence",
+    "Conduite à tenir", "En cas d'accident"
+  ]);
+
+  return sections.map((s, idx) => {
+    const title = s.title || (idx === 0 ? "Recommandations" : "Mesures recommandées");
+    const isCommand = /conduite à tenir|urgence|accident/i.test(title);
+    const content = formatNarrativeOperational(s.lines.join("\n"), {alerts:true});
+    return isCommand
+      ? `<div class="inrs-command-card"><h6>${escapeHtml(title)}</h6><div class="inrs-op-body">${content}</div></div>`
+      : `<div class="inrs-op-section"><h5 class="inrs-op-title">${escapeHtml(title)}</h5><div class="inrs-op-body">${content}</div></div>`;
+  }).join("");
+}
+
+function formatInrsBibliography(value) {
+  const raw = String(value || "").replace(/\r/g, "").trim();
+  if (!raw) return "";
+
+  const refs = [];
+  const rx = /(?:^|\n)\s*(\d+)\s*\|\s*([\s\S]*?)(?=(?:\n\s*\d+\s*\|)|$)/g;
+  let m;
+  while ((m = rx.exec(raw))) {
+    refs.push(cleanLine(m[2]));
+  }
+
+  if (!refs.length) return formatNarrativeOperational(value, {alerts:false});
+
+  return `
+    <div class="inrs-op-section">
+      <h5 class="inrs-op-title">Bibliographie</h5>
+      <div class="inrs-op-body">
+        <ol class="inrs-ref-list">${refs.map(r => `<li>${escapeHtml(r)}</li>`).join("")}</ol>
+      </div>
+    </div>`;
+}
+
+function formatInrsHistory(value) {
+  const lines = inrsLineObjects(value);
+  const entries = [];
+  let current = null;
+  const editionRx = /^(\d+\s*(?:re|e)\s+édition(?:\s*\([^)]+\))?)\s*(.*)$/i;
+
+  for (const row of lines) {
+    if (!row.text) continue;
+    const m = row.text.match(editionRx);
+    if (m) {
+      if (current) entries.push(current);
+      const tail = cleanLine(m[2]);
+      let date = "";
+      let note = "";
+      if (/^(?:19|20)\d{2}$/.test(tail) || /^(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s+\d{4}$/i.test(tail)) {
+        date = tail;
+      } else {
+        note = tail;
+      }
+      current = {edition: cleanLine(m[1]), date, notes: note ? [note] : []};
+    } else if (current) {
+      const dateMatch = row.text.match(/((?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s+\d{4}|(?:19|20)\d{2})$/i);
+      if (dateMatch && !current.date) {
+        current.date = dateMatch[1];
+        const before = cleanLine(row.text.replace(dateMatch[0], ""));
+        if (before) current.notes.push(before);
+      } else {
+        current.notes.push(row.text);
+      }
+    }
+  }
+  if (current) entries.push(current);
+
+  const preface = lines.filter(r => r.text && !editionRx.test(r.text)).slice(0,1).map(r => r.text).join("");
+
+  if (!entries.length) return formatNarrativeOperational(value, {alerts:false});
+
+  return `
+    ${preface && /Seuls les éléments/i.test(preface) ? `<div class="inrs-key-note">${escapeHtml(preface)}</div>` : ""}
+    <div class="inrs-table-wrap">
+      <table class="inrs-history-table">
+        <thead><tr><th>Édition</th><th>Date</th><th>Éléments mis à jour</th></tr></thead>
+        <tbody>
+          ${entries.map(e => `<tr><td>${escapeHtml(e.edition)}</td><td>${escapeHtml(e.date || "—")}</td><td>${e.notes.length ? e.notes.map(escapeHtml).join("<br>") : "—"}</td></tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
+}
+
 function formatInrsModuleText(value, key = "") {
   if (key === "generalites") return formatInrsGeneralites(value);
   if (key === "caracteristiques") return formatInrsCharacteristics(value);
   if (key === "vlep_mesurages") return formatInrsVlep(value);
+  if (key === "incendie_explosion") return formatInrsFireExplosion(value);
+  if (key === "pathologie_toxicologie") return formatInrsPathology(value);
+  if (key === "reglementation") return formatInrsRegulation(value);
+  if (key === "recommandations") return formatInrsRecommendations(value);
+  if (key === "bibliographie") return formatInrsBibliography(value);
+  if (key === "historique_revisions") return formatInrsHistory(value);
   return formatInrsModuleTextGeneric(value);
 }
 
