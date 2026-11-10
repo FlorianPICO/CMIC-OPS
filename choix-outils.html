@@ -1532,6 +1532,24 @@
       background: #fffaf5;
     }
 
+
+    .inrs-op-list li,
+    .inrs-op-paragraph,
+    .inrs-alert-block,
+    .inrs-danger-block {
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: auto;
+    }
+
+    .inrs-op-list li {
+      line-height: 1.6;
+    }
+
+    .inrs-op-paragraph {
+      max-width: 82ch;
+    }
+
 </style>
 </head>
 
@@ -2318,8 +2336,77 @@ function looksLikeSectionHeading(text) {
   );
 }
 
+function sentenceLooksComplete(text) {
+  const t = cleanLine(text);
+  if (!t) return false;
+  return /[.!?;:]$/.test(t) ||
+    /\[[0-9,\sà\-]+\]\.?$/.test(t) ||
+    /\)$/.test(t) && t.length > 80;
+}
+
+function joinWrappedPdfLines(rawLines) {
+  const rows = rawLines
+    .map(raw => ({
+      raw,
+      text: cleanLine(raw),
+      indent: (String(raw).match(/^\s*/) || [""])[0].length
+    }))
+    .filter(r => r.text && !/^\[[^\]]+\]$/.test(r.text));
+
+  const blocks = [];
+  let current = null;
+
+  const flush = () => {
+    if (!current) return;
+    current.text = cleanLine(current.parts.join(" "));
+    blocks.push(current);
+    current = null;
+  };
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const next = rows[i + 1];
+
+    const isHeading = looksLikeSectionHeading(row.text) && (
+      row.indent <= 8 ||
+      (next && next.indent > row.indent)
+    );
+
+    if (isHeading) {
+      flush();
+      blocks.push({ type: "heading", text: row.text, indent: row.indent });
+      continue;
+    }
+
+    if (!current) {
+      current = {
+        type: "text",
+        indent: row.indent,
+        parts: [row.text]
+      };
+    } else {
+      current.parts.push(row.text);
+    }
+
+    // PDF lines are often wrapped mid-sentence. Only end a block when the
+    // reconstructed sentence clearly finishes, or before a new heading.
+    const nextIsHeading = next && looksLikeSectionHeading(next.text) && (
+      next.indent <= 8 ||
+      (rows[i + 2] && rows[i + 2].indent > next.indent)
+    );
+
+    if (sentenceLooksComplete(row.text) || nextIsHeading || !next) {
+      flush();
+    }
+  }
+
+  flush();
+  return blocks;
+}
+
 function formatNarrativeOperational(value, options = {}) {
-  const rows = inrsLineObjects(value);
+  const rawLines = String(value || "").replace(/\r/g, "").split("\n");
+  const blocks = joinWrappedPdfLines(rawLines);
   const out = [];
   let list = [];
 
@@ -2329,38 +2416,32 @@ function formatNarrativeOperational(value, options = {}) {
     list = [];
   };
 
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row.text || /^\[[^\]]+\]$/.test(row.text)) continue;
+  for (const block of blocks) {
+    if (!block.text) continue;
 
-    const next = rows.slice(i + 1).find(r => r.text);
-    const isHeading = looksLikeSectionHeading(row.text) && (
-      row.indent <= 8 ||
-      (next && next.indent > row.indent)
-    );
-
-    if (isHeading) {
+    if (block.type === "heading") {
       flushList();
-      out.push(`<div class="inrs-op-subtitle">${escapeHtml(row.text)}</div>`);
+      out.push(`<div class="inrs-op-subtitle">${escapeHtml(block.text)}</div>`);
       continue;
     }
 
-    const isAlert = /(urgence|incendie|explosion|fuite|accident|projection|inhalation|contact avec les yeux|contact avec la peau|ingestion)/i.test(row.text)
-      && row.text.length < 240;
+    const text = block.text;
+    const isAlert = /(urgence|incendie|explosion|fuite|accident|projection|inhalation|contact avec les yeux|contact avec la peau|ingestion)/i.test(text)
+      && text.length < 320;
 
-    const likelyBullet = row.indent >= 6 && row.text.length < 320;
-
-    if (likelyBullet && !isAlert) {
-      list.push(row.text);
+    // For recommendation-style content, a complete reconstructed sentence
+    // can be displayed as one bullet. Wrapped PDF lines are no longer split.
+    if (options.asList === true) {
+      list.push(text);
       continue;
     }
 
     flushList();
 
     if (isAlert && options.alerts !== false) {
-      out.push(`<div class="inrs-alert-block">${escapeHtml(row.text)}</div>`);
+      out.push(`<div class="inrs-alert-block">${escapeHtml(text)}</div>`);
     } else {
-      out.push(`<p class="inrs-op-paragraph">${escapeHtml(row.text)}</p>`);
+      out.push(`<p class="inrs-op-paragraph">${escapeHtml(text)}</p>`);
     }
   }
 
@@ -2463,7 +2544,7 @@ function formatInrsRecommendations(value) {
   return sections.map((s, idx) => {
     const title = s.title || (idx === 0 ? "Recommandations" : "Mesures recommandées");
     const isCommand = /conduite à tenir|urgence|accident/i.test(title);
-    const content = formatNarrativeOperational(s.lines.join("\n"), {alerts:true});
+    const content = formatNarrativeOperational(s.lines.join("\n"), {alerts:true, asList:true});
     return isCommand
       ? `<div class="inrs-command-card"><h6>${escapeHtml(title)}</h6><div class="inrs-op-body">${content}</div></div>`
       : `<div class="inrs-op-section"><h5 class="inrs-op-title">${escapeHtml(title)}</h5><div class="inrs-op-body">${content}</div></div>`;
