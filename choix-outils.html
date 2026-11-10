@@ -945,6 +945,36 @@
     }
   }
 
+
+  .header-sub {
+    margin: 6px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #fff;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .header-sub span {
+    font-weight: 700;
+  }
+
+  .header-mail {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 0.95;
+  }
+
+  .header-mail:hover,
+  .header-mail:focus {
+    text-decoration: underline;
+    opacity: 1;
+  }
+
 </style>
 
 </style>
@@ -956,7 +986,12 @@
     <img src="Logo.png" alt="Logo CMIC-OPS" class="logo">
     <h1 class="brand">CMIC<span>-OPS</span></h1>
     <div class="hero-title">Choix des outils opérationnels</div>
-    <p class="hero-description">Sélectionnez l'outil adapté à la problématique rencontrée en intervention.</p>
+    <p class="hero-description"><p class="header-sub">
+  <span>SDIS 27 – GGOC – Capitaine Florian PICO</span>
+  <a href="mailto:florian.pico@sdis27.fr" class="header-mail">
+    florian.pico@sdis27.fr
+  </a>
+</p></p>
     <a class="back-home" href="index.html">← Retour à l'accueil</a>
   </div>
 </header>
