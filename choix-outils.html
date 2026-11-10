@@ -228,17 +228,32 @@
       padding:12px 14px; border-radius:11px; background:#fff7ed; border:1px solid #fed7aa;
       color:#7c2d12; font-weight:650;
     }
-    .result-list { display:grid; gap:10px; margin-top:12px; }
+    .result-list { display:grid; gap:14px; margin-top:14px; }
     .result-card {
-      display:grid; grid-template-columns:1fr auto; gap:12px; align-items:center;
-      padding:14px; border:1px solid var(--border); border-radius:12px; background:#fff;
+      display:grid; grid-template-columns:minmax(0,1fr) minmax(180px,220px); gap:18px; align-items:start;
+      padding:18px; border:1px solid #dbe2ea; border-left:5px solid var(--orange);
+      border-radius:14px; background:#fff; box-shadow:0 4px 14px rgba(15,23,42,.05);
     }
-    .result-main strong { display:block; color:#111827; }
-    .result-meta { margin-top:3px; color:#64748b; font-size:.88rem; }
+    .result-main { min-width:0; }
+    .result-main strong { display:block; color:#111827; font-size:1.08rem; line-height:1.35; }
+    .result-meta { margin-top:5px; color:#64748b; font-size:.9rem; line-height:1.4; }
+    .result-doc-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .doc-badge {
+      display:inline-flex; align-items:center; min-height:26px; padding:4px 8px;
+      border-radius:999px; background:#f1f5f9; color:#475569; border:1px solid #e2e8f0;
+      font-size:.74rem; font-weight:800; letter-spacing:.01em;
+    }
+    .doc-badge.available { background:#f0fdf4; border-color:#bbf7d0; color:#166534; }
+    .result-links {
+      display:grid; grid-template-columns:1fr; gap:8px; width:100%; min-width:0;
+    }
     .pdf-link {
-      display:inline-block; padding:10px 13px; border-radius:9px; background:var(--orange);
-      color:#fff; text-decoration:none; font-weight:800; white-space:nowrap;
+      display:flex; align-items:center; justify-content:center; width:100%; min-width:0; min-height:42px;
+      padding:9px 10px; border-radius:9px; background:var(--orange); color:#fff;
+      text-decoration:none; text-align:center; font-size:.86rem; line-height:1.2; font-weight:850;
+      white-space:normal; overflow-wrap:anywhere; border:1px solid transparent;
     }
+    .pdf-link:hover { filter:brightness(.96); }
 
     .about { padding:23px; border:1px solid var(--border); border-radius:15px; background:#fff; }
     .about h3 { margin:0 0 10px; color:var(--dark); }
@@ -265,7 +280,8 @@
       .intro-card { margin-top:-55px; padding:20px; }
       .tools-grid, .choice-grid, .principles { grid-template-columns:1fr; }
       .identifier-panel { grid-column:1; padding:16px; }
-      .result-card { grid-template-columns:1fr; }
+      .result-card { grid-template-columns:1fr; gap:14px; padding:16px; }
+      .result-links { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .pdf-link { text-align:center; }
     }
 
@@ -417,32 +433,6 @@
       color: var(--orange-deep);
     }
 
-
-    .result-links {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 8px;
-      min-width: 190px;
-    }
-
-    .inrs-link {
-      background: #fff7ed;
-      color: #9a3412;
-      border: 1px solid #fdba74;
-    }
-
-    .inrs-unavailable {
-      display: inline-block;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      color: #64748b;
-      font-size: .82rem;
-      font-weight: 700;
-      text-align: center;
-    }
 
     @media (max-width: 700px) {
       .tool-inline-grid {
@@ -975,11 +965,42 @@
   }
 
 
-    /* ===== MODULES INRS STATIQUES ===== */
+    /* ===== MODULES INRS - LECTURE OPERATIONNELLE ===== */
     .inrs-modules-btn {
-      border:0;
+      border:1px solid #fdba74;
+      background:#fff7ed;
+      color:#9a3412;
       font:inherit;
       cursor:pointer;
+    }
+
+    .inrs-link {
+      background:#fff;
+      color:#9a3412;
+      border:1px solid #fdba74;
+    }
+
+    .inrs-link:hover,
+    .inrs-modules-btn:hover {
+      background:#ffedd5;
+      filter:none;
+    }
+
+    .inrs-unavailable {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      min-height:40px;
+      padding:8px 10px;
+      border-radius:9px;
+      background:#f8fafc;
+      border:1px dashed #cbd5e1;
+      color:#64748b;
+      font-size:.78rem;
+      line-height:1.25;
+      font-weight:800;
+      text-align:center;
     }
 
     .inrs-module-host {
@@ -988,42 +1009,57 @@
     }
 
     .inrs-sheet {
-      margin-top:14px;
+      margin-top:16px;
       overflow:hidden;
-      border:1px solid #d6d3d1;
-      border-radius:18px;
-      background:#ebe9e9;
-      box-shadow:0 7px 20px rgba(0,0,0,.06);
+      border:1px solid #cbd5e1;
+      border-radius:16px;
+      background:#f8fafc;
+      box-shadow:0 8px 24px rgba(15,23,42,.08);
     }
 
     .inrs-sheet-head {
-      padding:16px 20px;
-      background:#4b4d50;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      padding:18px 20px;
+      background:#292524;
       color:#fff;
     }
 
-    .inrs-sheet-head strong {
+    .inrs-sheet-title strong {
       display:block;
-      font-size:1.15rem;
+      font-size:1.08rem;
+      line-height:1.3;
     }
 
-    .inrs-sheet-head small {
+    .inrs-sheet-title small {
       display:block;
-      margin-top:3px;
-      color:#f5f5f4;
-      opacity:.92;
+      margin-top:5px;
+      color:#e7e5e4;
+      font-size:.86rem;
+      line-height:1.35;
     }
 
-    .inrs-accordion {
-      padding:0 18px 14px;
+    .inrs-read-hint {
+      flex-shrink:0;
+      padding:5px 9px;
+      border-radius:999px;
+      background:rgba(255,255,255,.11);
+      color:#fff7ed;
+      font-size:.72rem;
+      font-weight:850;
+      white-space:nowrap;
     }
+
+    .inrs-accordion { padding:10px 14px 14px; }
 
     .inrs-module-item {
-      border-bottom:1px solid #a8a29e;
-    }
-
-    .inrs-module-item:last-child {
-      border-bottom:0;
+      margin-top:8px;
+      overflow:hidden;
+      border:1px solid #e2e8f0;
+      border-radius:12px;
+      background:#fff;
     }
 
     .inrs-module-item summary {
@@ -1032,52 +1068,87 @@
       justify-content:space-between;
       gap:14px;
       min-height:58px;
-      padding:10px 10px;
-      color:#57534e;
-      font-size:1rem;
+      padding:12px 14px;
+      color:#334155;
+      font-size:.98rem;
       cursor:pointer;
       list-style:none;
+      background:#fff;
     }
 
     .inrs-module-item summary::-webkit-details-marker { display:none; }
+    .inrs-module-item summary:hover { background:#fff7ed; }
 
-    .inrs-module-item summary strong {
-      color:inherit;
-      font-weight:600;
+    .inrs-summary-label {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      font-weight:800;
     }
 
-    .inrs-module-item[open] summary strong {
-      color:#292524;
-      font-weight:850;
+    .inrs-module-number {
+      display:grid;
+      place-items:center;
+      flex:0 0 30px;
+      width:30px;
+      height:30px;
+      border-radius:8px;
+      background:#ffedd5;
+      color:#9a3412;
+      font-size:.78rem;
+      font-weight:900;
+    }
+
+    .inrs-module-item[open] {
+      border-color:#fdba74;
+      box-shadow:0 3px 12px rgba(234,88,12,.07);
+    }
+
+    .inrs-module-item[open] summary {
+      background:#fff7ed;
+      color:#7c2d12;
     }
 
     .inrs-module-chevron {
       flex-shrink:0;
       color:var(--orange);
-      font-size:1.3rem;
+      font-size:1.4rem;
+      font-weight:900;
       line-height:1;
       transition:transform .15s ease;
     }
 
-    .inrs-module-item[open] .inrs-module-chevron {
-      transform:rotate(90deg);
-    }
+    .inrs-module-item[open] .inrs-module-chevron { transform:rotate(90deg); }
 
     .inrs-module-content {
-      margin:0 0 12px;
-      padding:14px;
-      border-radius:12px;
+      margin:0;
+      padding:18px 18px 20px;
+      border-top:1px solid #fed7aa;
       background:#fff;
       color:#292524;
     }
 
     .inrs-module-text {
-      margin:0;
-      white-space:pre-wrap;
+      max-width:900px;
+      margin:0 auto;
+      color:#292524;
+      font-size:1rem;
+      line-height:1.72;
+      font-weight:450;
       overflow-wrap:anywhere;
-      font:400 .91rem/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-      color:#44403c;
     }
+
+    .inrs-text-paragraph { margin:0 0 13px; }
+    .inrs-text-paragraph:last-child { margin-bottom:0; }
+    .inrs-text-heading {
+      margin:16px 0 7px;
+      color:#7c2d12;
+      font-size:1rem;
+      line-height:1.35;
+      font-weight:900;
+    }
+    .inrs-text-heading:first-child { margin-top:0; }
 
     .inrs-loading,
     .inrs-load-error {
@@ -1085,26 +1156,20 @@
       padding:12px 14px;
       border-radius:11px;
       font-size:.9rem;
-      font-weight:700;
+      font-weight:750;
     }
 
-    .inrs-loading {
-      background:#f8fafc;
-      border:1px solid #e2e8f0;
-      color:#475569;
-    }
-
-    .inrs-load-error {
-      background:#fff7ed;
-      border:1px solid #fed7aa;
-      color:#9a3412;
-    }
+    .inrs-loading { background:#f8fafc; border:1px solid #e2e8f0; color:#475569; }
+    .inrs-load-error { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; }
 
     @media (max-width:700px) {
-      .inrs-accordion { padding:0 10px 10px; }
-      .inrs-sheet-head { padding:14px 16px; }
-      .inrs-module-item summary { min-height:54px; padding:10px 6px; }
-      .inrs-module-content { padding:12px; }
+      .result-links { grid-template-columns:1fr; }
+      .inrs-sheet-head { padding:15px 16px; flex-direction:column; gap:8px; }
+      .inrs-read-hint { white-space:normal; }
+      .inrs-accordion { padding:8px; }
+      .inrs-module-item summary { min-height:54px; padding:10px; }
+      .inrs-module-content { padding:15px 13px 17px; }
+      .inrs-module-text { font-size:.96rem; line-height:1.68; }
     }
 
 </style>
@@ -1660,6 +1725,34 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
 
+function formatInrsModuleText(value) {
+  const raw = String(value || "").replace(/\r/g, "").trim();
+  if (!raw) return "";
+
+  const blocks = raw.split(/\n\s*\n+/).map(block => block.trim()).filter(Boolean);
+  return blocks.map(block => {
+    const lines = block.split("\n").map(line => line.trim()).filter(Boolean);
+    if (!lines.length) return "";
+
+    const first = lines[0];
+    const compact = first.replace(/\s+/g, " ");
+    const looksLikeHeading = compact.length <= 90 && (
+      /:$/.test(compact) ||
+      /^[A-ZÀ-ÖØ-Ý0-9][A-ZÀ-ÖØ-Ý0-9 '\-–—(),.%/]+$/.test(compact)
+    );
+
+    if (looksLikeHeading && lines.length > 1) {
+      return `<div class="inrs-text-heading">${escapeHtml(compact)}</div><p class="inrs-text-paragraph">${lines.slice(1).map(escapeHtml).join("<br>")}</p>`;
+    }
+
+    if (looksLikeHeading && lines.length === 1) {
+      return `<div class="inrs-text-heading">${escapeHtml(compact)}</div>`;
+    }
+
+    return `<p class="inrs-text-paragraph">${lines.map(escapeHtml).join("<br>")}</p>`;
+  }).join("");
+}
+
 function uniqueResults(items) {
   const seen = new Set();
   return items.filter(item => {
@@ -1724,11 +1817,14 @@ function renderInrsStaticFiche(fiche) {
     .map((key, index) => `
       <details class="inrs-module-item" ${index === 0 ? "open" : ""}>
         <summary>
-          <strong>${escapeHtml(INRS_MODULE_LABELS[key] || key)}</strong>
+          <span class="inrs-summary-label">
+            <span class="inrs-module-number">${index + 1}</span>
+            <span>${escapeHtml(INRS_MODULE_LABELS[key] || key)}</span>
+          </span>
           <span class="inrs-module-chevron">›</span>
         </summary>
         <div class="inrs-module-content">
-          <pre class="inrs-module-text">${escapeHtml(modules[key])}</pre>
+          <div class="inrs-module-text">${formatInrsModuleText(modules[key])}</div>
         </div>
       </details>`)
     .join("");
@@ -1736,8 +1832,11 @@ function renderInrsStaticFiche(fiche) {
   return `
     <div class="inrs-sheet">
       <div class="inrs-sheet-head">
-        <strong>Sommaire - Fiche toxicologique INRS n°${escapeHtml(fiche.numero)}</strong>
-        <small>${escapeHtml(fiche.titre || "")}</small>
+        <div class="inrs-sheet-title">
+          <strong>Fiche INRS n°${escapeHtml(fiche.numero)}</strong>
+          <small>${escapeHtml(fiche.titre || "")}</small>
+        </div>
+        <span class="inrs-read-hint">Lecture par rubrique</span>
       </div>
       <div class="inrs-accordion">
         ${rows || `<div class="inrs-load-error">Aucun module exploitable n'a été extrait pour cette fiche.</div>`}
@@ -1752,7 +1851,7 @@ async function toggleInrsModules(button) {
   if (host.dataset.loaded === "true") {
     const isHidden = host.hidden;
     host.hidden = !isHidden;
-    button.textContent = isHidden ? "Masquer les modules INRS" : "Consulter les modules INRS";
+    button.textContent = isHidden ? "Masquer" : "Modules INRS";
     return;
   }
 
@@ -1765,7 +1864,7 @@ async function toggleInrsModules(button) {
     if (!fiche) throw new Error("Fiche absente de la base statique.");
     host.innerHTML = renderInrsStaticFiche(fiche);
     host.dataset.loaded = "true";
-    button.textContent = "Masquer les modules INRS";
+    button.textContent = "Masquer";
   } catch (error) {
     host.innerHTML = `<div class="inrs-load-error">Impossible de charger les modules INRS. Vérifiez que le dossier <strong>data/inrs/</strong> a bien été ajouté sur GitHub Pages.<br>${escapeHtml(error.message)}</div>`;
   } finally {
@@ -1777,6 +1876,43 @@ function wireInrsModuleButtons() {
   resultArea.querySelectorAll(".inrs-modules-btn").forEach(button => {
     button.addEventListener("click", () => toggleInrsModules(button));
   });
+}
+
+function documentationScore(item) {
+  let score = 1; // Guide GMU disponible pour les entrées de l'index.
+  const inrs = findInrsForItem(item);
+  if (inrs) score += 2; // PDF INRS + modules statiques disponibles.
+  return score;
+}
+
+function nameRelevanceScore(item, query) {
+  const norm = normalizeText(item.name);
+  if (norm === query) return 1000;
+  if (norm.startsWith(query)) return 850;
+
+  const words = norm.split(/\s+/).filter(Boolean);
+  if (words.some(word => word === query)) return 800;
+  if (words.some(word => word.startsWith(query))) return 720;
+  if (norm.includes(` ${query} `)) return 680;
+  if (norm.includes(query)) return 600;
+
+  const queryWords = query.split(/\s+/).filter(Boolean);
+  const matchedWords = queryWords.filter(word => norm.includes(word)).length;
+  return matchedWords ? 400 + (matchedWords / queryWords.length) * 150 : 0;
+}
+
+function rankSearchResults(items, query) {
+  return items
+    .map(item => ({
+      ...item,
+      _relevance: nameRelevanceScore(item, query),
+      _docs: documentationScore(item)
+    }))
+    .sort((a, b) =>
+      b._relevance - a._relevance ||
+      b._docs - a._docs ||
+      a.name.localeCompare(b.name, "fr")
+    );
 }
 
 function renderResults(items, heading) {
@@ -1793,18 +1929,24 @@ function renderResults(items, heading) {
     const inrs = findInrsForItem(item);
     const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const inrsLink = inrs
-      ? `<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">Ouvrir le PDF INRS n°${escapeHtml(inrs.ft)}</a>
-         <button type="button" class="pdf-link inrs-link inrs-modules-btn" data-ft="${escapeHtml(inrs.ft)}" data-host="${moduleHostId}">Consulter les modules INRS</button>`
-      : `<span class="inrs-unavailable">Aucune fiche INRS identifiée automatiquement - vérifier l'appellation ou les synonymes</span>`;
+      ? `<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">PDF INRS ${escapeHtml(inrs.ft)}</a>
+         <button type="button" class="pdf-link inrs-modules-btn" data-ft="${escapeHtml(inrs.ft)}" data-host="${moduleHostId}">Modules INRS</button>`
+      : `<span class="inrs-unavailable" title="Aucune fiche INRS identifiée automatiquement pour cette appellation.">INRS non associé</span>`;
+
+    const docs = `<div class="result-doc-badges">
+      <span class="doc-badge available">GMU</span>
+      ${inrs ? `<span class="doc-badge available">INRS</span><span class="doc-badge available">Modules</span>` : `<span class="doc-badge">INRS indisponible</span>`}
+    </div>`;
 
     return `<div class="result-card">
       <div class="result-main">
         <strong>${escapeHtml(item.name)}</strong>
-        <div class="result-meta">ONU ${item.un} - Guide ${guideLabel}</div>
-        ${inrs ? `<div class="result-meta">INRS : ${escapeHtml(inrs.title)} - Fiche n°${escapeHtml(inrs.ft)}</div>` : ""}
+        <div class="result-meta">ONU ${item.un} · Guide ${guideLabel}</div>
+        ${inrs ? `<div class="result-meta">Fiche INRS n°${escapeHtml(inrs.ft)} · ${escapeHtml(inrs.title)}</div>` : ""}
+        ${docs}
       </div>
       <div class="result-links">
-        <a class="pdf-link" href="${href}" target="_blank" rel="noopener">Ouvrir le guide ${item.guide.replace("P","")}</a>
+        <a class="pdf-link" href="${href}" target="_blank" rel="noopener">Guide GMU ${item.guide.replace("P","")}</a>
         ${inrsLink}
       </div>
       ${inrs ? `<div class="inrs-module-host" id="${moduleHostId}"></div>` : ""}
@@ -1846,16 +1988,13 @@ function searchByName() {
     return;
   }
 
-  let items = GMU_DATA
-    .map(item => ({...item, norm:normalizeText(item.name)}))
-    .filter(item => item.norm.includes(query));
-
-  items.sort((a,b) => {
-    const ae = a.norm === query ? 0 : a.norm.startsWith(query) ? 1 : 2;
-    const be = b.norm === query ? 0 : b.norm.startsWith(query) ? 1 : 2;
-    return ae - be || a.name.localeCompare(b.name, "fr");
+  const queryWords = query.split(/\s+/).filter(Boolean);
+  let items = GMU_DATA.filter(item => {
+    const norm = normalizeText(item.name);
+    return norm.includes(query) || queryWords.every(word => norm.includes(word));
   });
 
+  items = rankSearchResults(items, query);
   renderResults(items, `Recherche : ${raw}`);
 }
 
