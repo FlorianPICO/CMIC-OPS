@@ -1651,7 +1651,7 @@
     <button type="button" class="tool-card" id="openLeakCalc" aria-expanded="false" aria-controls="leakCalcPanel">
       <div class="tool-header">
         <div class="tool-icon">💨</div>
-        <h3>Calcul de débit de fuite</h3>
+        <h3>Calcul de débit de fuite (Gaz inflammable)</h3>
       </div>
       <div class="tool-body">
         <p class="tool-description">Calculez la masse volumique du gaz, la section de fuite, le débit massique et le temps théorique de vidange d'un contenant sous pression.</p>
@@ -1974,6 +1974,170 @@
       <div class="calc-actions">
         <button class="calc-btn secondary" type="button" id="resetLeak">Réinitialiser</button>
         <button class="calc-btn secondary" type="button" id="closeLeakCalc">Fermer l'outil</button>
+      </div>
+    </section>
+
+    <button type="button" class="tool-card" id="openToxicLiquefiedCalc" aria-expanded="false" aria-controls="toxicLiquefiedCalcPanel">
+      <div class="tool-header">
+        <div class="tool-icon">☣️</div>
+        <h3>Calcul de débit de fuite (Gaz liquéfié sous pression toxique et inflammable)</h3>
+      </div>
+      <div class="tool-body">
+        <p class="tool-description">Calcul RCH 003 : phase liquide et gazeuse, débit biphasique, dispersion toxique, concentration en local et effets UVCE.</p>
+        <span class="status available">Disponible</span>
+        <div class="tool-action"><span>Ouvrir l'outil</span><span>↓</span></div>
+      </div>
+    </button>
+
+    <section class="calc-panel" id="toxicLiquefiedCalcPanel" aria-labelledby="toxicLiquefiedCalcTitle">
+      <h3 id="toxicLiquefiedCalcTitle">RCH 003 - Gaz liquéfié sous pression toxique et inflammable - Fuite</h3>
+
+      <div class="school-intro">
+        <strong>Méthode RCH 003 :</strong> calcul automatique étape par étape, en conservant les valeurs issues du SPG/BIG et les lectures d'abaques sous la responsabilité de l'utilisateur.
+        <br><strong>Important :</strong> le taux de remplissage est limité à 85 %. Pour la dispersion, le débit utilisé est <strong>Qgaz</strong> et non Qmono ou Qdiphasique.
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">1</span>Récupération des données</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxProduct">Produit</label><input id="toxProduct" type="text" placeholder="Ex. Ammoniac"></div>
+          <div class="calc-field"><label for="toxLiquidDensity">Densité du liquide</label><input id="toxLiquidDensity" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 0,68"></div>
+          <div class="calc-field"><label for="toxGasDensityRef">Densité du gaz - référence (facultatif)</label><input id="toxGasDensityRef" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
+          <div class="calc-field"><label for="toxMolarMass">Masse molaire M (g/mol)</label><input id="toxMolarMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 17,03"></div>
+          <div class="calc-field"><label for="toxPvs">Pression de vapeur saturante PVS (bar abs.)</label><input id="toxPvs" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
+          <div class="calc-field"><label for="toxTemp">Température du produit (°C)</label><input id="toxTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20"></div>
+          <div class="calc-field"><label for="toxLie">LIE (% vol.)</label><input id="toxLie" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxLse">LSE (% vol.)</label><input id="toxLse" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxVolume">Volume du contenant (m³)</label><input id="toxVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55"></div>
+          <div class="calc-field"><label for="toxFillRate">Taux de remplissage (%)</label><input id="toxFillRate" type="number" inputmode="decimal" step="any" min="0" max="85" value="85"><small>RCH 003 : remplissage maximal 85 %.</small></div>
+        </div>
+
+        <div class="substep-title" style="margin-top:18px;">Valeurs toxicologiques de référence</div>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxThresholdLabel1">Seuil 1 - libellé</label><input id="toxThresholdLabel1" type="text" placeholder="Ex. AEGL-1, SEI..."></div>
+          <div class="calc-field"><label for="toxThreshold1">Seuil 1 (ppm)</label><input id="toxThreshold1" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxThresholdLabel2">Seuil 2 - libellé</label><input id="toxThresholdLabel2" type="text" placeholder="Ex. AEGL-2, SEL..."></div>
+          <div class="calc-field"><label for="toxThreshold2">Seuil 2 (ppm)</label><input id="toxThreshold2" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxThresholdLabel3">Seuil 3 - libellé</label><input id="toxThresholdLabel3" type="text" placeholder="Ex. AEGL-3..."></div>
+          <div class="calc-field"><label for="toxThreshold3">Seuil 3 (ppm)</label><input id="toxThreshold3" type="number" inputmode="decimal" step="any" min="0"></div>
+        </div>
+        <div class="calc-result step-result" id="toxResult1" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">2</span>Masse volumique du liquide</h4>
+        <div class="formula-card"><code>ρliquide = densité liquide × 1000</code> kg/m³</div>
+        <div class="calc-result step-result" id="toxResult2" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">3</span>Masse totale théorique du produit</h4>
+        <div class="formula-card"><code>Mtotale = ρliquide × Vcontenant</code></div>
+        <div class="calc-result step-result" id="toxResult3" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">4</span>Masse en phase liquide et en phase gazeuse</h4>
+        <div class="formula-card">
+          <code>Mliquide = Mtotale × taux de remplissage</code><br>
+          <code>Vciel = Vcontenant × (1 - taux de remplissage)</code><br>
+          <code>ρgaz = (PVS × M) / (R × T)</code><br>
+          <code>Mgaz = ρgaz × Vciel</code>
+        </div>
+        <div class="calc-result step-result" id="toxResult4" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">5</span>Calcul du débit de fuite biphasique</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxLeakDiameter">Diamètre de l'orifice de fuite</label><input id="toxLeakDiameter" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 10"></div>
+          <div class="calc-field"><label for="toxLeakDiameterUnit">Unité</label><select id="toxLeakDiameterUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select><small>Conversion physique utilisée : 1 pouce = 0,0254 m.</small></div>
+          <div class="calc-field"><label for="toxCdPreset">Coefficient de décharge Cd</label><select id="toxCdPreset"><option value="0.50">Orifice de Borda - 0,50</option><option value="0.62" selected>Orifice mince / aigu - 0,62</option><option value="0.82">Orifice de Poleni - 0,82</option><option value="0.96">Orifice arrondi - 0,96</option><option value="0.95">Ajustage convergent - 0,95</option><option value="1.00">Rupture guillotine parfaite - 1,00</option><option value="venturi">Venturi - Cd > 1</option></select></div>
+          <div class="calc-field" id="toxCdCustomWrap" style="display:none;"><label for="toxCdCustom">Cd Venturi (&gt; 1)</label><input id="toxCdCustom" type="number" inputmode="decimal" step="0.01" min="1"></div>
+          <div class="calc-field"><label for="toxPipeLength">L - longueur entre le bac et la fuite (m)</label><input id="toxPipeLength" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxPipeDiameter">D - diamètre de la canalisation</label><input id="toxPipeDiameter" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxPipeDiameterUnit">Unité de D</label><select id="toxPipeDiameterUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select></div>
+          <div class="calc-field" id="toxTankLiquidFlowWrap" style="display:none;"><label for="toxTankLiquidFlow">Qliquide retenu pour la vidange (kg/s)</label><input id="toxTankLiquidFlow" type="number" inputmode="decimal" step="any" min="0"><small>Pour L &lt; 3D, RCH 003 donne Qgaz = 0,3 × Qmono mais n'isole pas Qliquide. Cette valeur reste donc à renseigner.</small></div>
+        </div>
+        <div class="formula-card">
+          <code>S = π × R²</code><br>
+          <code>ΔP = (PVS - 1,013) × 10⁵</code> Pa<br>
+          <code>Qmono = Cd × S × √(2 × ρliquide × ΔP)</code><br>
+          <strong>L &gt; 3D :</strong> <code>Qdiphasique = Qmono / 2,5</code> ; Qgaz 30 %, Qaérosol 20 %, Qliquide 50 %.<br>
+          <strong>L &lt; 3D :</strong> <code>Qgaz = 0,3 × Qmono</code>.
+        </div>
+        <div class="calc-result step-result" id="toxResult5" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">6</span>Temps de vidange du contenant</h4>
+        <div class="formula-card"><code>T = Mproduit / Qliquide</code> en secondes.</div>
+        <div class="calc-result step-result" id="toxResult6" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">7</span>Détermination du rejet : panache ou bouffée</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxTargetDistance">Distance cible / observateur (m)</label><input id="toxTargetDistance" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxWindKmh">Vitesse du vent (km/h)</label><input id="toxWindKmh" type="number" inputmode="decimal" step="any" min="0"></div>
+        </div>
+        <div class="formula-card"><code>ttransfert = distance / vitesse du vent</code><br><code>tdurée = Mproduit / Qtotal fuite</code><br>Si tdurée &gt; 4 × ttransfert : <strong>panache</strong> ; si tdurée &lt; 4 × ttransfert : <strong>bouffée</strong>.</div>
+        <div class="calc-result step-result" id="toxResult7" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">8</span>Concentration toxique en fonction de la distance</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxDiffusion">Diffusion utilisée sur l'abaque</label><select id="toxDiffusion"><option value="normale">Normale</option><option value="faible">Faible</option></select></div>
+          <div class="calc-field"><label for="toxCta">CTA lu sur l'abaque (s/m³)</label><input id="toxCta" type="number" inputmode="decimal" step="any" min="0"><small>Lecture manuelle selon distance, hauteur de rejet, vent et diffusion.</small></div>
+        </div>
+        <div class="formula-card"><code>C (mg/m³) = CTA × Qgaz × 10⁶</code><br><code>Cppm = Cmg/m³ × 24 / M</code><br><code>C%vol = Cppm / 10⁴</code></div>
+        <div class="calc-result step-result" id="toxResult8" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">9</span>Concentration en gaz dans un local</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxLocalW">Qualité du local - w (h⁻¹)</label><select id="toxLocalW"><option value="0.5">Local sans qualité particulière - 0,5</option><option value="0.2">Portes / fenêtres calfeutrées - 0,2</option><option value="custom">Valeur personnalisée</option></select></div>
+          <div class="calc-field" id="toxLocalWCustomWrap" style="display:none;"><label for="toxLocalWCustom">w personnalisé (h⁻¹)</label><input id="toxLocalWCustom" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxLocalTimeMin">Temps d'exposition du local (min)</label><input id="toxLocalTimeMin" type="number" inputmode="decimal" step="any" min="0"></div>
+        </div>
+        <div class="formula-card"><code>Cint = Cext × (1 - e^(-w×t/60))</code> avec t en minutes.<br><code>t = -ln(1 - Cseuil/Cext) / w</code> avec t en heures.</div>
+        <div class="calc-result step-result" id="toxResult9" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">10</span>Effets de l'UVCE</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="toxUvceMass">Masse de gaz libérée mc (kg)</label><input id="toxUvceMass" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxUvcePci">PCI (MJ/kg)</label><input id="toxUvcePci" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field"><label for="toxUvceYield">Rendement explosion (%)</label><input id="toxUvceYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="5"><small>RCH 003 : 5 % pour un UVCE.</small></div>
+        </div>
+        <div class="formula-card"><code>mTNT = a × (PCI / 4,69) × mc</code><br><code>R = λ × ∛mTNT</code><br>λ = 25 (50 mbar) ; 9 (140 mbar) ; 7,5 (200 mbar).</div>
+        <div class="calc-result step-result" id="toxResult10" aria-live="polite"></div>
+      </div>
+
+      <div class="calc-note"><strong>RCH 003 :</strong> les données SPG/BIG, valeurs toxicologiques et lectures d'abaques restent des données d'entrée. Le module n'invente aucune valeur manquante.</div>
+
+      <div class="final-summary" id="toxFinalSummary" aria-live="polite">
+        <div class="final-summary-head"><div><span class="final-summary-kicker">Synthèse RCH 003</span><h4>Résumé opérationnel</h4></div><span class="final-summary-status" id="toxSummaryStatus">En attente de données</span></div>
+        <div class="final-summary-grid">
+          <div class="summary-card"><span>ρ liquide</span><strong id="toxSumRhoLiq">—</strong><small>Masse volumique liquide</small></div>
+          <div class="summary-card"><span>Masse liquide</span><strong id="toxSumMassLiq">—</strong><small>Produit en phase liquide</small></div>
+          <div class="summary-card"><span>ρ gaz</span><strong id="toxSumRhoGas">—</strong><small>Masse volumique du ciel gazeux</small></div>
+          <div class="summary-card emphasis"><span>Q total</span><strong id="toxSumQTotal">—</strong><small>Débit retenu</small></div>
+          <div class="summary-card emphasis"><span>Q gaz</span><strong id="toxSumQGas">—</strong><small>Débit pour la dispersion</small></div>
+          <div class="summary-card"><span>Vidange</span><strong id="toxSumEmpty">—</strong><small>Temps théorique</small></div>
+          <div class="summary-card"><span>Rejet</span><strong id="toxSumRelease">—</strong><small>Panache / bouffée</small></div>
+          <div class="summary-card"><span>Concentration ext.</span><strong id="toxSumCext">—</strong><small>ppm</small></div>
+          <div class="summary-card"><span>Concentration int.</span><strong id="toxSumCint">—</strong><small>ppm</small></div>
+          <div class="summary-card uvce-card"><span>UVCE 50 / 140 / 200 mbar</span><strong id="toxSumUvce">—</strong><small>Rayons de surpression</small></div>
+        </div>
+      </div>
+
+      <div class="calc-actions">
+        <button class="calc-btn secondary" type="button" id="resetToxicLiquefiedCalc">Réinitialiser</button>
+        <button class="calc-btn secondary" type="button" id="closeToxicLiquefiedCalc">Fermer l'outil</button>
       </div>
     </section>
 
@@ -2909,6 +3073,9 @@ document.getElementById("productName").addEventListener("keydown", e => { if (e.
 // ===== OUTIL 2 : RCH 001 - CALCUL ETAPE PAR ETAPE =====
 const leakPanel = document.getElementById("leakCalcPanel");
 const openLeakCalc = document.getElementById("openLeakCalc");
+const toxicLiquefiedPanel = document.getElementById("toxicLiquefiedCalcPanel");
+const openToxicLiquefiedCalc = document.getElementById("openToxicLiquefiedCalc");
+const closeToxicLiquefiedCalc = document.getElementById("closeToxicLiquefiedCalc");
 const leakCdPreset = document.getElementById("leakCdPreset");
 const leakCdCustomWrap = document.getElementById("leakCdCustomWrap");
 
@@ -2956,6 +3123,33 @@ document.getElementById("closeLeakCalc").addEventListener("click", () => {
   toggleLeakPanel(false);
   openLeakCalc.scrollIntoView({behavior:"smooth", block:"nearest"});
 });
+
+// ===== OUTIL 3 : GAZ TOXIQUE LIQUÉFIÉ SOUS PRESSION ET INFLAMMABLE =====
+function toggleToxicLiquefiedPanel(forceOpen) {
+  if (!toxicLiquefiedPanel || !openToxicLiquefiedCalc) return;
+
+  const open = typeof forceOpen === "boolean"
+    ? forceOpen
+    : !toxicLiquefiedPanel.classList.contains("open");
+
+  toxicLiquefiedPanel.classList.toggle("open", open);
+  openToxicLiquefiedCalc.setAttribute("aria-expanded", String(open));
+
+  if (open) {
+    setTimeout(() => toxicLiquefiedPanel.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+  }
+}
+
+if (openToxicLiquefiedCalc) {
+  openToxicLiquefiedCalc.addEventListener("click", () => toggleToxicLiquefiedPanel());
+}
+
+if (closeToxicLiquefiedCalc) {
+  closeToxicLiquefiedCalc.addEventListener("click", () => {
+    toggleToxicLiquefiedPanel(false);
+    openToxicLiquefiedCalc.scrollIntoView({behavior:"smooth", block:"nearest"});
+  });
+}
 
 leakCdPreset.addEventListener("change", () => {
   leakCdCustomWrap.style.display =
@@ -3659,6 +3853,325 @@ document.getElementById("resetLeak").addEventListener("click", () => {
 
   scheduleAutoComputeRch();
 });
+
+
+// ===== OUTIL 3 : RCH 003 - GAZ LIQUEFIE TOXIQUE ET INFLAMMABLE =====
+const toxState = {
+  rhoLiquid: null,
+  capacityMass: null,
+  liquidMass: null,
+  gasDensity: null,
+  gasMass: null,
+  storedMass: null,
+  qMono: null,
+  qTotal: null,
+  qGas: null,
+  qAerosol: null,
+  qLiquid: null,
+  emptySeconds: null,
+  releaseType: null,
+  cExtPpm: null,
+  cExtMgM3: null,
+  cIntPpm: null,
+  r50: null,
+  r140: null,
+  r200: null
+};
+
+function toxHide(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove("show");
+  el.innerHTML = "";
+}
+
+function toxSetResult(id, html, error = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add("show");
+  el.innerHTML = error ? `<div class="calc-error">${html}</div>` : html;
+}
+
+function toxResetStateFrom(keys) {
+  keys.forEach(k => { toxState[k] = null; });
+}
+
+function toxThresholds() {
+  return [1,2,3].map(i => ({
+    label: (document.getElementById(`toxThresholdLabel${i}`)?.value || `Seuil ${i}`).trim() || `Seuil ${i}`,
+    value: numberValue(`toxThreshold${i}`)
+  })).filter(x => x.value !== null && x.value >= 0);
+}
+
+function updateToxSummary() {
+  const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value || "—"; };
+  set("toxSumRhoLiq", Number.isFinite(toxState.rhoLiquid) ? `${formatNumber(toxState.rhoLiquid,2)} kg/m³` : "—");
+  set("toxSumMassLiq", Number.isFinite(toxState.liquidMass) ? `${formatNumber(toxState.liquidMass,1)} kg` : "—");
+  set("toxSumRhoGas", Number.isFinite(toxState.gasDensity) ? `${formatNumber(toxState.gasDensity,4)} kg/m³` : "—");
+  set("toxSumQTotal", Number.isFinite(toxState.qTotal) ? `${formatNumber(toxState.qTotal,5)} kg/s` : "—");
+  set("toxSumQGas", Number.isFinite(toxState.qGas) ? `${formatNumber(toxState.qGas,5)} kg/s` : "—");
+  set("toxSumEmpty", Number.isFinite(toxState.emptySeconds) ? formatDuration(toxState.emptySeconds) : "—");
+  set("toxSumRelease", toxState.releaseType || "—");
+  set("toxSumCext", Number.isFinite(toxState.cExtPpm) ? `${formatNumber(toxState.cExtPpm,1)} ppm` : "—");
+  set("toxSumCint", Number.isFinite(toxState.cIntPpm) ? `${formatNumber(toxState.cIntPpm,1)} ppm` : "—");
+  set("toxSumUvce", Number.isFinite(toxState.r50) ? `${formatNumber(toxState.r50,0)} / ${formatNumber(toxState.r140,0)} / ${formatNumber(toxState.r200,0)} m` : "—");
+
+  const status = document.getElementById("toxSummaryStatus");
+  if (!status) return;
+  const completed = [toxState.rhoLiquid,toxState.liquidMass,toxState.gasDensity,toxState.qTotal,toxState.qGas,toxState.emptySeconds,toxState.cExtPpm,toxState.cIntPpm,toxState.r50].filter(Number.isFinite).length + (toxState.releaseType ? 1 : 0);
+  status.classList.remove("ready","partial");
+  if (!completed) status.textContent = "En attente de données";
+  else if (completed < 10) { status.textContent = `Synthèse partielle · ${completed}/10`; status.classList.add("partial"); }
+  else { status.textContent = "Synthèse complète"; status.classList.add("ready"); }
+}
+
+function computeToxStep1() {
+  const density = numberValue("toxLiquidDensity");
+  const mm = numberValue("toxMolarMass");
+  const pvs = numberValue("toxPvs");
+  const temp = numberValue("toxTemp");
+  const volume = numberValue("toxVolume");
+  const fill = numberValue("toxFillRate");
+  const errors = [];
+  if (!(density > 0)) errors.push("Renseignez la densité du liquide.");
+  if (!(mm > 0)) errors.push("Renseignez la masse molaire.");
+  if (!(pvs > 1.013)) errors.push("La PVS doit être supérieure à 1,013 bar pour ce calcul de fuite.");
+  if (temp === null || temp <= -273) errors.push("Renseignez une température supérieure à -273 °C.");
+  if (!(volume > 0)) errors.push("Renseignez le volume du contenant.");
+  if (!(fill > 0 && fill <= 85)) errors.push("Le taux de remplissage doit être compris entre 0 et 85 %.");
+  if (errors.length) { toxSetResult("toxResult1", `<strong>Données à compléter :</strong><br>${errors.join("<br>")}`, true); return false; }
+
+  const product = document.getElementById("toxProduct").value.trim() || "Produit non renseigné";
+  const thresholds = toxThresholds();
+  toxSetResult("toxResult1", `<strong>Données RCH 003 retenues</strong><div class="result-kpis">
+    <div class="result-kpi"><span>Produit</span><strong>${escapeHtml(product)}</strong></div>
+    <div class="result-kpi"><span>Densité liquide</span><strong>${formatNumber(density,4)}</strong></div>
+    <div class="result-kpi"><span>Masse molaire</span><strong>${formatNumber(mm,4)} g/mol</strong></div>
+    <div class="result-kpi"><span>PVS</span><strong>${formatNumber(pvs,3)} bar</strong></div>
+    <div class="result-kpi"><span>Volume</span><strong>${formatNumber(volume,3)} m³</strong></div>
+    <div class="result-kpi"><span>Remplissage</span><strong>${formatNumber(fill,1)} %</strong></div>
+  </div>${thresholds.length ? `<div style="margin-top:10px"><strong>Seuils toxiques :</strong> ${thresholds.map(x => `${escapeHtml(x.label)} = ${formatNumber(x.value,2)} ppm`).join(" · ")}</div>` : `<div style="margin-top:10px">Valeurs toxicologiques non renseignées.</div>`}`);
+  return true;
+}
+
+function computeToxStep2() {
+  const density = numberValue("toxLiquidDensity");
+  if (!(density > 0)) { toxHide("toxResult2"); return false; }
+  toxState.rhoLiquid = density * 1000;
+  toxSetResult("toxResult2", `<strong>ρliquide = ${formatNumber(density,4)} × 1000</strong><span class="big-result">ρliquide = ${formatNumber(toxState.rhoLiquid,2)} kg/m³</span>`);
+  return true;
+}
+
+function computeToxStep3() {
+  const volume = numberValue("toxVolume");
+  if (!Number.isFinite(toxState.rhoLiquid) || !(volume > 0)) { toxHide("toxResult3"); return false; }
+  toxState.capacityMass = toxState.rhoLiquid * volume;
+  toxSetResult("toxResult3", `Mtotale = ${formatNumber(toxState.rhoLiquid,2)} × ${formatNumber(volume,3)}<span class="big-result">Mtotale théorique = ${formatNumber(toxState.capacityMass,1)} kg</span><small>Cette masse correspond au contenant rempli à 100 % de liquide ; le taux de remplissage est appliqué à l'étape 4.</small>`);
+  return true;
+}
+
+function computeToxStep4() {
+  const fill = numberValue("toxFillRate");
+  const volume = numberValue("toxVolume");
+  const mm = numberValue("toxMolarMass");
+  const pvs = numberValue("toxPvs");
+  const temp = numberValue("toxTemp");
+  if (!Number.isFinite(toxState.capacityMass) || !(fill > 0 && fill <= 85) || !(volume > 0) || !(mm > 0) || !(pvs > 0) || temp === null) { toxHide("toxResult4"); return false; }
+
+  const frac = fill / 100;
+  const gasVolume = volume * (1 - frac);
+  const tempK = temp + 273;
+  const pPa = pvs * 100000;
+  const mKgMol = mm / 1000;
+  toxState.liquidMass = toxState.capacityMass * frac;
+  toxState.gasDensity = (pPa * mKgMol) / (8.314 * tempK);
+  toxState.gasMass = toxState.gasDensity * gasVolume;
+  toxState.storedMass = toxState.liquidMass + toxState.gasMass;
+
+  toxSetResult("toxResult4", `<strong>Phase liquide</strong><br>Mliquide = ${formatNumber(toxState.capacityMass,1)} × ${formatNumber(frac,3)} = <strong>${formatNumber(toxState.liquidMass,1)} kg</strong><br><br>
+  <strong>Phase gazeuse sous pression</strong><br>Vciel = ${formatNumber(gasVolume,3)} m³<br>ρgaz = (PVS × M) / (R × T) = <strong>${formatNumber(toxState.gasDensity,4)} kg/m³</strong><br>Mgaz = ρgaz × Vciel = <strong>${formatNumber(toxState.gasMass,2)} kg</strong><span class="big-result">Masse stockée estimée = ${formatNumber(toxState.storedMass,1)} kg</span>`);
+  return true;
+}
+
+function computeToxStep5() {
+  const d = numberValue("toxLeakDiameter");
+  const dUnit = document.getElementById("toxLeakDiameterUnit").value;
+  const cdPreset = document.getElementById("toxCdPreset").value;
+  const cd = cdPreset === "venturi" ? numberValue("toxCdCustom") : Number(cdPreset);
+  const L = numberValue("toxPipeLength");
+  const Dinput = numberValue("toxPipeDiameter");
+  const Dunit = document.getElementById("toxPipeDiameterUnit").value;
+
+  if (!Number.isFinite(toxState.rhoLiquid) || !(d > 0) || !(cd > 0) || !(L >= 0) || !(Dinput > 0)) { toxHide("toxResult5"); return false; }
+  if (cdPreset === "venturi" && !(cd > 1)) { toxSetResult("toxResult5", "Pour un Venturi, renseignez un Cd supérieur à 1.", true); return false; }
+
+  const dm = diameterToMeters(d,dUnit);
+  const Dm = diameterToMeters(Dinput,Dunit);
+  const area = Math.PI * Math.pow(dm/2,2);
+  const pvs = numberValue("toxPvs");
+  const dp = (pvs - 1.013) * 100000;
+  if (!(dp > 0)) { toxSetResult("toxResult5", "La PVS doit être supérieure à la pression atmosphérique 1,013 bar.", true); return false; }
+
+  toxState.qMono = cd * area * Math.sqrt(2 * toxState.rhoLiquid * dp);
+  let scenario, ratio;
+  if (L > 3 * Dm) {
+    scenario = "Fuite sur canalisation - L > 3D";
+    ratio = "canalisation";
+    toxState.qTotal = toxState.qMono / 2.5;
+    toxState.qGas = 0.30 * toxState.qTotal;
+    toxState.qAerosol = 0.20 * toxState.qTotal;
+    toxState.qLiquid = 0.50 * toxState.qTotal;
+  } else if (L < 3 * Dm) {
+    scenario = "Fuite sur citerne - L < 3D";
+    ratio = "citerne";
+    toxState.qTotal = toxState.qMono;
+    toxState.qGas = 0.30 * toxState.qMono;
+    toxState.qAerosol = null;
+    const manualLiquid = numberValue("toxTankLiquidFlow");
+    toxState.qLiquid = manualLiquid > 0 ? manualLiquid : null;
+  } else {
+    scenario = "Cas limite L = 3D - non tranché par la fiche";
+    ratio = "limite";
+    toxState.qTotal = toxState.qMono;
+    toxState.qGas = null;
+    toxState.qAerosol = null;
+    toxState.qLiquid = null;
+  }
+
+  document.getElementById("toxTankLiquidFlowWrap").style.display = ratio === "citerne" ? "block" : "none";
+  toxSetResult("toxResult5", `<strong>${scenario}</strong><br>L = ${formatNumber(L,3)} m ; 3D = ${formatNumber(3*Dm,3)} m<br>S = <strong>${formatArea(area)}</strong><br>ΔP = <strong>${formatNumber(dp,0)} Pa</strong><br>Qmono = <strong>${formatNumber(toxState.qMono,6)} kg/s</strong>${ratio === "canalisation" ? `<br>Qdiphasique = <strong>${formatNumber(toxState.qTotal,6)} kg/s</strong><br>Qgaz = <strong>${formatNumber(toxState.qGas,6)} kg/s</strong> · Qaérosol = <strong>${formatNumber(toxState.qAerosol,6)} kg/s</strong> · Qliquide = <strong>${formatNumber(toxState.qLiquid,6)} kg/s</strong>` : ratio === "citerne" ? `<br>Qgaz = 0,3 × Qmono = <strong>${formatNumber(toxState.qGas,6)} kg/s</strong><br>${Number.isFinite(toxState.qLiquid) ? `Qliquide renseigné = <strong>${formatNumber(toxState.qLiquid,6)} kg/s</strong>` : `<span class="status-pill">Qliquide à renseigner pour calculer la vidange</span>`}` : `<span class="status-pill">Choisir un L différent de 3D pour appliquer le mémento.</span>`}`);
+  return true;
+}
+
+function computeToxStep6() {
+  if (!Number.isFinite(toxState.liquidMass) || !Number.isFinite(toxState.qLiquid) || !(toxState.qLiquid > 0)) { toxState.emptySeconds=null; toxHide("toxResult6"); return false; }
+  toxState.emptySeconds = toxState.liquidMass / toxState.qLiquid;
+  toxSetResult("toxResult6", `T = ${formatNumber(toxState.liquidMass,1)} / ${formatNumber(toxState.qLiquid,6)} = <strong>${formatNumber(toxState.emptySeconds,0)} s</strong><span class="big-result">Temps théorique = ${formatDuration(toxState.emptySeconds)}</span>`);
+  return true;
+}
+
+function computeToxStep7() {
+  const dist = numberValue("toxTargetDistance");
+  const windKmh = numberValue("toxWindKmh");
+  if (!Number.isFinite(toxState.storedMass) || !Number.isFinite(toxState.qTotal) || !(dist > 0) || !(windKmh > 0)) { toxState.releaseType=null; toxHide("toxResult7"); return false; }
+  const wind = windKmh * 1000/3600;
+  const transfer = dist / wind;
+  const duration = toxState.storedMass / toxState.qTotal;
+  const limit = 4 * transfer;
+  toxState.releaseType = duration > limit ? "PANACHE - rejet prolongé" : duration < limit ? "BOUFFÉE - rejet instantané" : "CAS LIMITE";
+  toxSetResult("toxResult7", `Vvent = <strong>${formatNumber(wind,3)} m/s</strong><br>ttransfert = <strong>${formatDuration(transfer)}</strong><br>tdurée rejet = Mproduit / Qtotal = <strong>${formatDuration(duration)}</strong><br>4 × ttransfert = <strong>${formatDuration(limit)}</strong><span class="big-result">${toxState.releaseType}</span>`);
+  return true;
+}
+
+function computeToxStep8() {
+  const cta = numberValue("toxCta");
+  const mm = numberValue("toxMolarMass");
+  if (!Number.isFinite(toxState.qGas) || !(toxState.qGas > 0) || !(cta > 0) || !(mm > 0)) { toxState.cExtPpm=null; toxState.cExtMgM3=null; toxHide("toxResult8"); return false; }
+  toxState.cExtMgM3 = cta * toxState.qGas * 1e6;
+  toxState.cExtPpm = toxState.cExtMgM3 * 24 / mm;
+  const pct = toxState.cExtPpm / 1e4;
+  const lie = numberValue("toxLie"), lse = numberValue("toxLse");
+  let flam = "LIE/LSE non renseignées";
+  if (lie !== null && lse !== null && lse > lie) flam = pct < lie ? `Sous la LIE (${formatNumber(lie,3)} %)` : pct <= lse ? `Entre LIE et LSE (${formatNumber(lie,3)} à ${formatNumber(lse,3)} %)` : `Au-dessus de la LSE (${formatNumber(lse,3)} %)`;
+  const toxCompare = toxThresholds().map(x => `${escapeHtml(x.label)} : ${toxState.cExtPpm >= x.value ? "SEUIL ATTEINT / DÉPASSÉ" : "sous le seuil"} (${formatNumber(x.value,2)} ppm)`).join("<br>");
+  toxSetResult("toxResult8", `<strong>Q retenu pour la dispersion = Qgaz = ${formatNumber(toxState.qGas,6)} kg/s</strong><br>C = CTA × Qgaz × 10⁶ = <strong>${formatNumber(toxState.cExtMgM3,2)} mg/m³</strong><span class="big-result">${formatNumber(toxState.cExtPpm,1)} ppm · ${formatNumber(pct,5)} % vol.</span><span class="status-pill">${flam}</span>${toxCompare ? `<div style="margin-top:12px"><strong>Comparaison toxicologique</strong><br>${toxCompare}</div>` : ""}`);
+  return true;
+}
+
+function computeToxStep9() {
+  const select = document.getElementById("toxLocalW");
+  const w = select.value === "custom" ? numberValue("toxLocalWCustom") : Number(select.value);
+  const tMin = numberValue("toxLocalTimeMin");
+  if (!Number.isFinite(toxState.cExtPpm) || !(toxState.cExtPpm > 0) || !(w > 0) || !(tMin >= 0)) { toxState.cIntPpm=null; toxHide("toxResult9"); return false; }
+  toxState.cIntPpm = toxState.cExtPpm * (1 - Math.exp(-w * tMin / 60));
+  const times = toxThresholds().map(x => {
+    if (x.value <= 0) return `${escapeHtml(x.label)} : seuil nul`;
+    if (x.value >= toxState.cExtPpm) return `${escapeHtml(x.label)} (${formatNumber(x.value,2)} ppm) : non atteint si Cext reste à ${formatNumber(toxState.cExtPpm,1)} ppm`;
+    const hours = -Math.log(1 - x.value/toxState.cExtPpm) / w;
+    return `${escapeHtml(x.label)} (${formatNumber(x.value,2)} ppm) : ${formatDuration(hours*3600)}`;
+  }).join("<br>");
+  toxSetResult("toxResult9", `Cext = <strong>${formatNumber(toxState.cExtPpm,1)} ppm</strong><br>w = <strong>${formatNumber(w,3)} h⁻¹</strong> ; t = <strong>${formatNumber(tMin,1)} min</strong><span class="big-result">Cint = ${formatNumber(toxState.cIntPpm,1)} ppm</span>${times ? `<div style="margin-top:12px"><strong>Temps théorique pour atteindre les seuils toxicologiques</strong><br>${times}</div>` : `<div style="margin-top:12px">Renseignez les valeurs toxicologiques de l'étape 1 pour calculer les temps d'atteinte.</div>`}`);
+  return true;
+}
+
+function computeToxStep10() {
+  const mass = numberValue("toxUvceMass"), pci = numberValue("toxUvcePci"), yieldPct = numberValue("toxUvceYield");
+  if (!(mass > 0) || !(pci > 0) || !(yieldPct > 0)) { toxState.r50=toxState.r140=toxState.r200=null; toxHide("toxResult10"); return false; }
+  const mTnt = (yieldPct/100) * (pci/4.69) * mass;
+  const cube = Math.cbrt(mTnt);
+  toxState.r50 = 25*cube; toxState.r140=9*cube; toxState.r200=7.5*cube;
+  toxSetResult("toxResult10", `mTNT = <strong>${formatNumber(mTnt,3)} kg TNT</strong><br><br>50 mbar - effets irréversibles : <strong>${formatNumber(toxState.r50,1)} m</strong><br>140 mbar - premiers effets létaux : <strong>${formatNumber(toxState.r140,1)} m</strong><br>200 mbar - effets létaux : <strong>${formatNumber(toxState.r200,1)} m</strong>`);
+  return true;
+}
+
+function autoComputeToxicLiquefied() {
+  const cdPreset = document.getElementById("toxCdPreset");
+  const cdWrap = document.getElementById("toxCdCustomWrap");
+  if (cdPreset && cdWrap) cdWrap.style.display = cdPreset.value === "venturi" ? "block" : "none";
+  const wSelect = document.getElementById("toxLocalW");
+  const wWrap = document.getElementById("toxLocalWCustomWrap");
+  if (wSelect && wWrap) wWrap.style.display = wSelect.value === "custom" ? "block" : "none";
+
+  const ok1 = computeToxStep1();
+  if (!ok1) {
+    Object.keys(toxState).forEach(k => toxState[k]=null);
+    [2,3,4,5,6,7,8,9,10].forEach(n => toxHide(`toxResult${n}`));
+    updateToxSummary();
+    return;
+  }
+  computeToxStep2();
+  computeToxStep3();
+  computeToxStep4();
+  computeToxStep5();
+  computeToxStep6();
+  computeToxStep7();
+  computeToxStep8();
+  computeToxStep9();
+  computeToxStep10();
+  updateToxSummary();
+}
+
+let toxicAutoTimer = null;
+function scheduleAutoComputeToxicLiquefied() {
+  clearTimeout(toxicAutoTimer);
+  toxicAutoTimer = setTimeout(autoComputeToxicLiquefied, 120);
+}
+
+[
+  "toxProduct","toxLiquidDensity","toxGasDensityRef","toxMolarMass","toxPvs","toxTemp","toxLie","toxLse","toxVolume","toxFillRate",
+  "toxThresholdLabel1","toxThreshold1","toxThresholdLabel2","toxThreshold2","toxThresholdLabel3","toxThreshold3",
+  "toxLeakDiameter","toxLeakDiameterUnit","toxCdPreset","toxCdCustom","toxPipeLength","toxPipeDiameter","toxPipeDiameterUnit","toxTankLiquidFlow",
+  "toxTargetDistance","toxWindKmh","toxDiffusion","toxCta","toxLocalW","toxLocalWCustom","toxLocalTimeMin","toxUvceMass","toxUvcePci","toxUvceYield"
+].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener("input", scheduleAutoComputeToxicLiquefied);
+  el.addEventListener("change", scheduleAutoComputeToxicLiquefied);
+});
+
+const resetToxicLiquefiedCalc = document.getElementById("resetToxicLiquefiedCalc");
+if (resetToxicLiquefiedCalc) {
+  resetToxicLiquefiedCalc.addEventListener("click", () => {
+    ["toxProduct","toxLiquidDensity","toxGasDensityRef","toxMolarMass","toxPvs","toxTemp","toxLie","toxLse","toxVolume",
+     "toxThresholdLabel1","toxThreshold1","toxThresholdLabel2","toxThreshold2","toxThresholdLabel3","toxThreshold3",
+     "toxLeakDiameter","toxCdCustom","toxPipeLength","toxPipeDiameter","toxTankLiquidFlow","toxTargetDistance","toxWindKmh","toxCta","toxLocalWCustom","toxLocalTimeMin","toxUvceMass","toxUvcePci"].forEach(id => {
+       const el = document.getElementById(id); if (el) el.value = "";
+     });
+    document.getElementById("toxFillRate").value = "85";
+    document.getElementById("toxLeakDiameterUnit").value = "mm";
+    document.getElementById("toxPipeDiameterUnit").value = "mm";
+    document.getElementById("toxCdPreset").value = "0.62";
+    document.getElementById("toxDiffusion").value = "normale";
+    document.getElementById("toxLocalW").value = "0.5";
+    document.getElementById("toxUvceYield").value = "5";
+    Object.keys(toxState).forEach(k => toxState[k]=null);
+    for (let n=1;n<=10;n++) toxHide(`toxResult${n}`);
+    updateToxSummary();
+    scheduleAutoComputeToxicLiquefied();
+  });
+}
+
+scheduleAutoComputeToxicLiquefied();
 
 </script>
 
