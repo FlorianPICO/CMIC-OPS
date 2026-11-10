@@ -1732,6 +1732,216 @@
       .fire-pressure-grid { grid-template-columns: 1fr; }
     }
 
+
+    /* ===== FICHES PRODUITS CMIC-OPS ===== */
+    .cmic-product-host {
+      grid-column: 1 / -1;
+      min-width: 0;
+    }
+
+    .cmic-sheet {
+      margin-top: 14px;
+      overflow: hidden;
+      border: 1px solid #fdba74;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 7px 20px rgba(0,0,0,.06);
+    }
+
+    .cmic-sheet-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #9a3412 0%, #c2410c 55%, #ea580c 100%);
+      color: #fff;
+    }
+
+    .cmic-sheet-title strong {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .cmic-sheet-title small {
+      display: block;
+      margin-top: 3px;
+      color: #ffedd5;
+      font-size: .84rem;
+      font-weight: 700;
+    }
+
+    .cmic-sheet-badge {
+      flex: 0 0 auto;
+      padding: 6px 9px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .cmic-product-accordion {
+      padding: 10px;
+      background: #fffaf5;
+    }
+
+    .cmic-product-item {
+      margin: 0 0 8px;
+      overflow: hidden;
+      border: 1px solid #fed7aa;
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .cmic-product-item:last-child { margin-bottom: 0; }
+
+    .cmic-product-item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+      padding: 10px 13px;
+      cursor: pointer;
+      list-style: none;
+      background: #fff7ed;
+      color: #7c2d12;
+      font-weight: 900;
+    }
+
+    .cmic-product-item summary::-webkit-details-marker { display:none; }
+
+    .cmic-product-item[open] summary {
+      border-bottom: 1px solid #fed7aa;
+      background: #ffedd5;
+    }
+
+    .cmic-product-chevron {
+      color: #ea580c;
+      font-size: 1.2rem;
+      line-height: 1;
+      transition: transform .15s ease;
+    }
+
+    .cmic-product-item[open] .cmic-product-chevron {
+      transform: rotate(90deg);
+    }
+
+    .cmic-product-body {
+      padding: 15px;
+    }
+
+    .cmic-product-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid #e7e5e4;
+      border-radius: 12px;
+    }
+
+    .cmic-product-table {
+      width: 100%;
+      min-width: 620px;
+      border-collapse: collapse;
+      font-size: .93rem;
+      line-height: 1.45;
+    }
+
+    .cmic-product-table th,
+    .cmic-product-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e7e5e4;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .cmic-product-table tr:last-child th,
+    .cmic-product-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .cmic-product-table th {
+      width: 38%;
+      background: #fafaf9;
+      color: #44403c;
+      font-weight: 850;
+    }
+
+    .cmic-product-table td {
+      color: #292524;
+      font-weight: 600;
+    }
+
+    .cmic-product-alert {
+      margin: 0 0 10px;
+      padding: 12px 14px;
+      border-left: 5px solid #ea580c;
+      border-radius: 10px;
+      background: #fff7ed;
+      color: #7c2d12;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .cmic-product-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .cmic-product-list li {
+      position: relative;
+      padding: 9px 11px 9px 32px;
+      border: 1px solid #e7e5e4;
+      border-radius: 10px;
+      background: #fafaf9;
+      color: #44403c;
+      line-height: 1.5;
+    }
+
+    .cmic-product-list li::before {
+      content: "•";
+      position: absolute;
+      left: 12px;
+      top: 7px;
+      color: #ea580c;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .cmic-source-note {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #e7e5e4;
+      color: #78716c;
+      font-size: .8rem;
+      line-height: 1.45;
+    }
+
+    .cmic-source-note a {
+      color: #c2410c;
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    @media (max-width:700px) {
+      .cmic-sheet-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .cmic-product-table {
+        min-width: 520px;
+      }
+    }
+
 </style>
 </head>
 
@@ -3303,10 +3513,1028 @@ function wireInrsModuleButtons() {
   });
 }
 
+
+const CMIC_PRODUCT_SHEETS = {
+  butane: {
+    key: "butane",
+    names: ["butane", "n butane"],
+    title: "Butane",
+    cas: "106-97-8",
+    un: "1011",
+    ec: "203-448-7",
+    formula: "C4H10",
+    sourceLabel: "ICSC 0232 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0232",
+    physical: [
+      ["État physique", "Gaz liquéfié comprimé, incolore et inodore"],
+      ["Descriptif", "Gaz plus lourd que l'air ; peut s'accumuler dans les points bas."],
+      ["Seuil olfactif", "Non applicable comme moyen d'alerte : produit inodore"],
+      ["Solubilité dans l'eau", "0,0061 g/100 ml à 20 °C"],
+      ["Masse molaire", "58,1 g/mol"],
+      ["Densité relative liquide (eau = 1)", "0,6"],
+      ["Densité de vapeur relative (air = 1)", "2,1"],
+      ["Pression de vapeur", "213,7 kPa à 21,1 °C"],
+      ["Point de fusion", "-138 °C"],
+      ["Point d'ébullition", "-0,5 °C"],
+      ["Limite inférieure d'explosivité", "1,8 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "8,4 % vol. dans l'air"],
+      ["Point d'éclair", "-60 °C"],
+      ["Température d'auto-inflammation", "365 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; les mélanges gaz/air sont explosifs.",
+      "Le gaz est plus lourd que l'air : propagation au ras du sol et inflammation à distance possibles.",
+      "Éliminer les sources d'ignition et assurer une ventilation adaptée.",
+      "En cas d'incendie, refroidir les récipients exposés par eau pulvérisée depuis une position protégée."
+    ],
+    health: [
+      "L'évaporation rapide du liquide peut provoquer des gelures.",
+      "À forte concentration, risque d'asphyxie par diminution de la teneur en oxygène.",
+      "Des effets sur le système nerveux central peuvent apparaître à forte exposition.",
+      "Contrôler la teneur en oxygène avant engagement en espace confiné."
+    ]
+  },
+
+  propane: {
+    key: "propane",
+    names: ["propane", "n propane"],
+    title: "Propane",
+    cas: "74-98-6",
+    un: "1978",
+    ec: "200-827-9",
+    formula: "C3H8",
+    sourceLabel: "ICSC 0319 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0319",
+    physical: [
+      ["État physique", "Gaz liquéfié comprimé, incolore et inodore"],
+      ["Descriptif", "Gaz plus lourd que l'air ; peut se déplacer au niveau du sol et s'accumuler dans les points bas."],
+      ["Seuil olfactif", "Non applicable comme moyen d'alerte : produit inodore"],
+      ["Solubilité dans l'eau", "0,007 g/100 ml à 20 °C"],
+      ["Masse molaire", "44,1 g/mol"],
+      ["Densité relative liquide (eau = 1)", "0,5"],
+      ["Densité de vapeur relative (air = 1)", "1,6"],
+      ["Pression de vapeur", "840 kPa à 20 °C"],
+      ["Point de fusion", "-189,7 °C"],
+      ["Point d'ébullition", "-42 °C"],
+      ["Limite inférieure d'explosivité", "2,1 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "9,5 % vol. dans l'air"],
+      ["Point d'éclair", "-104 °C"],
+      ["Température d'auto-inflammation", "450 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; les mélanges gaz/air sont explosifs.",
+      "Le gaz est plus lourd que l'air : accumulation en zones basses et inflammation à distance possibles.",
+      "Éliminer les sources d'ignition ; privilégier système clos et ventilation.",
+      "En cas d'incendie, maintenir les récipients à basse température par eau pulvérisée depuis une position protégée."
+    ],
+    health: [
+      "L'évaporation rapide du liquide peut provoquer des gelures.",
+      "À forte concentration, risque d'asphyxie par déplacement de l'oxygène.",
+      "Somnolence et perte de connaissance possibles lors d'une exposition importante.",
+      "Contrôler la teneur en oxygène avant engagement en espace confiné."
+    ]
+  },
+
+  methane: {
+    key: "methane",
+    names: ["methane"],
+    title: "Méthane",
+    cas: "74-82-8",
+    un: "1971",
+    ec: "200-812-7",
+    formula: "CH4",
+    sourceLabel: "ICSC 0291 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0291&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Gaz comprimé ou liquéfié, incolore et inodore"],
+      ["Descriptif", "Gaz plus léger que l'air."],
+      ["Seuil olfactif", "Non applicable comme moyen d'alerte : produit inodore"],
+      ["Solubilité dans l'eau", "3,3 ml/100 ml à 20 °C"],
+      ["Masse molaire", "16,0 g/mol"],
+      ["Densité du liquide", "0,42 kg/L au point d'ébullition"],
+      ["Densité de vapeur relative (air = 1)", "0,6"],
+      ["Point de fusion", "-183 °C"],
+      ["Point d'ébullition", "-161 °C"],
+      ["Limite inférieure d'explosivité", "5 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "15 % vol. dans l'air"],
+      ["Point d'éclair", "Gaz inflammable"],
+      ["Température d'auto-inflammation", "537 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; les mélanges gaz/air sont explosifs.",
+      "Le méthane est plus léger que l'air.",
+      "Éliminer les sources d'ignition et assurer une ventilation adaptée.",
+      "En cas d'incendie, refroidir les récipients exposés à l'eau pulvérisée depuis une position protégée."
+    ],
+    health: [
+      "Risque principal : asphyxie par diminution de la teneur en oxygène.",
+      "L'évaporation rapide du liquide peut provoquer des gelures.",
+      "Une forte concentration peut entraîner perte de connaissance ou décès par hypoxie.",
+      "Contrôler systématiquement l'oxygène en espace confiné."
+    ]
+  },
+
+  hydrogen: {
+    key: "hydrogen",
+    names: ["hydrogene", "dihydrogene", "hydrogene comprime", "hydrogene liquide refrigere"],
+    title: "Hydrogène",
+    cas: "1333-74-0",
+    un: "1049",
+    ec: "215-605-7",
+    formula: "H2",
+    sourceLabel: "ICSC 0001 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=1&p_lang=fr&p_version=1",
+    physical: [
+      ["État physique", "Gaz comprimé, incolore et inodore"],
+      ["Descriptif", "Gaz extrêmement léger ; se mélange rapidement à l'air."],
+      ["Seuil olfactif", "Non applicable comme moyen d'alerte : produit inodore"],
+      ["Solubilité dans l'eau", "1,62 mg/L à 21 °C - très faible"],
+      ["Masse molaire", "2,0 g/mol"],
+      ["Densité de vapeur relative (air = 1)", "0,07"],
+      ["Pression de vapeur", "165 320 kPa à 25 °C"],
+      ["Point de fusion", "-259 °C"],
+      ["Point d'ébullition", "-253 °C"],
+      ["Limite inférieure d'explosivité", "4 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "75 % vol. dans l'air"],
+      ["Point d'éclair", "Gaz inflammable"],
+      ["Température d'auto-inflammation", "560 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; domaine d'explosivité très étendu.",
+      "Le gaz est beaucoup plus léger que l'air et forme rapidement des mélanges explosifs.",
+      "Éviter flammes, étincelles, surfaces chaudes et équipements non adaptés aux atmosphères explosibles.",
+      "En cas d'incendie, refroidir les bouteilles exposées avec de l'eau depuis une position abritée."
+    ],
+    health: [
+      "Risque principal : asphyxie par diminution de la teneur en oxygène.",
+      "Le contact avec le gaz ou liquide très froid peut provoquer des gelures.",
+      "Les fortes concentrations peuvent entraîner vertiges, perte de connaissance et décès par hypoxie.",
+      "Un détecteur classique de gaz inflammable peut ne pas convenir : utiliser un appareil adapté à l'hydrogène et contrôler l'oxygène."
+    ]
+  },
+
+  ethane: {
+    key: "ethane",
+    names: ["ethane"],
+    title: "Éthane",
+    cas: "74-84-0",
+    un: "1035",
+    ec: "200-814-8",
+    formula: "C2H6",
+    sourceLabel: "ICSC 0266 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0266&p_lang=fr&p_version=1",
+    physical: [
+      ["État physique", "Gaz incolore comprimé liquéfié, inodore à l'état pur"],
+      ["Descriptif", "Le gaz se mélange bien à l'air et des mélanges explosifs se forment rapidement."],
+      ["Solubilité dans l'eau", "Très faible"],
+      ["Masse molaire", "30,1 g/mol"],
+      ["Densité de vapeur relative (air = 1)", "1,05"],
+      ["Pression de vapeur", "3 850 kPa à 20 °C"],
+      ["Point de fusion", "-183 °C"],
+      ["Point d'ébullition", "-89 °C"],
+      ["Limite inférieure d'explosivité", "3,0 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "12,5 % vol. dans l'air"],
+      ["Point d'éclair", "Gaz inflammable"],
+      ["Température d'auto-inflammation", "472 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; les mélanges gaz/air sont explosifs.",
+      "Réagit violemment avec les halogènes et les oxydants puissants.",
+      "Éliminer les sources d'ignition et vérifier l'absence d'atmosphère explosive.",
+      "Refroidir les récipients exposés au feu depuis une position protégée."
+    ],
+    health: [
+      "L'évaporation rapide du liquide peut provoquer des gelures.",
+      "En espace confiné, risque d'asphyxie par diminution de la teneur en oxygène.",
+      "Contrôler l'oxygène avant tout engagement.",
+      "Orienter si possible une bouteille fuyarde pour éviter une fuite en phase liquide."
+    ]
+  },
+
+  ethylene: {
+    key: "ethylene",
+    names: ["ethylene", "ethene"],
+    title: "Éthylène",
+    cas: "74-85-1",
+    un: "1962",
+    ec: "200-815-3",
+    formula: "C2H4",
+    sourceLabel: "ICSC 0475 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0475&p_lang=en&p_version=1",
+    physical: [
+      ["État physique", "Gaz comprimé incolore à odeur caractéristique"],
+      ["Descriptif", "Gaz légèrement plus léger que l'air."],
+      ["Solubilité dans l'eau", "131 mg/L à 25 °C - très faible"],
+      ["Masse molaire", "28,0 g/mol"],
+      ["Densité de vapeur relative (air = 1)", "0,98"],
+      ["Pression de vapeur", "8 100 kPa à 15 °C"],
+      ["Point de fusion", "-169,2 °C"],
+      ["Point d'ébullition", "-104 °C"],
+      ["Limite inférieure d'explosivité", "2,7 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "36,0 % vol. dans l'air"],
+      ["Point d'éclair", "Gaz inflammable"],
+      ["Température d'auto-inflammation", "440 °C"]
+    ],
+    fire: [
+      "Gaz extrêmement inflammable ; les mélanges avec l'air sont explosifs.",
+      "Des charges électrostatiques peuvent se former.",
+      "Réagit avec les oxydants puissants.",
+      "Éliminer les sources d'ignition et refroidir les récipients exposés au feu."
+    ],
+    health: [
+      "À forte concentration, abaissement possible du niveau de conscience.",
+      "Risque d'asphyxie par diminution de la teneur en oxygène en espace confiné.",
+      "Contrôler l'oxygène avant engagement.",
+      "Prévoir une ventilation adaptée."
+    ]
+  },
+
+  propylene: {
+    key: "propylene",
+    names: ["propylene", "propene"],
+    title: "Propylène",
+    cas: "115-07-1",
+    un: "1077",
+    ec: "204-062-1",
+    formula: "C3H6",
+    sourceLabel: "ICSC 0559 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0559",
+    physical: [
+      ["État physique", "Gaz liquéfié comprimé incolore"],
+      ["Descriptif", "Gaz plus lourd que l'air ; accumulation possible dans les points bas."],
+      ["Solubilité dans l'eau", "Faible"],
+      ["Masse molaire", "42,1 g/mol"],
+      ["Densité relative liquide (eau = 1)", "0,5"],
+      ["Densité de vapeur relative (air = 1)", "1,5"],
+      ["Pression de vapeur", "1 158 kPa à 25 °C"],
+      ["Point de fusion", "-185 °C"],
+      ["Point d'ébullition", "-48 °C"],
+      ["Limite inférieure d'explosivité", "2,4 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "10,3 % vol. dans l'air"],
+      ["Point d'éclair", "Gaz inflammable"],
+      ["Température d'auto-inflammation", "460 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; inflammation à distance possible.",
+      "Le gaz est plus lourd que l'air et peut s'accumuler en zones basses.",
+      "Réagit violemment avec les oxydants.",
+      "Éliminer toutes les sources d'ignition et refroidir les contenants exposés."
+    ],
+    health: [
+      "L'évaporation rapide du liquide peut provoquer des gelures.",
+      "Peut provoquer des effets sur le système nerveux central et une baisse de conscience.",
+      "Risque d'asphyxie en espace confiné.",
+      "Contrôler la teneur en oxygène avant engagement."
+    ]
+  },
+
+  acetylene: {
+    key: "acetylene",
+    names: ["acetylene", "ethyne", "ethine"],
+    title: "Acétylène",
+    cas: "74-86-2",
+    un: "1001",
+    ec: "200-816-9",
+    formula: "C2H2",
+    sourceLabel: "ICSC 0089 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0089&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Gaz incolore dissous dans l'acétone sous pression"],
+      ["Descriptif", "Se mélange bien à l'air ; les mélanges explosifs se forment rapidement."],
+      ["Solubilité dans l'eau", "0,12 g/100 ml à 20 °C"],
+      ["Masse molaire", "26,0 g/mol"],
+      ["Densité de vapeur relative (air = 1)", "0,907"],
+      ["Pression de vapeur", "4 460 kPa à 20 °C"],
+      ["Point de sublimation", "-84 °C"],
+      ["Limite inférieure d'explosivité", "2,5 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "100 % vol. dans l'air"],
+      ["Point d'éclair", "Gaz inflammable"],
+      ["Température d'auto-inflammation", "305 °C"]
+    ],
+    fire: [
+      "Extrêmement inflammable ; domaine d'explosivité particulièrement large.",
+      "Peut polymériser ou se décomposer sous l'effet de la chaleur et de la pression.",
+      "Réagit avec le cuivre, l'argent, le mercure et leurs sels en formant des acétylures sensibles aux chocs.",
+      "En cas d'incendie, refroidir les bouteilles à l'eau ; couper l'alimentation si cela peut être fait sans danger."
+    ],
+    health: [
+      "Risque d'asphyxie par diminution de la teneur en oxygène.",
+      "Vertiges, léthargie, céphalées et suffocation possibles.",
+      "Contrôler l'oxygène avant engagement en espace confiné.",
+      "Les canalisations destinées à l'acétylène ne doivent pas contenir plus de 63 % de cuivre."
+    ]
+  },
+
+  pentane: {
+    key: "pentane",
+    names: ["pentane", "n pentane", "pentane normal"],
+    title: "n-Pentane",
+    cas: "109-66-0",
+    un: "1265",
+    ec: "203-692-4",
+    formula: "C5H12",
+    sourceLabel: "ICSC 0534 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0534&p_lang=fr&p_version=1",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Descriptif", "Vapeur plus lourde que l'air ; inflammation à distance possible."],
+      ["Solubilité dans l'eau", "0,004 g/100 ml à 20 °C - très faible"],
+      ["Masse molaire", "72,2 g/mol"],
+      ["Densité relative (eau = 1)", "0,63"],
+      ["Densité de vapeur relative (air = 1)", "2,5"],
+      ["Pression de vapeur", "53,3 kPa à 18,5 °C"],
+      ["Point de fusion", "-129 °C"],
+      ["Point d'ébullition", "36 °C"],
+      ["Limite inférieure d'explosivité", "1,5 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "7,8 % vol. dans l'air"],
+      ["Point d'éclair", "-49 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "260 °C"]
+    ],
+    fire: [
+      "Très inflammable ; les mélanges air/vapeurs sont explosifs.",
+      "Vapeurs lourdes pouvant se propager au sol et s'enflammer à distance.",
+      "Éviter les charges électrostatiques et utiliser du matériel adapté aux atmosphères explosibles.",
+      "Refroidir les récipients exposés au feu par eau pulvérisée."
+    ],
+    health: [
+      "À forte concentration, dépression du système nerveux central.",
+      "En cas d'ingestion, risque de pneumonie chimique par aspiration.",
+      "Une concentration élevée peut provoquer un déficit en oxygène.",
+      "Ne pas rejeter dans l'environnement aquatique."
+    ]
+  },
+
+  hexane: {
+    key: "hexane",
+    names: ["hexane", "n hexane"],
+    title: "n-Hexane",
+    cas: "110-54-3",
+    un: "1208",
+    ec: "203-777-6",
+    formula: "C6H14",
+    sourceLabel: "ICSC 0279 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0279&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore volatil à odeur caractéristique"],
+      ["Descriptif", "Vapeur plus lourde que l'air ; inflammation à distance possible."],
+      ["Solubilité dans l'eau", "0,0013 g/100 ml à 20 °C - pratiquement insoluble"],
+      ["Masse molaire", "86,2 g/mol"],
+      ["Densité relative (eau = 1)", "0,7"],
+      ["Densité de vapeur relative (air = 1)", "3,0"],
+      ["Pression de vapeur", "17 kPa à 20 °C"],
+      ["Point de fusion", "-95 °C"],
+      ["Point d'ébullition", "69 °C"],
+      ["Limite inférieure d'explosivité", "1,1 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "7,5 % vol. dans l'air"],
+      ["Point d'éclair", "-22 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "225 °C"]
+    ],
+    fire: [
+      "Liquide inflammable ; vapeurs plus lourdes que l'air.",
+      "Inflammation à distance possible.",
+      "Réagit avec les oxydants puissants.",
+      "Éliminer les sources d'ignition et ventiler au niveau du sol."
+    ],
+    health: [
+      "Irritant cutané ; irritation légère possible des yeux et des voies respiratoires.",
+      "De fortes concentrations peuvent entraîner une perte de connaissance.",
+      "Risque de pneumonie chimique en cas d'aspiration.",
+      "L'exposition répétée peut entraîner une polyneuropathie."
+    ]
+  },
+
+  heptane: {
+    key: "heptane",
+    names: ["heptane", "n heptane"],
+    title: "n-Heptane",
+    cas: "142-82-5",
+    un: "1206",
+    ec: "205-563-8",
+    formula: "C7H16",
+    sourceLabel: "ICSC 0657 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0657&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore volatil à odeur caractéristique"],
+      ["Descriptif", "Vapeur plus lourde que l'air ; inflammation à distance possible."],
+      ["Solubilité dans l'eau", "2,2 mg/L à 25 °C - très faible"],
+      ["Masse molaire", "100,2 g/mol"],
+      ["Densité à 20 °C", "0,68 g/ml"],
+      ["Densité de vapeur relative (air = 1)", "3,5"],
+      ["Pression de vapeur", "4,6 kPa à 20 °C"],
+      ["Point de fusion", "-90,7 °C"],
+      ["Point d'ébullition", "98,4 °C"],
+      ["Limite inférieure d'explosivité", "0,8 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "6,7 % vol. dans l'air"],
+      ["Point d'éclair", "-7 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "220 °C"]
+    ],
+    fire: [
+      "Très inflammable ; vapeurs lourdes pouvant s'enflammer à distance.",
+      "Des charges électrostatiques peuvent se former.",
+      "Réagit violemment avec les oxydants puissants.",
+      "Utiliser des équipements adaptés aux atmosphères explosibles."
+    ],
+    health: [
+      "Irritant pour la peau et les voies respiratoires.",
+      "Peut provoquer somnolence ou vertiges.",
+      "Risque de pneumonie chimique par aspiration.",
+      "Toxique pour les organismes aquatiques avec effets durables."
+    ]
+  },
+
+  octane: {
+    key: "octane",
+    names: ["octane", "n octane"],
+    title: "n-Octane",
+    cas: "111-65-9",
+    un: "1262",
+    ec: "203-892-1",
+    formula: "C8H18",
+    sourceLabel: "ICSC 0933 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0933&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Descriptif", "Vapeur plus lourde que l'air ; inflammation à distance possible."],
+      ["Solubilité dans l'eau", "Insoluble"],
+      ["Masse molaire", "114,22 g/mol"],
+      ["Densité relative (eau = 1)", "0,70"],
+      ["Densité de vapeur relative (air = 1)", "3,94"],
+      ["Pression de vapeur", "1,33 kPa à 20 °C"],
+      ["Point de fusion", "-56,8 °C"],
+      ["Point d'ébullition", "126 °C"],
+      ["Limite inférieure d'explosivité", "1,0 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "6,5 % vol. dans l'air"],
+      ["Point d'éclair", "13 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "220 °C"]
+    ],
+    fire: [
+      "Très inflammable ; les mélanges air/vapeurs sont explosifs.",
+      "Vapeurs plus lourdes que l'air et inflammation à distance possible.",
+      "Éviter les charges électrostatiques.",
+      "Refroidir les récipients exposés au feu."
+    ],
+    health: [
+      "Peut provoquer confusion, vertiges, somnolence et perte de connaissance.",
+      "Irritant pour les yeux, la peau et les voies respiratoires.",
+      "Risque de pneumonie chimique en cas d'aspiration.",
+      "Le contact prolongé peut provoquer sécheresse et crevasses cutanées."
+    ]
+  },
+
+  cyclohexane: {
+    key: "cyclohexane",
+    names: ["cyclohexane"],
+    title: "Cyclohexane",
+    cas: "110-82-7",
+    un: "1145",
+    ec: "203-806-2",
+    formula: "C6H12",
+    sourceLabel: "ICSC 0242 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0242&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Descriptif", "Vapeur plus lourde que l'air ; inflammation à distance possible."],
+      ["Solubilité dans l'eau", "0,0058 g/100 ml à 25 °C - très faible"],
+      ["Masse molaire", "84,2 g/mol"],
+      ["Densité relative (eau = 1)", "0,8"],
+      ["Densité de vapeur relative (air = 1)", "2,9"],
+      ["Pression de vapeur", "10,3 kPa à 20 °C"],
+      ["Point de fusion", "7 °C"],
+      ["Point d'ébullition", "81 °C"],
+      ["Limite inférieure d'explosivité", "1,3 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "8,4 % vol. dans l'air"],
+      ["Point d'éclair", "-18 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "260 °C"]
+    ],
+    fire: [
+      "Très inflammable ; vapeurs plus lourdes que l'air.",
+      "Une inflammation à distance est possible.",
+      "La chaleur peut provoquer une combustion violente ou une explosion.",
+      "Réagit avec les oxydants puissants."
+    ],
+    health: [
+      "Irritation légère possible des yeux, de la peau et des voies respiratoires.",
+      "Peut provoquer des effets sur le système nerveux central et une baisse de conscience.",
+      "Risque de pneumonie chimique en cas d'aspiration.",
+      "Très toxique pour les organismes aquatiques avec effets durables."
+    ]
+  },
+
+  benzene: {
+    key: "benzene",
+    names: ["benzene"],
+    title: "Benzène",
+    cas: "71-43-2",
+    un: "1114",
+    ec: "200-753-7",
+    formula: "C6H6",
+    sourceLabel: "ICSC 0015 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0015&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Descriptif", "Vapeur plus lourde que l'air ; inflammation à distance possible."],
+      ["Solubilité dans l'eau", "0,18 g/100 ml à 25 °C"],
+      ["Masse molaire", "78,1 g/mol"],
+      ["Densité relative (eau = 1)", "0,88"],
+      ["Densité de vapeur relative (air = 1)", "2,7"],
+      ["Pression de vapeur", "10 kPa à 20 °C"],
+      ["Point de fusion", "6 °C"],
+      ["Point d'ébullition", "80 °C"],
+      ["Limite inférieure d'explosivité", "1,2 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "8,0 % vol. dans l'air"],
+      ["Point d'éclair", "-11 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "498 °C"]
+    ],
+    fire: [
+      "Liquide et vapeurs très inflammables.",
+      "Vapeurs plus lourdes que l'air ; inflammation à distance possible.",
+      "Réagit violemment avec plusieurs oxydants et halogènes.",
+      "Éliminer les sources d'ignition et éviter les rejets à l'égout."
+    ],
+    health: [
+      "Produit cancérogène et mutagène : limiter strictement toute exposition.",
+      "Peut être absorbé par inhalation, par voie cutanée et par ingestion.",
+      "Peut provoquer des effets graves sur la moelle osseuse et le système nerveux central.",
+      "Risque de pneumonie chimique en cas d'aspiration."
+    ]
+  },
+
+  toluene: {
+    key: "toluene",
+    names: ["toluene", "methylbenzene", "toluol"],
+    title: "Toluène",
+    cas: "108-88-3",
+    un: "1294",
+    ec: "203-625-9",
+    formula: "C7H8",
+    sourceLabel: "ICSC 0078 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0078&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Descriptif", "Les vapeurs se mélangent bien à l'air et des mélanges explosifs se forment rapidement."],
+      ["Solubilité dans l'eau", "Insoluble"],
+      ["Masse molaire", "92,1 g/mol"],
+      ["Densité relative (eau = 1)", "0,87"],
+      ["Densité de vapeur relative (air = 1)", "3,1"],
+      ["Pression de vapeur", "3,8 kPa à 25 °C"],
+      ["Point de fusion", "-95 °C"],
+      ["Point d'ébullition", "111 °C"],
+      ["Limite inférieure d'explosivité", "1,1 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "7,1 % vol. dans l'air"],
+      ["Point d'éclair", "4 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "480 °C"]
+    ],
+    fire: [
+      "Liquide et vapeurs très inflammables.",
+      "Les mélanges vapeur/air explosifs se forment facilement.",
+      "Réagit violemment avec les oxydants puissants.",
+      "Éliminer les sources d'ignition et limiter les charges électrostatiques."
+    ],
+    health: [
+      "Peut provoquer somnolence ou vertiges et agir sur le système nerveux central.",
+      "Risque de pneumonie chimique par aspiration.",
+      "Peut être absorbé par inhalation, par voie cutanée et par ingestion.",
+      "L'exposition répétée peut affecter le système nerveux et majorer les effets du bruit sur l'audition."
+    ]
+  },
+
+  xylene_o: {
+    key: "xylene_o",
+    names: ["o xylene", "ortho xylene", "1 2 dimethylbenzene"],
+    title: "o-Xylène",
+    cas: "95-47-6",
+    un: "1307",
+    ec: "202-422-2",
+    formula: "C8H10",
+    sourceLabel: "ICSC 0084 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0084&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Solubilité dans l'eau", "0,18 g/L à 20 °C - très légèrement soluble"],
+      ["Masse molaire", "106,2 g/mol"],
+      ["Densité relative (eau = 1)", "0,88 à 20 °C"],
+      ["Densité de vapeur relative (air = 1)", "3,7"],
+      ["Pression de vapeur", "0,7 kPa à 20 °C"],
+      ["Point de fusion", "-25 °C"],
+      ["Point d'ébullition", "144 °C"],
+      ["Limite inférieure d'explosivité", "0,9 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "7,6 % vol. dans l'air"],
+      ["Point d'éclair", "30 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "465 °C"]
+    ],
+    fire: [
+      "Liquide inflammable ; charges électrostatiques possibles.",
+      "Réagit avec les acides forts et les oxydants puissants.",
+      "Éliminer les sources d'ignition et ventiler.",
+      "Éviter le rejet vers les réseaux d'eaux."
+    ],
+    health: [
+      "Peut être absorbé par inhalation, par voie cutanée et par ingestion.",
+      "Irritant pour les yeux, la peau et les voies respiratoires.",
+      "Risque de pneumonie chimique en cas d'aspiration.",
+      "Des effets sur le système nerveux central sont possibles."
+    ]
+  },
+
+  xylene_m: {
+    key: "xylene_m",
+    names: ["m xylene", "meta xylene", "1 3 dimethylbenzene"],
+    title: "m-Xylène",
+    cas: "108-38-3",
+    un: "1307",
+    ec: "203-576-3",
+    formula: "C8H10",
+    sourceLabel: "ICSC 0085 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0085&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Solubilité dans l'eau", "0,174 g/L à 25 °C - très légèrement soluble"],
+      ["Masse molaire", "106,2 g/mol"],
+      ["Densité relative (eau = 1)", "0,86 à 20 °C"],
+      ["Densité de vapeur relative (air = 1)", "3,7"],
+      ["Pression de vapeur", "0,8 kPa à 20 °C"],
+      ["Point de fusion", "-48 °C"],
+      ["Point d'ébullition", "139 °C"],
+      ["Limite inférieure d'explosivité", "1,0 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "7,0 % vol. dans l'air"],
+      ["Point d'éclair", "25 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "540 °C"]
+    ],
+    fire: [
+      "Liquide inflammable ; charges électrostatiques possibles.",
+      "Réagit avec les acides forts et les oxydants puissants.",
+      "Éliminer les sources d'ignition.",
+      "Prévenir toute contamination des réseaux et de l'environnement."
+    ],
+    health: [
+      "Nocif par contact cutané ou inhalation.",
+      "Irritant pour les yeux, la peau et les voies respiratoires.",
+      "Risque de pneumonie chimique en cas d'aspiration.",
+      "L'exposition répétée peut affecter le système nerveux central."
+    ]
+  },
+
+  xylene_p: {
+    key: "xylene_p",
+    names: ["p xylene", "para xylene", "1 4 dimethylbenzene", "paraxylene"],
+    title: "p-Xylène",
+    cas: "106-42-3",
+    un: "1307",
+    ec: "203-396-5",
+    formula: "C8H10",
+    sourceLabel: "ICSC 0086 - OIT/OMS",
+    sourceUrl: "https://chemicalsafety.ilo.org/dyn/icsc/showcard.display?p_card_id=0086&p_lang=fr&p_version=2",
+    physical: [
+      ["État physique", "Liquide incolore à odeur caractéristique"],
+      ["Solubilité dans l'eau", "0,2 g/L à 25 °C - très légèrement soluble"],
+      ["Masse molaire", "106,2 g/mol"],
+      ["Densité relative (eau = 1)", "0,86 à 20 °C"],
+      ["Densité de vapeur relative (air = 1)", "3,7"],
+      ["Pression de vapeur", "0,9 kPa à 20 °C"],
+      ["Point de fusion", "13 °C"],
+      ["Point d'ébullition", "138 °C"],
+      ["Limite inférieure d'explosivité", "1,0 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "7,0 % vol. dans l'air"],
+      ["Point d'éclair", "25 °C coupelle fermée"],
+      ["Température d'auto-inflammation", "540 °C"]
+    ],
+    fire: [
+      "Liquide inflammable ; charges électrostatiques possibles.",
+      "Réagit avec les acides forts et les oxydants puissants.",
+      "Éliminer les sources d'ignition et ventiler.",
+      "Éviter tout rejet dans l'environnement."
+    ],
+    health: [
+      "Nocif par contact cutané ou inhalation.",
+      "Irritant pour les yeux, la peau et les voies respiratoires.",
+      "Peut affecter le système nerveux central.",
+      "L'exposition répétée peut accroître l'hypoacousie due au bruit."
+    ]
+  }
+,
+
+  diesel_gazole: {
+    key: "diesel_gazole",
+    names: ["diesel", "gazole", "gasoil", "gas oil", "diesel b7", "gazole b7"],
+    title: "Gazole / Diesel (B7)",
+    cas: "Mélange",
+    un: "1202",
+    ec: "Mélange",
+    formula: "Mélange d'hydrocarbures",
+    sourceLabel: "Synthèse carburant CMIC-OPS - référence EN 590 / données FDS fournisseur à vérifier",
+    sourceUrl: "https://services.totalenergies.fr/particuliers/conseils/energies-vehicules/carburants-thermiques/zoom-sur-les-carburants-disponibles-en-stations",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Descriptif", "Liquide généralement jaune pâle à ambré, odeur caractéristique d'hydrocarbures"],
+      ["Nature du produit", "Mélange de distillats pétroliers moyens ; le B7 peut contenir jusqu'à 7 % de biodiesel"],
+      ["Masse molaire", "Non définie - mélange"],
+      ["Densité typique à 15 °C", "Environ 0,82 à 0,845"],
+      ["Densité de vapeur relative (air = 1)", "> 1 ; vapeurs plus lourdes que l'air"],
+      ["Pression de vapeur", "Faible à température ambiante ; dépend de la composition"],
+      ["Intervalle d'ébullition typique", "Environ 150 à 380 °C"],
+      ["Limite inférieure d'explosivité", "Environ 0,5 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "Environ 5 % vol. dans l'air"],
+      ["Point d'éclair", "≥ 55 °C pour le gazole routier conforme EN 590"],
+      ["Température d'auto-inflammation", "Typiquement > 220 °C"],
+      ["Solubilité dans l'eau", "Très faible / pratiquement insoluble"],
+      ["Commentaire", "Les valeurs exactes dépendent de la formulation, de la saison et du fournisseur : consulter la FDS du produit impliqué."]
+    ],
+    fire: [
+      "Liquide combustible ; les vapeurs chauffées peuvent former un mélange inflammable ou explosif avec l'air.",
+      "Les vapeurs et brouillards peuvent s'accumuler dans les zones basses ou confinées.",
+      "En cas de déversement chaud ou sous pression, la formation de brouillards inflammables augmente fortement le risque.",
+      "Éliminer les sources d'ignition, ventiler et contenir les écoulements."
+    ],
+    health: [
+      "Éviter l'inhalation des vapeurs, brouillards et aérosols.",
+      "Le contact prolongé ou répété peut irriter et dessécher la peau.",
+      "En cas d'ingestion, risque grave de pneumonie chimique par aspiration.",
+      "Les gazoles peuvent contenir des constituants présentant des dangers chroniques ; se référer à la FDS fournisseur.",
+      "Empêcher la pénétration dans les réseaux, sols et milieux aquatiques."
+    ]
+  },
+
+  fioul_fod: {
+    key: "fioul_fod",
+    names: ["fioul", "fioul domestique", "fod", "fuel domestique", "fuel oil domestique"],
+    title: "Fioul domestique / FOD",
+    cas: "Mélange",
+    un: "1202",
+    ec: "Mélange",
+    formula: "Mélange d'hydrocarbures",
+    sourceLabel: "Synthèse carburant CMIC-OPS - données FDS fournisseur à vérifier",
+    sourceUrl: "https://proxi.totalenergies.fr/particuliers/actualites/essence-gazole-fioul-quelle-difference-entre-ces-produits",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Descriptif", "Liquide pétrolier coloré, odeur caractéristique d'hydrocarbures"],
+      ["Nature du produit", "Distillats pétroliers moyens ; formulation proche du gazole mais destinée au chauffage"],
+      ["Masse molaire", "Non définie - mélange"],
+      ["Densité typique à 15 °C", "Environ 0,82 à 0,86"],
+      ["Densité de vapeur relative (air = 1)", "> 1 ; vapeurs plus lourdes que l'air"],
+      ["Pression de vapeur", "Faible à température ambiante"],
+      ["Intervalle d'ébullition typique", "Environ 150 à 380 °C"],
+      ["Limite inférieure d'explosivité", "Environ 0,5 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "Environ 5 % vol. dans l'air"],
+      ["Point d'éclair", "Généralement ≥ 55 °C"],
+      ["Température d'auto-inflammation", "Typiquement > 220 °C"],
+      ["Solubilité dans l'eau", "Pratiquement insoluble"],
+      ["Commentaire", "Produit commercial variable : confirmer les caractéristiques sur la FDS du fournisseur ou de l'exploitant."]
+    ],
+    fire: [
+      "Liquide combustible ; les vapeurs produites lorsqu'il est chauffé peuvent s'enflammer.",
+      "Risque accru en présence de brouillards, de pulvérisation ou de surfaces chaudes.",
+      "Les vapeurs sont plus lourdes que l'air et peuvent se déplacer vers une source d'ignition.",
+      "Contenir le déversement et protéger les réseaux d'assainissement."
+    ],
+    health: [
+      "Éviter l'inhalation des vapeurs et brouillards.",
+      "Le contact prolongé peut provoquer irritation et dessèchement cutané.",
+      "Risque de pneumonie chimique par aspiration en cas d'ingestion.",
+      "Porter les protections adaptées au scénario et consulter la FDS de l'exploitant.",
+      "Éviter tout rejet dans l'environnement."
+    ]
+  },
+
+  sp95: {
+    key: "sp95",
+    names: ["sp95", "sp 95", "sans plomb 95", "essence sp95", "essence sp 95", "super 95", "sp95 e5", "sp95 e10", "sp 95 e10"],
+    title: "Essence Sans Plomb 95 (SP95 / SP95-E10)",
+    cas: "Mélange",
+    un: "1203",
+    ec: "Mélange",
+    formula: "Mélange d'hydrocarbures légers + oxygénés selon formulation",
+    sourceLabel: "Synthèse carburant CMIC-OPS - famille essence EN 228",
+    sourceUrl: "https://services.totalenergies.fr/particuliers/conseils/energies-vehicules/carburants-thermiques/nouvel-etiquetage-carburant",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Descriptif", "Liquide très volatil, odeur caractéristique d'essence"],
+      ["Nature du produit", "Mélange d'alcanes, cycloalcanes, alcènes, aromatiques et additifs ; SP95-E10 peut contenir jusqu'à 10 % d'éthanol"],
+      ["Indice d'octane RON", "95"],
+      ["Masse molaire", "Non définie - mélange"],
+      ["Densité typique à 15 °C", "Environ 0,72 à 0,78"],
+      ["Densité de vapeur relative (air = 1)", "Environ 3 à 4 ; vapeurs plus lourdes que l'air"],
+      ["Pression de vapeur", "Élevée et variable selon la saison et la formulation"],
+      ["Intervalle d'ébullition typique", "Environ 25 à 210 °C"],
+      ["Limite inférieure d'explosivité", "Environ 1,4 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "Environ 7,6 % vol. dans l'air"],
+      ["Point d'éclair", "Généralement < -40 °C"],
+      ["Température d'auto-inflammation", "Typiquement autour de 250 à 470 °C selon composition"],
+      ["Solubilité dans l'eau", "Faible ; augmente avec la teneur en éthanol"],
+      ["Commentaire", "Les propriétés varient selon la saison, le taux d'éthanol et le fournisseur. Utiliser la FDS du produit présent sur site."]
+    ],
+    fire: [
+      "Liquide et vapeurs extrêmement inflammables.",
+      "Les vapeurs sont plus lourdes que l'air et peuvent se déplacer au niveau du sol jusqu'à une source d'ignition.",
+      "Un mélange explosif air/vapeurs peut se former rapidement, y compris à distance du déversement.",
+      "Éliminer toutes les sources d'ignition, mettre à la terre les équipements et ventiler les zones basses."
+    ],
+    health: [
+      "L'inhalation de fortes concentrations peut provoquer céphalées, vertiges, somnolence ou perte de connaissance.",
+      "En cas d'ingestion, risque majeur de pneumonie chimique par aspiration.",
+      "Le contact répété dégraisse et irrite la peau.",
+      "Certaines formulations peuvent contenir des constituants dangereux tels que le benzène : limiter strictement l'exposition.",
+      "Empêcher tout rejet dans les réseaux et l'environnement."
+    ]
+  },
+
+  sp98: {
+    key: "sp98",
+    names: ["sp98", "sp 98", "sans plomb 98", "essence sp98", "essence sp 98", "super 98", "sp98 e5"],
+    title: "Essence Sans Plomb 98 (SP98)",
+    cas: "Mélange",
+    un: "1203",
+    ec: "Mélange",
+    formula: "Mélange d'hydrocarbures légers + additifs",
+    sourceLabel: "Synthèse carburant CMIC-OPS - famille essence EN 228",
+    sourceUrl: "https://services.totalenergies.fr/particuliers/conseils/energies-vehicules/carburants-thermiques/nouvel-etiquetage-carburant",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Descriptif", "Liquide très volatil, odeur caractéristique d'essence"],
+      ["Nature du produit", "Mélange d'hydrocarbures et d'additifs ; le SP98 E5 peut contenir jusqu'à 5 % d'éthanol"],
+      ["Indice d'octane RON", "98"],
+      ["Masse molaire", "Non définie - mélange"],
+      ["Densité typique à 15 °C", "Environ 0,72 à 0,78"],
+      ["Densité de vapeur relative (air = 1)", "Environ 3 à 4 ; vapeurs plus lourdes que l'air"],
+      ["Pression de vapeur", "Élevée et variable selon la saison et la formulation"],
+      ["Intervalle d'ébullition typique", "Environ 25 à 210 °C"],
+      ["Limite inférieure d'explosivité", "Environ 1,4 % vol. dans l'air"],
+      ["Limite supérieure d'explosivité", "Environ 7,6 % vol. dans l'air"],
+      ["Point d'éclair", "Généralement < -40 °C"],
+      ["Température d'auto-inflammation", "Typiquement autour de 250 à 470 °C selon composition"],
+      ["Solubilité dans l'eau", "Faible"],
+      ["Commentaire", "Le chiffre 98 correspond à l'indice d'octane et non à une substance unique. Les propriétés exactes doivent être confirmées sur la FDS fournisseur."]
+    ],
+    fire: [
+      "Liquide et vapeurs extrêmement inflammables.",
+      "Les vapeurs plus lourdes que l'air peuvent s'accumuler dans les points bas et s'enflammer à distance.",
+      "Risque d'explosion dans les espaces confinés et les réseaux.",
+      "Éliminer les sources d'ignition, mettre à la terre les équipements et assurer une ventilation adaptée."
+    ],
+    health: [
+      "À forte concentration, effets narcotiques possibles : vertiges, somnolence, perte de connaissance.",
+      "Risque majeur de pneumonie chimique par aspiration en cas d'ingestion.",
+      "Le contact répété peut irriter et dessécher la peau.",
+      "Certaines formulations contiennent des hydrocarbures aromatiques dangereux : limiter l'exposition et consulter la FDS.",
+      "Empêcher la dispersion vers les réseaux et les milieux aquatiques."
+    ]
+  }
+
+};
+
+function findCmicProductSheet(item) {
+  const norm = normalizeText(item?.name || "");
+  if (!norm) return null;
+
+  for (const sheet of Object.values(CMIC_PRODUCT_SHEETS)) {
+    if (sheet.names.includes(norm)) return sheet;
+  }
+
+  // Correspondances prudentes uniquement pour les formes explicites du nom.
+  if (/^propane(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.propane;
+  if (/^(?:n\s+)?butane$/.test(norm)) return CMIC_PRODUCT_SHEETS.butane;
+  if (/^methane(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.methane;
+  if (/^(?:di)?hydrogene(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hydrogen;
+  if (/^ethane(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.ethane;
+  if (/^(?:ethylene|ethene)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.ethylene;
+  if (/^(?:propylene|propene)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.propylene;
+  if (/^(?:acetylene|ethyne|ethine)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.acetylene;
+  if (/^(?:n\s+)?pentane$/.test(norm)) return CMIC_PRODUCT_SHEETS.pentane;
+  if (/^(?:n\s+)?hexane$/.test(norm)) return CMIC_PRODUCT_SHEETS.hexane;
+  if (/^(?:n\s+)?heptane$/.test(norm)) return CMIC_PRODUCT_SHEETS.heptane;
+  if (/^(?:n\s+)?octane$/.test(norm)) return CMIC_PRODUCT_SHEETS.octane;
+  if (/^cyclohexane$/.test(norm)) return CMIC_PRODUCT_SHEETS.cyclohexane;
+  if (/^benzene$/.test(norm)) return CMIC_PRODUCT_SHEETS.benzene;
+  if (/^(?:toluene|methylbenzene|toluol)$/.test(norm)) return CMIC_PRODUCT_SHEETS.toluene;
+  if (/^(?:o\s*xylene|ortho\s*xylene|1\s*2\s*dimethylbenzene)$/.test(norm)) return CMIC_PRODUCT_SHEETS.xylene_o;
+  if (/^(?:m\s*xylene|meta\s*xylene|1\s*3\s*dimethylbenzene)$/.test(norm)) return CMIC_PRODUCT_SHEETS.xylene_m;
+  if (/^(?:p\s*xylene|para\s*xylene|paraxylene|1\s*4\s*dimethylbenzene)$/.test(norm)) return CMIC_PRODUCT_SHEETS.xylene_p;
+  if (/^(?:diesel|gazole|gasoil|gas\s*oil|diesel\s*b7|gazole\s*b7)$/.test(norm)) return CMIC_PRODUCT_SHEETS.diesel_gazole;
+  if (/^(?:fioul|fioul\s*domestique|fod|fuel\s*domestique|fuel\s*oil\s*domestique)$/.test(norm)) return CMIC_PRODUCT_SHEETS.fioul_fod;
+  if (/^(?:sp\s*95|sans\s*plomb\s*95|essence\s*sp\s*95|super\s*95|sp\s*95\s*e5|sp\s*95\s*e10)$/.test(norm)) return CMIC_PRODUCT_SHEETS.sp95;
+  if (/^(?:sp\s*98|sans\s*plomb\s*98|essence\s*sp\s*98|super\s*98|sp\s*98\s*e5)$/.test(norm)) return CMIC_PRODUCT_SHEETS.sp98;
+
+  return null;
+}
+
+function renderCmicProductTable(rows) {
+  return `
+    <div class="cmic-product-table-wrap">
+      <table class="cmic-product-table">
+        <tbody>
+          ${rows.map(([label, value]) => `
+            <tr>
+              <th scope="row">${escapeHtml(label)}</th>
+              <td>${escapeHtml(value)}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function renderCmicProductSheet(sheet) {
+  const identityRows = [
+    ["Produit", sheet.title],
+    ["Formule", sheet.formula],
+    ["N° CAS", sheet.cas],
+    ["N° ONU", sheet.un],
+    ["N° CE", sheet.ec]
+  ];
+
+  return `
+    <div class="cmic-sheet">
+      <div class="cmic-sheet-head">
+        <div class="cmic-sheet-title">
+          <strong>Fiche produit CMIC-OPS - ${escapeHtml(sheet.title)}</strong>
+          <small>Synthèse opérationnelle - données physico-chimiques et sécurité</small>
+        </div>
+        <span class="cmic-sheet-badge">Hors fiche INRS</span>
+      </div>
+
+      <div class="cmic-product-accordion">
+        <details class="cmic-product-item" open>
+          <summary>
+            <span>Identité du produit</span>
+            <span class="cmic-product-chevron">›</span>
+          </summary>
+          <div class="cmic-product-body">
+            ${renderCmicProductTable(identityRows)}
+          </div>
+        </details>
+
+        <details class="cmic-product-item">
+          <summary>
+            <span>Propriétés physiques</span>
+            <span class="cmic-product-chevron">›</span>
+          </summary>
+          <div class="cmic-product-body">
+            ${renderCmicProductTable(sheet.physical)}
+          </div>
+        </details>
+
+        <details class="cmic-product-item">
+          <summary>
+            <span>Incendie - Explosion</span>
+            <span class="cmic-product-chevron">›</span>
+          </summary>
+          <div class="cmic-product-body">
+            <div class="cmic-product-alert">${escapeHtml(sheet.fire[0])}</div>
+            <ul class="cmic-product-list">
+              ${sheet.fire.slice(1).map(x => `<li>${escapeHtml(x)}</li>`).join("")}
+            </ul>
+          </div>
+        </details>
+
+        <details class="cmic-product-item">
+          <summary>
+            <span>Risques et conduite opérationnelle</span>
+            <span class="cmic-product-chevron">›</span>
+          </summary>
+          <div class="cmic-product-body">
+            <ul class="cmic-product-list">
+              ${sheet.health.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
+            </ul>
+            <div class="cmic-source-note">
+              Source principale :
+              <a href="${sheet.sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sheet.sourceLabel)}</a>.
+              Cette synthèse CMIC-OPS ne remplace pas la FDS du fournisseur ni les documents opérationnels applicables.
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>`;
+}
+
+function toggleCmicProductSheet(button) {
+  const host = document.getElementById(button.dataset.host);
+  const key = button.dataset.product;
+  const sheet = CMIC_PRODUCT_SHEETS[key];
+  if (!host || !sheet) return;
+
+  if (host.dataset.loaded === "true") {
+    const hidden = host.hidden;
+    host.hidden = !hidden;
+    button.textContent = hidden ? "Masquer" : "Fiche CMIC-OPS";
+    return;
+  }
+
+  host.innerHTML = renderCmicProductSheet(sheet);
+  host.dataset.loaded = "true";
+  host.hidden = false;
+  button.textContent = "Masquer";
+}
+
+function wireCmicProductButtons() {
+  resultArea.querySelectorAll(".cmic-product-btn").forEach(button => {
+    button.addEventListener("click", () => toggleCmicProductSheet(button));
+  });
+}
+
 function documentationScore(item) {
   let score = 1; // Guide GMU disponible pour les entrées de l'index.
   const inrs = findInrsForItem(item);
+  const cmicSheet = findCmicProductSheet(item);
   if (inrs) score += 2; // PDF INRS + modules statiques disponibles.
+  else if (cmicSheet) score += 1.5; // Fiche produit CMIC-OPS disponible.
   return score;
 }
 
@@ -3352,15 +4580,24 @@ function renderResults(items, heading) {
     const guideLabel = item.guide.replace("P", "") + (item.guide.endsWith("P") ? " (P)" : "");
     const href = `${PDF_FILE}#page=${item.page}`;
     const inrs = findInrsForItem(item);
+    const cmicSheet = !inrs ? findCmicProductSheet(item) : null;
     const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
-    const inrsLink = inrs
+    const cmicHostId = cmicSheet ? `cmic-product-${escapeHtml(cmicSheet.key)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
+
+    const extraDocumentation = inrs
       ? `<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">PDF INRS ${escapeHtml(inrs.ft)}</a>
          <button type="button" class="pdf-link inrs-modules-btn" data-ft="${escapeHtml(inrs.ft)}" data-host="${moduleHostId}">Modules INRS</button>`
-      : `<span class="inrs-unavailable" title="Aucune fiche INRS identifiée automatiquement pour cette appellation.">INRS non associé</span>`;
+      : cmicSheet
+        ? `<button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(cmicSheet.key)}" data-host="${cmicHostId}">Fiche CMIC-OPS</button>`
+        : `<span class="inrs-unavailable" title="Aucune fiche complémentaire identifiée automatiquement pour cette appellation.">Documentation complémentaire indisponible</span>`;
 
     const docs = `<div class="result-doc-badges">
       <span class="doc-badge available">GMU</span>
-      ${inrs ? `<span class="doc-badge available">INRS</span><span class="doc-badge available">Modules</span>` : `<span class="doc-badge">INRS indisponible</span>`}
+      ${inrs
+        ? `<span class="doc-badge available">INRS</span><span class="doc-badge available">Modules</span>`
+        : cmicSheet
+          ? `<span class="doc-badge available">Fiche CMIC-OPS</span>`
+          : `<span class="doc-badge">Doc. complémentaire indisponible</span>`}
     </div>`;
 
     return `<div class="result-card">
@@ -3372,9 +4609,10 @@ function renderResults(items, heading) {
       </div>
       <div class="result-links">
         <a class="pdf-link" href="${href}" target="_blank" rel="noopener">Guide GMU ${item.guide.replace("P","")}</a>
-        ${inrsLink}
+        ${extraDocumentation}
       </div>
       ${inrs ? `<div class="inrs-module-host" id="${moduleHostId}"></div>` : ""}
+      ${cmicSheet ? `<div class="cmic-product-host" id="${cmicHostId}"></div>` : ""}
     </div>`;
   }).join("");
 
@@ -3384,6 +4622,7 @@ function renderResults(items, heading) {
 
   resultArea.innerHTML = `<div class="result-message">${escapeHtml(heading)} - ${items.length} correspondance${items.length > 1 ? "s" : ""}.</div><div class="result-list">${cards}</div>${more}`;
   wireInrsModuleButtons();
+  wireCmicProductButtons();
   resultArea.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
