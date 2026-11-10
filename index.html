@@ -48,9 +48,9 @@
         linear-gradient(
           135deg,
           #7c2d12 0%,
-          #9a3412 25%,
-          #c2410c 55%,
-          #ea580c 80%,
+          #9a3412 22%,
+          #c2410c 50%,
+          #ea580c 78%,
           #fb923c 100%
         );
 
@@ -109,8 +109,6 @@
     .logo {
       display: block;
 
-      /* Taille volontairement plus grande pour compenser
-         les marges transparentes présentes dans Logo.png */
       width: min(420px, 78vw);
       max-height: 190px;
 
@@ -120,6 +118,7 @@
       margin: 0 auto 8px;
     }
 
+    /* ===== TITRE CMIC-OPS STYLE V18 ===== */
     .hero-title {
       display: flex;
       flex-direction: column;
@@ -137,10 +136,18 @@
     .hero-title .brand {
       display: block;
 
-      font-size: clamp(2.2rem, 8vw, 4rem);
+      font-size: clamp(2.6rem, 9vw, 5rem);
       font-weight: 900;
 
-      letter-spacing: 0.04em;
+      line-height: 1;
+
+      letter-spacing: 0.035em;
+
+      color: #ffffff;
+    }
+
+    .hero-title .brand span {
+      color: #ffedd5;
     }
 
     .hero-title .subtitle {
@@ -148,6 +155,8 @@
 
       font-size: clamp(1.15rem, 4vw, 1.75rem);
       font-weight: 750;
+
+      color: #ffffff;
     }
 
     .header-sub {
@@ -357,7 +366,7 @@
     <img src="Logo.png" alt="Logo CMIC-OPS" class="logo">
 
     <h1 class="hero-title">
-      <span class="brand">CMIC-OPS</span>
+      <span class="brand">CMIC<span>-OPS</span></span>
       <span class="subtitle">Outils opérationnels</span>
     </h1>
 
