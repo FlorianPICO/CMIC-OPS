@@ -2015,19 +2015,20 @@
 
 
   .brand-subtitle {
-    margin: 2px 0 8px;
+    margin: 5px 0 10px;
     color: #fff;
-    font-size: 1.22rem;
-    line-height: 1.2;
-    font-weight: 800;
-    letter-spacing: .01em;
+    font-size: clamp(1.2rem, 3.8vw, 1.65rem);
+    line-height: 1.15;
+    font-weight: 850;
+    letter-spacing: .012em;
+    text-align: center;
     text-shadow: 0 1px 2px rgba(0,0,0,.16);
   }
 
   @media (max-width: 560px) {
     .brand-subtitle {
-      font-size: 1.05rem;
-      margin-bottom: 7px;
+      font-size: clamp(1.1rem, 5vw, 1.35rem);
+      margin: 4px 0 8px;
     }
   }
 
@@ -2056,11 +2057,6 @@
     <div class="intro-line"></div>
     <h2>Choix des outils opérationnels</h2>
     <p>Cette page centralise les différents modules opérationnels disponibles sur CMIC-OPS.</p>
-  </div>
-
-  <div class="section-title">
-    <div class="section-number">1</div>
-    <h2>Outils opérationnels</h2>
   </div>
 
   <div class="tools-grid">
