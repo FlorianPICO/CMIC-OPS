@@ -5117,7 +5117,7 @@ function rankSearchResults(items, query) {
 function renderResults(items, heading) {
   items = uniqueResults(items);
   if (!items.length) {
-    resultArea.innerHTML = `<div class="result-message">Aucune correspondance trouvée dans l'index du GMU 2024.</div>`;
+    resultArea.innerHTML = `<div class="result-message">Aucune correspondance trouvée dans l'index GMU 2024.</div>`;
     return;
   }
 
@@ -5190,22 +5190,147 @@ function searchByUn() {
   renderResults(items, label);
 }
 
+
+function findCmicSheetsByQuery(query) {
+  const q = normalizeText(query || "");
+  if (!q) return [];
+
+  const results = [];
+  const add = sheet => {
+    if (sheet && !results.some(x => x.key === sheet.key)) results.push(sheet);
+  };
+
+  // Cas génériques explicitement demandés.
+  if (q === "essence" || q === "essences" || q === "essence sans plomb") {
+    add(CMIC_PRODUCT_SHEETS.sp95);
+    add(CMIC_PRODUCT_SHEETS.sp98);
+    return results;
+  }
+
+  if (/^(?:sp\s*95|essence\s*sp\s*95|sans\s*plomb\s*95|super\s*95|sp\s*95\s*e10|sp\s*95\s*e5)$/.test(q)) {
+    add(CMIC_PRODUCT_SHEETS.sp95);
+  }
+
+  if (/^(?:sp\s*98|essence\s*sp\s*98|sans\s*plomb\s*98|super\s*98|sp\s*98\s*e5)$/.test(q)) {
+    add(CMIC_PRODUCT_SHEETS.sp98);
+  }
+
+  if (/^(?:fioul|fioul\s*domestique|fod|fuel\s*domestique|fuel\s*oil\s*domestique)$/.test(q)) {
+    add(CMIC_PRODUCT_SHEETS.fioul_fod);
+  }
+
+  if (/^(?:diesel|gazole|gasoil|gas\s*oil|diesel\s*b7|gazole\s*b7)$/.test(q)) {
+    add(CMIC_PRODUCT_SHEETS.diesel_gazole);
+  }
+
+  // Recherche directe dans les alias des fiches CMIC.
+  for (const sheet of Object.values(CMIC_PRODUCT_SHEETS)) {
+    const titleNorm = normalizeText(sheet.title || "");
+    const aliases = (sheet.names || []).map(normalizeText);
+
+    if (
+      titleNorm === q ||
+      titleNorm.includes(q) ||
+      aliases.some(alias => alias === q || alias.includes(q) || q.includes(alias))
+    ) {
+      add(sheet);
+    }
+  }
+
+  return results;
+}
+
+function renderStandaloneCmicResults(sheets, heading) {
+  if (!sheets.length) return false;
+
+  const cards = sheets.map(sheet => {
+    const hostId = `cmic-standalone-${escapeHtml(sheet.key)}-${Math.random().toString(36).slice(2,8)}`;
+
+    return `<div class="result-card">
+      <div class="result-main">
+        <strong>${escapeHtml(sheet.title)}</strong>
+        <div class="result-meta">Fiche de synthèse CMIC-OPS</div>
+        <div class="result-doc-badges">
+          <span class="doc-badge available">Fiche CMIC-OPS</span>
+        </div>
+      </div>
+      <div class="result-links">
+        <button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(sheet.key)}" data-host="${hostId}">Fiche CMIC-OPS</button>
+      </div>
+      <div class="cmic-product-host" id="${hostId}"></div>
+    </div>`;
+  }).join("");
+
+  resultArea.innerHTML = `<div class="result-message">${escapeHtml(heading)} - ${sheets.length} fiche${sheets.length > 1 ? "s" : ""} CMIC-OPS disponible${sheets.length > 1 ? "s" : ""}.</div><div class="result-list">${cards}</div>`;
+  wireCmicProductButtons();
+  resultArea.scrollIntoView({behavior:"smooth", block:"nearest"});
+  return true;
+}
+
+function appendStandaloneCmicResults(sheets) {
+  if (!sheets.length) return;
+
+  const existingKeys = new Set(
+    Array.from(resultArea.querySelectorAll(".cmic-product-btn"))
+      .map(btn => btn.dataset.product)
+      .filter(Boolean)
+  );
+
+  const fresh = sheets.filter(sheet => !existingKeys.has(sheet.key));
+  if (!fresh.length) return;
+
+  const list = resultArea.querySelector(".result-list");
+  if (!list) return;
+
+  const html = fresh.map(sheet => {
+    const hostId = `cmic-extra-${escapeHtml(sheet.key)}-${Math.random().toString(36).slice(2,8)}`;
+    return `<div class="result-card">
+      <div class="result-main">
+        <strong>${escapeHtml(sheet.title)}</strong>
+        <div class="result-meta">Fiche de synthèse CMIC-OPS</div>
+        <div class="result-doc-badges">
+          <span class="doc-badge available">Fiche CMIC-OPS</span>
+        </div>
+      </div>
+      <div class="result-links">
+        <button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(sheet.key)}" data-host="${hostId}">Fiche CMIC-OPS</button>
+      </div>
+      <div class="cmic-product-host" id="${hostId}"></div>
+    </div>`;
+  }).join("");
+
+  list.insertAdjacentHTML("afterbegin", html);
+  wireCmicProductButtons();
+}
+
 function searchByName() {
   const raw = document.getElementById("productName").value.trim();
   const query = normalizeText(raw);
+
   if (query.length < 2) {
     resultArea.innerHTML = `<div class="result-message">Saisissez au moins 2 caractères du nom de la matière.</div>`;
     return;
   }
 
+  const cmicSheets = findCmicSheetsByQuery(query);
   const queryWords = query.split(/\s+/).filter(Boolean);
+
   let items = GMU_DATA.filter(item => {
     const norm = normalizeText(item.name);
     return norm.includes(query) || queryWords.every(word => norm.includes(word));
   });
 
   items = rankSearchResults(items, query);
-  renderResults(items, `Recherche : ${raw}`);
+
+  if (items.length) {
+    renderResults(items, `Recherche : ${raw}`);
+    appendStandaloneCmicResults(cmicSheets);
+    return;
+  }
+
+  if (renderStandaloneCmicResults(cmicSheets, `Recherche : ${raw}`)) return;
+
+  resultArea.innerHTML = `<div class="result-message">Aucune correspondance trouvée dans l'index GMU 2024, les fiches INRS ou les fiches CMIC-OPS.</div>`;
 }
 
 document.getElementById("searchUn").addEventListener("click", searchByUn);
