@@ -977,6 +977,140 @@
 
 </style>
 
+
+
+    /* ===== MODULES INRS STATIQUES ===== */
+    .inrs-modules-btn {
+      border:0;
+      font:inherit;
+      cursor:pointer;
+    }
+
+    .inrs-module-host {
+      grid-column:1 / -1;
+      min-width:0;
+    }
+
+    .inrs-sheet {
+      margin-top:14px;
+      overflow:hidden;
+      border:1px solid #d6d3d1;
+      border-radius:18px;
+      background:#ebe9e9;
+      box-shadow:0 7px 20px rgba(0,0,0,.06);
+    }
+
+    .inrs-sheet-head {
+      padding:16px 20px;
+      background:#4b4d50;
+      color:#fff;
+    }
+
+    .inrs-sheet-head strong {
+      display:block;
+      font-size:1.15rem;
+    }
+
+    .inrs-sheet-head small {
+      display:block;
+      margin-top:3px;
+      color:#f5f5f4;
+      opacity:.92;
+    }
+
+    .inrs-accordion {
+      padding:0 18px 14px;
+    }
+
+    .inrs-module-item {
+      border-bottom:1px solid #a8a29e;
+    }
+
+    .inrs-module-item:last-child {
+      border-bottom:0;
+    }
+
+    .inrs-module-item summary {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      min-height:58px;
+      padding:10px 10px;
+      color:#57534e;
+      font-size:1rem;
+      cursor:pointer;
+      list-style:none;
+    }
+
+    .inrs-module-item summary::-webkit-details-marker { display:none; }
+
+    .inrs-module-item summary strong {
+      color:inherit;
+      font-weight:600;
+    }
+
+    .inrs-module-item[open] summary strong {
+      color:#292524;
+      font-weight:850;
+    }
+
+    .inrs-module-chevron {
+      flex-shrink:0;
+      color:var(--orange);
+      font-size:1.3rem;
+      line-height:1;
+      transition:transform .15s ease;
+    }
+
+    .inrs-module-item[open] .inrs-module-chevron {
+      transform:rotate(90deg);
+    }
+
+    .inrs-module-content {
+      margin:0 0 12px;
+      padding:14px;
+      border-radius:12px;
+      background:#fff;
+      color:#292524;
+    }
+
+    .inrs-module-text {
+      margin:0;
+      white-space:pre-wrap;
+      overflow-wrap:anywhere;
+      font:400 .91rem/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      color:#44403c;
+    }
+
+    .inrs-loading,
+    .inrs-load-error {
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:11px;
+      font-size:.9rem;
+      font-weight:700;
+    }
+
+    .inrs-loading {
+      background:#f8fafc;
+      border:1px solid #e2e8f0;
+      color:#475569;
+    }
+
+    .inrs-load-error {
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#9a3412;
+    }
+
+    @media (max-width:700px) {
+      .inrs-accordion { padding:0 10px 10px; }
+      .inrs-sheet-head { padding:14px 16px; }
+      .inrs-module-item summary { min-height:54px; padding:10px 6px; }
+      .inrs-module-content { padding:12px; }
+    }
+
 </style>
 </head>
 
@@ -986,12 +1120,12 @@
     <img src="Logo.png" alt="Logo CMIC-OPS" class="logo">
     <h1 class="brand">CMIC<span>-OPS</span></h1>
     <div class="hero-title">Choix des outils opérationnels</div>
-    <p class="hero-description"><p class="header-sub">
+    <p class="header-sub">
   <span>SDIS 27 – GGOC – Capitaine Florian PICO</span>
   <a href="mailto:florian.pico@sdis27.fr" class="header-mail">
     florian.pico@sdis27.fr
   </a>
-</p></p>
+</p>
     <a class="back-home" href="index.html">← Retour à l'accueil</a>
   </div>
 </header>
@@ -1540,6 +1674,115 @@ function uniqueResults(items) {
   });
 }
 
+
+const INRS_STATIC_BASE = "data/inrs/";
+const INRS_CHUNK_CACHE = new Map();
+
+const INRS_MODULE_LABELS = {
+  generalites: "Généralités",
+  caracteristiques: "Caractéristiques",
+  vlep_mesurages: "VLEP et mesurages",
+  incendie_explosion: "Incendie - Explosion",
+  pathologie_toxicologie: "Pathologie - Toxicologie",
+  reglementation: "Réglementation",
+  recommandations: "Recommandations",
+  bibliographie: "Bibliographie",
+  historique_revisions: "Historique des révisions"
+};
+
+const INRS_MODULE_ORDER = [
+  "generalites",
+  "caracteristiques",
+  "vlep_mesurages",
+  "incendie_explosion",
+  "pathologie_toxicologie",
+  "reglementation",
+  "recommandations",
+  "bibliographie",
+  "historique_revisions"
+];
+
+function inrsChunkFile(ft) {
+  const n = Number(ft);
+  if (n < 100) return "inrs-001-099.json";
+  if (n < 200) return "inrs-100-199.json";
+  if (n < 300) return "inrs-200-299.json";
+  return "inrs-300-399.json";
+}
+
+async function getInrsStaticFiche(ft) {
+  const chunk = inrsChunkFile(ft);
+  if (!INRS_CHUNK_CACHE.has(chunk)) {
+    const response = await fetch(`${INRS_STATIC_BASE}${chunk}`);
+    if (!response.ok) throw new Error(`Impossible de charger ${chunk} (${response.status})`);
+    INRS_CHUNK_CACHE.set(chunk, await response.json());
+  }
+  const data = INRS_CHUNK_CACHE.get(chunk);
+  return data?.fiches?.[String(ft)] || null;
+}
+
+function renderInrsStaticFiche(fiche) {
+  const modules = fiche.modules || {};
+  const rows = INRS_MODULE_ORDER
+    .filter(key => modules[key] && String(modules[key]).trim())
+    .map((key, index) => `
+      <details class="inrs-module-item" ${index === 0 ? "open" : ""}>
+        <summary>
+          <strong>${escapeHtml(INRS_MODULE_LABELS[key] || key)}</strong>
+          <span class="inrs-module-chevron">›</span>
+        </summary>
+        <div class="inrs-module-content">
+          <pre class="inrs-module-text">${escapeHtml(modules[key])}</pre>
+        </div>
+      </details>`)
+    .join("");
+
+  return `
+    <div class="inrs-sheet">
+      <div class="inrs-sheet-head">
+        <strong>Sommaire - Fiche toxicologique INRS n°${escapeHtml(fiche.numero)}</strong>
+        <small>${escapeHtml(fiche.titre || "")}</small>
+      </div>
+      <div class="inrs-accordion">
+        ${rows || `<div class="inrs-load-error">Aucun module exploitable n'a été extrait pour cette fiche.</div>`}
+      </div>
+    </div>`;
+}
+
+async function toggleInrsModules(button) {
+  const host = document.getElementById(button.dataset.host);
+  if (!host) return;
+
+  if (host.dataset.loaded === "true") {
+    const isHidden = host.hidden;
+    host.hidden = !isHidden;
+    button.textContent = isHidden ? "Masquer les modules INRS" : "Consulter les modules INRS";
+    return;
+  }
+
+  host.hidden = false;
+  host.innerHTML = `<div class="inrs-loading">Chargement des modules INRS...</div>`;
+  button.disabled = true;
+
+  try {
+    const fiche = await getInrsStaticFiche(button.dataset.ft);
+    if (!fiche) throw new Error("Fiche absente de la base statique.");
+    host.innerHTML = renderInrsStaticFiche(fiche);
+    host.dataset.loaded = "true";
+    button.textContent = "Masquer les modules INRS";
+  } catch (error) {
+    host.innerHTML = `<div class="inrs-load-error">Impossible de charger les modules INRS. Vérifiez que le dossier <strong>data/inrs/</strong> a bien été ajouté sur GitHub Pages.<br>${escapeHtml(error.message)}</div>`;
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function wireInrsModuleButtons() {
+  resultArea.querySelectorAll(".inrs-modules-btn").forEach(button => {
+    button.addEventListener("click", () => toggleInrsModules(button));
+  });
+}
+
 function renderResults(items, heading) {
   items = uniqueResults(items);
   if (!items.length) {
@@ -1552,8 +1795,10 @@ function renderResults(items, heading) {
     const guideLabel = item.guide.replace("P", "") + (item.guide.endsWith("P") ? " (P)" : "");
     const href = `${PDF_FILE}#page=${item.page}`;
     const inrs = findInrsForItem(item);
+    const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const inrsLink = inrs
-      ? `<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">Ouvrir la fiche INRS n°${escapeHtml(inrs.ft)}</a>`
+      ? `<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">Ouvrir le PDF INRS n°${escapeHtml(inrs.ft)}</a>
+         <button type="button" class="pdf-link inrs-link inrs-modules-btn" data-ft="${escapeHtml(inrs.ft)}" data-host="${moduleHostId}">Consulter les modules INRS</button>`
       : `<span class="inrs-unavailable">Aucune fiche INRS identifiée automatiquement - vérifier l'appellation ou les synonymes</span>`;
 
     return `<div class="result-card">
@@ -1566,6 +1811,7 @@ function renderResults(items, heading) {
         <a class="pdf-link" href="${href}" target="_blank" rel="noopener">Ouvrir le guide ${item.guide.replace("P","")}</a>
         ${inrsLink}
       </div>
+      ${inrs ? `<div class="inrs-module-host" id="${moduleHostId}"></div>` : ""}
     </div>`;
   }).join("");
 
@@ -1574,6 +1820,7 @@ function renderResults(items, heading) {
     : "";
 
   resultArea.innerHTML = `<div class="result-message">${escapeHtml(heading)} - ${items.length} correspondance${items.length > 1 ? "s" : ""}.</div><div class="result-list">${cards}</div>${more}`;
+  wireInrsModuleButtons();
   resultArea.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
