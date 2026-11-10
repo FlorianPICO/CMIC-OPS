@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="fr">
 <head>
   <meta charset="utf-8">
@@ -2180,6 +2179,129 @@
       </div>
     </section>
 
+    <button type="button" class="tool-card" id="openFireLiquefiedCalc" aria-expanded="false" aria-controls="fireLiquefiedCalcPanel">
+      <div class="tool-header">
+        <div class="tool-icon">🔥</div>
+        <h3>Calcul de débit de fuite (Gaz liquéfié sous pression inflammable soumis à incendie)</h3>
+      </div>
+      <div class="tool-body">
+        <p class="tool-description">Calcul RCH 004 : masses liquide/gazeuse, effets thermiques d'un BLEVE et effets de surpression.</p>
+        <span class="status available">Disponible</span>
+        <div class="tool-action"><span>Ouvrir l'outil</span><span>↓</span></div>
+      </div>
+    </button>
+
+    <section class="calc-panel" id="fireLiquefiedCalcPanel" aria-labelledby="fireLiquefiedCalcTitle">
+      <h3 id="fireLiquefiedCalcTitle">RCH 004 - Gaz inflammable liquéfié sous pression soumis à un incendie</h3>
+
+      <div class="school-intro">
+        <strong>Méthode RCH 004 :</strong> calcul automatique étape par étape des masses, des effets thermiques d'un BLEVE et des effets de surpression.
+        <br><strong>Important :</strong> taux de remplissage maximal 85 %. Pour une citerne vide mais non dégazée, utiliser le volume total du contenant et la pression atmosphérique pour la phase gazeuse.
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">1</span>Récupération des données</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="fireProduct">Produit</label><input id="fireProduct" type="text" placeholder="Ex. Propane"></div>
+          <div class="calc-field"><label for="fireLiquidDensity">Densité du liquide</label><input id="fireLiquidDensity" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
+          <div class="calc-field"><label for="fireGasDensityRef">Densité du gaz - référence (facultatif)</label><input id="fireGasDensityRef" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
+          <div class="calc-field"><label for="fireMolarMass">Masse molaire M (g/mol)</label><input id="fireMolarMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 44,1"></div>
+          <div class="calc-field"><label for="firePvs">Pression de vapeur saturante PVS (bar abs.)</label><input id="firePvs" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
+          <div class="calc-field"><label for="fireTemp">Température du produit (°C)</label><input id="fireTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20"></div>
+          <div class="calc-field"><label for="fireVolume">Volume du contenant (m³)</label><input id="fireVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55"></div>
+          <div class="calc-field"><label for="fireFillRate">Taux de remplissage (%)</label><input id="fireFillRate" type="number" inputmode="decimal" step="any" min="0" max="85" value="85"><small>RCH 004 : maximum 85 %.</small></div>
+          <div class="calc-field"><label for="fireEmptyNotDegassed">Cas particulier</label><label style="display:flex;align-items:center;gap:8px;font-weight:700;"><input id="fireEmptyNotDegassed" type="checkbox"> Citerne vide mais non dégazée</label><small>Dans ce cas : volume gazeux = volume total et P = pression atmosphérique.</small></div>
+        </div>
+        <div class="calc-result step-result" id="fireResult1" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">2</span>Masse volumique du liquide</h4>
+        <div class="formula-card"><code>ρliquide = densité liquide × 1000</code> kg/m³</div>
+        <div class="calc-result step-result" id="fireResult2" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">3</span>Masse totale théorique du produit</h4>
+        <div class="formula-card"><code>Mtotale = ρliquide × Vcontenant</code></div>
+        <div class="calc-result step-result" id="fireResult3" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">4</span>Masse en phase liquide et en phase gazeuse</h4>
+        <div class="formula-card">
+          <code>Mliquide = Mtotale × taux de remplissage</code><br>
+          <code>Vciel = Vcontenant × (1 - taux de remplissage)</code><br>
+          <code>ρgaz = (P × M) / (R × T)</code><br>
+          <code>Mgaz = ρgaz × Vciel</code>
+        </div>
+        <div class="calc-result step-result" id="fireResult4" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">5</span>Calcul des effets thermiques (BLEVE)</h4>
+        <div class="formula-card">
+          <code>Diamètre boule de feu = 6,48 × Mliquide^0,325</code><br>
+          <code>Durée boule de feu = 0,852 × Mliquide^0,26</code><br>
+          <code>Distance 3 kW/m² = 4,71 × Mliquide^0,405</code><br>
+          <code>Distance 5 kW/m² = 3,12 × Mliquide^0,425</code>
+        </div>
+        <div class="calc-result step-result" id="fireResult5" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">6</span>Calcul des effets de surpression</h4>
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label for="firePciPreset">PCI du produit (MJ/kg)</label>
+            <select id="firePciPreset"><option value="">Sélectionner un produit</option>
+<option value="10.9">CO - 10,9 MJ/kg</option>
+<option value="38.1">Gaz naturel - 38,1 MJ/kg</option>
+<option value="50.1">Méthane - 50,1 MJ/kg</option>
+<option value="45.6">Butane - 45,6 MJ/kg</option>
+<option value="47.6">Ethane - 47,6 MJ/kg</option>
+<option value="45.8">Propane - 45,8 MJ/kg</option>
+<option value="42.5">Essence3 - 42,5 MJ/kg</option>
+<option value="43.0">Diesel3 ou FOD - 43,0 MJ/kg</option>
+<option value="120.1">Dihydrogène - 120,1 MJ/kg</option>
+<option value="28.54">Acétone - 28,54 MJ/kg</option>
+<option value="317000">Ammoniac - 317×10³ MJ/kg</option>
+<option value="manual">Autre / saisie manuelle</option></select>
+            <input id="firePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none; margin-top:8px;">
+            <small>Si le PCI est inconnu pour le BLEVE, le mémento indique mTNT = Mproduit.</small>
+          </div>
+          <div class="calc-field"><label for="fireYield">Rendement explosion (%)</label><input id="fireYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="10"><small>RCH 004 : 10 % dans le cas d'un BLEVE.</small></div>
+        </div>
+        <div class="formula-card">
+          <code>mTNT = a × (PCI / 4,69) × mc</code><br>
+          avec <strong>mc = masse totale liquide + gaz</strong>.<br>
+          <code>R = λ × ∛mTNT</code><br>
+          λ = 25 (50 mbar) ; 9 (140 mbar) ; 7,5 (200 mbar).
+        </div>
+        <div class="calc-result step-result" id="fireResult6" aria-live="polite"></div>
+      </div>
+
+      <div class="calc-note"><strong>RCH 004 :</strong> les données produit (densités, masse molaire, PVS et PCI) restent des données d'entrée issues du SPG/BIG ou d'une source de référence.</div>
+
+      <div class="final-summary" id="fireFinalSummary" aria-live="polite">
+        <div class="final-summary-head"><div><span class="final-summary-kicker">Synthèse RCH 004</span><h4>Résumé opérationnel</h4></div><span class="final-summary-status" id="fireSummaryStatus">En attente de données</span></div>
+        <div class="final-summary-grid">
+          <div class="summary-card"><span>ρ liquide</span><strong id="fireSumRhoLiq">—</strong><small>Masse volumique liquide</small></div>
+          <div class="summary-card"><span>Masse liquide</span><strong id="fireSumMassLiq">—</strong><small>Phase liquide</small></div>
+          <div class="summary-card"><span>Masse gaz</span><strong id="fireSumMassGas">—</strong><small>Ciel gazeux</small></div>
+          <div class="summary-card emphasis"><span>Boule de feu</span><strong id="fireSumBall">—</strong><small>Diamètre / durée</small></div>
+          <div class="summary-card emphasis"><span>Thermique 3 kW/m²</span><strong id="fireSumThermal3">—</strong><small>Zone d'exclusion</small></div>
+          <div class="summary-card"><span>Thermique 5 kW/m²</span><strong id="fireSumThermal5">—</strong><small>Premiers effets létaux</small></div>
+          <div class="summary-card uvce-card"><span>Surpression 50 / 140 / 200 mbar</span><strong id="fireSumBlast">—</strong><small>Rayons calculés</small></div>
+        </div>
+      </div>
+
+      <div class="calc-actions">
+        <button class="calc-btn secondary" type="button" id="resetFireLiquefiedCalc">Réinitialiser</button>
+        <button class="calc-btn secondary" type="button" id="closeFireLiquefiedCalc">Fermer l'outil</button>
+      </div>
+    </section>
+
     <div class="tool-card">
       <div class="tool-header"><div class="tool-icon">🌬️</div><h3>Dispersion atmosphérique</h3></div>
       <div class="tool-body"><p class="tool-description">Outils destinés à accompagner l'évaluation d'un rejet et de ses conséquences potentielles dans l'environnement.</p><span class="status">En développement</span><div class="tool-action"><span>Prochainement</span></div></div>
@@ -4288,6 +4410,124 @@ scheduleAutoComputeToxicLiquefied();
   });
 })();
 updateRchSummary();
+</script>
+
+
+<script>
+(() => {
+  const panel = document.getElementById("fireLiquefiedCalcPanel");
+  const openBtn = document.getElementById("openFireLiquefiedCalc");
+  const closeBtn = document.getElementById("closeFireLiquefiedCalc");
+  const resetBtn = document.getElementById("resetFireLiquefiedCalc");
+  if (!panel || !openBtn) return;
+
+  const state = { rhoLiq:null, massTotal:null, massLiq:null, rhoGas:null, massGas:null, massProduct:null, ballD:null, ballT:null, thermal3:null, thermal5:null, mTnt:null, r50:null, r140:null, r200:null };
+
+  const n = id => { const el=document.getElementById(id); if(!el) return null; const v=String(el.value||"").trim().replace(",", "."); return v==="" ? null : Number(v); };
+  const f = (v,d=3) => Number.isFinite(v) ? v.toLocaleString("fr-FR",{maximumFractionDigits:d}) : "—";
+  const setResult=(id,html)=>{ const el=document.getElementById(id); if(!el) return; el.innerHTML=html; el.classList.add("show"); };
+  const hideResult=id=>{ const el=document.getElementById(id); if(!el) return; el.innerHTML=""; el.classList.remove("show"); };
+  const setText=(id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
+
+  function toggle(forceOpen){
+    const open=typeof forceOpen==="boolean" ? forceOpen : !panel.classList.contains("open");
+    panel.classList.toggle("open",open); openBtn.setAttribute("aria-expanded",String(open));
+    if(open) setTimeout(()=>panel.scrollIntoView({behavior:"smooth",block:"start"}),50);
+  }
+  openBtn.addEventListener("click",()=>toggle());
+  closeBtn?.addEventListener("click",()=>{toggle(false);openBtn.scrollIntoView({behavior:"smooth",block:"nearest"});});
+
+  function updateSummary(){
+    setText("fireSumRhoLiq", state.rhoLiq!=null ? `${f(state.rhoLiq,1)} kg/m³` : "—");
+    setText("fireSumMassLiq", state.massLiq!=null ? `${f(state.massLiq,1)} kg` : "—");
+    setText("fireSumMassGas", state.massGas!=null ? `${f(state.massGas,2)} kg` : "—");
+    setText("fireSumBall", state.ballD!=null ? `${f(state.ballD,1)} m / ${f(state.ballT,1)} s` : "—");
+    setText("fireSumThermal3", state.thermal3!=null ? `${f(state.thermal3,1)} m` : "—");
+    setText("fireSumThermal5", state.thermal5!=null ? `${f(state.thermal5,1)} m` : "—");
+    setText("fireSumBlast", state.r50!=null ? `${f(state.r50,1)} / ${f(state.r140,1)} / ${f(state.r200,1)} m` : "—");
+    const ready=[state.rhoLiq,state.massLiq,state.ballD,state.r50].filter(v=>v!=null).length;
+    setText("fireSummaryStatus", ready>=4 ? "Calculs disponibles" : ready ? "Calcul partiel" : "En attente de données");
+  }
+
+  function compute(){
+    const density=n("fireLiquidDensity"), M=n("fireMolarMass"), pvs=n("firePvs"), temp=n("fireTemp"), vol=n("fireVolume");
+    let fill=n("fireFillRate");
+    const empty=document.getElementById("fireEmptyNotDegassed")?.checked;
+    if(fill!=null && fill>85){ fill=85; document.getElementById("fireFillRate").value="85"; }
+
+    setResult("fireResult1", `<strong>Données RCH 004 retenues</strong><div class="result-kpis"><span>Remplissage : ${fill!=null?f(fill,1)+" %":"—"}</span><span>${empty?"Citerne vide non dégazée":"Citerne en charge"}</span></div>`);
+
+    state.rhoLiq = density!=null ? density*1000 : null;
+    if(state.rhoLiq!=null) setResult("fireResult2", `<strong>ρ liquide = ${f(state.rhoLiq,2)} kg/m³</strong>`); else hideResult("fireResult2");
+
+    state.massTotal = state.rhoLiq!=null && vol!=null ? state.rhoLiq*vol : null;
+    if(state.massTotal!=null) setResult("fireResult3", `<strong>Masse totale théorique = ${f(state.massTotal,1)} kg</strong>`); else hideResult("fireResult3");
+
+    if(empty){
+      state.massLiq=0;
+    } else {
+      state.massLiq = state.massTotal!=null && fill!=null ? state.massTotal*(fill/100) : null;
+    }
+    let gasVolume = null;
+    if(vol!=null) gasVolume = empty ? vol : (fill!=null ? vol*(1-fill/100) : null);
+    const pressureBar = empty ? 1.013 : pvs;
+    const tempK = temp!=null ? temp+273 : null;
+    state.rhoGas = pressureBar!=null && M!=null && tempK>0 ? ((pressureBar*1e5)*(M*1e-3))/(8.314*tempK) : null;
+    state.massGas = state.rhoGas!=null && gasVolume!=null ? state.rhoGas*gasVolume : null;
+    state.massProduct = (state.massLiq!=null || state.massGas!=null) ? (state.massLiq||0)+(state.massGas||0) : null;
+    if(state.massLiq!=null || state.massGas!=null) setResult("fireResult4", `<strong>Répartition des phases</strong><div class="result-kpis"><span>M liquide : ${state.massLiq!=null?f(state.massLiq,1)+" kg":"—"}</span><span>Volume ciel : ${gasVolume!=null?f(gasVolume,2)+" m³":"—"}</span><span>ρ gaz : ${state.rhoGas!=null?f(state.rhoGas,3)+" kg/m³":"—"}</span><span>M gaz : ${state.massGas!=null?f(state.massGas,2)+" kg":"—"}</span></div>`); else hideResult("fireResult4");
+
+    if(state.massLiq!=null && state.massLiq>0){
+      state.ballD=6.48*Math.pow(state.massLiq,0.325);
+      state.ballT=0.852*Math.pow(state.massLiq,0.26);
+      state.thermal3=4.71*Math.pow(state.massLiq,0.405);
+      state.thermal5=3.12*Math.pow(state.massLiq,0.425);
+      setResult("fireResult5", `<strong>Effets thermiques BLEVE</strong><div class="result-kpis"><span>Diamètre boule de feu : ${f(state.ballD,1)} m</span><span>Durée : ${f(state.ballT,1)} s</span><span>3 kW/m² : ${f(state.thermal3,1)} m</span><span>5 kW/m² : ${f(state.thermal5,1)} m</span></div>`);
+    } else { state.ballD=state.ballT=state.thermal3=state.thermal5=null; hideResult("fireResult5"); }
+
+    const pci=n("firePci"), yieldPct=n("fireYield");
+    const select=document.getElementById("firePciPreset");
+    const pciKnown = pci!=null && pci>0;
+    if(state.massProduct!=null && state.massProduct>0){
+      if(pciKnown && yieldPct!=null){
+        state.mTnt=(yieldPct/100)*(pci/4.69)*state.massProduct;
+      } else if(select && select.value===""){
+        state.mTnt=state.massProduct;
+      } else {
+        state.mTnt=null;
+      }
+      if(state.mTnt!=null && state.mTnt>0){
+        const root=Math.cbrt(state.mTnt);
+        state.r50=25*root; state.r140=9*root; state.r200=7.5*root;
+        setResult("fireResult6", `<strong>Effets de surpression</strong><div class="result-kpis"><span>mTNT : ${f(state.mTnt,1)} kg</span><span>50 mbar : ${f(state.r50,1)} m</span><span>140 mbar : ${f(state.r140,1)} m</span><span>200 mbar : ${f(state.r200,1)} m</span></div>${!pciKnown?'<div class="calc-note" style="margin-top:10px;">PCI non renseigné : application de la règle RCH 004 <strong>mTNT = Mproduit</strong> pour le BLEVE.</div>':''}`);
+      } else { state.r50=state.r140=state.r200=null; hideResult("fireResult6"); }
+    } else { state.mTnt=state.r50=state.r140=state.r200=null; hideResult("fireResult6"); }
+
+    updateSummary();
+  }
+
+  const pciPreset=document.getElementById("firePciPreset"), pciInput=document.getElementById("firePci");
+  pciPreset?.addEventListener("change",()=>{
+    if(pciPreset.value==="manual"){ pciInput.style.display="block"; pciInput.value=""; pciInput.focus(); }
+    else { pciInput.style.display="none"; pciInput.value=pciPreset.value||""; }
+    compute();
+  });
+
+  panel.querySelectorAll("input, select").forEach(el=>{ if(el!==pciPreset) el.addEventListener(el.type==="checkbox"?"change":"input",compute); });
+
+  resetBtn?.addEventListener("click",()=>{
+    panel.querySelectorAll("input").forEach(el=>{ if(el.type==="checkbox") el.checked=false; else el.value=""; });
+    document.getElementById("fireFillRate").value="85";
+    document.getElementById("fireYield").value="10";
+    document.getElementById("firePciPreset").value="";
+    document.getElementById("firePci").style.display="none";
+    Object.keys(state).forEach(k=>state[k]=null);
+    for(let i=1;i<=6;i++) hideResult(`fireResult${i}`);
+    updateSummary(); compute();
+  });
+
+  compute();
+})();
 </script>
 
 </body>
