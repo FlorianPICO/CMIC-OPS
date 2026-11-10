@@ -1546,8 +1546,29 @@
       line-height: 1.6;
     }
 
-    .inrs-op-paragraph {
-      max-width: 82ch;
+
+
+    /* Pleine largeur pour les rubriques narratives longues */
+    .inrs-module-item[data-inrs-key="incendie_explosion"] .inrs-op-body,
+    .inrs-module-item[data-inrs-key="pathologie_toxicologie"] .inrs-op-body {
+      width: 100%;
+      max-width: none;
+    }
+
+    .inrs-module-item[data-inrs-key="incendie_explosion"] .inrs-op-paragraph,
+    .inrs-module-item[data-inrs-key="pathologie_toxicologie"] .inrs-op-paragraph,
+    .inrs-module-item[data-inrs-key="incendie_explosion"] .inrs-alert-block,
+    .inrs-module-item[data-inrs-key="pathologie_toxicologie"] .inrs-alert-block,
+    .inrs-module-item[data-inrs-key="incendie_explosion"] .inrs-op-list,
+    .inrs-module-item[data-inrs-key="pathologie_toxicologie"] .inrs-op-list {
+      width: 100%;
+      max-width: none;
+    }
+
+    .inrs-module-item[data-inrs-key="incendie_explosion"] .inrs-op-section,
+    .inrs-module-item[data-inrs-key="pathologie_toxicologie"] .inrs-op-section {
+      width: 100%;
+      max-width: none;
     }
 
 </style>
@@ -2697,7 +2718,7 @@ function renderInrsStaticFiche(fiche) {
   const rows = INRS_MODULE_ORDER
     .filter(key => modules[key] && String(modules[key]).trim())
     .map((key, index) => `
-      <details class="inrs-module-item" ${index === 0 ? "open" : ""}>
+      <details class="inrs-module-item" data-inrs-key="${escapeHtml(key)}" ${index === 0 ? "open" : ""}>
         <summary>
           <span class="inrs-summary-label">
             <span class="inrs-module-number">${index + 1}</span>
