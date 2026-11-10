@@ -1871,8 +1871,23 @@
           </div>
 
           <div class="calc-field">
-            <label for="uvcePci">PCI du produit (MJ/kg)</label>
-            <input id="uvcePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. propane : 45,8">
+            <label for="uvcePciPreset">PCI du produit (MJ/kg)</label>
+            <select id="uvcePciPreset">
+              <option value="">Sélectionner un produit</option>
+<option value="10.9">CO - 10,9 MJ/kg</option>
+<option value="38.1">Gaz naturel - 38,1 MJ/kg</option>
+<option value="50.1">Méthane - 50,1 MJ/kg</option>
+<option value="45.6">Butane - 45,6 MJ/kg</option>
+<option value="47.6">Ethane - 47,6 MJ/kg</option>
+<option value="45.8">Propane - 45,8 MJ/kg</option>
+<option value="42.5">Essence3 - 42,5 MJ/kg</option>
+<option value="43.0">Diesel3 ou FOD - 43,0 MJ/kg</option>
+<option value="120.1">Dihydrogène - 120,1 MJ/kg</option>
+<option value="28.54">Acétone - 28,54 MJ/kg</option>
+<option value="317000">Ammoniac - 317×10³ MJ/kg</option>
+<option value="manual">Autre / saisie manuelle</option>
+            </select>
+            <input id="uvcePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none; margin-top:8px;">
           </div>
 
           <div class="calc-field">
@@ -2052,7 +2067,12 @@
         <div class="calc-grid">
           <div class="calc-field"><label for="toxLeakDiameter">Diamètre de l'orifice de fuite</label><input id="toxLeakDiameter" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 10"></div>
           <div class="calc-field"><label for="toxLeakDiameterUnit">Unité</label><select id="toxLeakDiameterUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select><small>Conversion physique utilisée : 1 pouce = 0,0254 m.</small></div>
-          <div class="calc-field"><label for="toxCdPreset">Coefficient de décharge Cd</label><select id="toxCdPreset"><option value="0.50">Orifice de Borda - 0,50</option><option value="0.62" selected>Orifice mince / aigu - 0,62</option><option value="0.82">Orifice de Poleni - 0,82</option><option value="0.96">Orifice arrondi - 0,96</option><option value="0.95">Ajustage convergent - 0,95</option><option value="1.00">Rupture guillotine parfaite - 1,00</option><option value="venturi">Venturi - Cd > 1</option></select></div>
+          <div class="calc-field">
+            <div class="field-help-row">
+              <label for="toxCdPreset">Coefficient de décharge Cd</label>
+              <button type="button" class="help-btn" id="openToxCdImageHelp">? Aide</button>
+            </div>
+            <select id="toxCdPreset"><option value="0.50">Orifice de Borda - 0,50</option><option value="0.62" selected>Orifice mince / aigu - 0,62</option><option value="0.82">Orifice de Poleni - 0,82</option><option value="0.96">Orifice arrondi - 0,96</option><option value="0.95">Ajustage convergent - 0,95</option><option value="1.00">Rupture guillotine parfaite - 1,00</option><option value="venturi">Venturi - Cd > 1</option></select></div>
           <div class="calc-field" id="toxCdCustomWrap" style="display:none;"><label for="toxCdCustom">Cd Venturi (&gt; 1)</label><input id="toxCdCustom" type="number" inputmode="decimal" step="0.01" min="1"></div>
           <div class="calc-field"><label for="toxPipeLength">L - longueur entre le bac et la fuite (m)</label><input id="toxPipeLength" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxPipeDiameter">D - diamètre de la canalisation</label><input id="toxPipeDiameter" type="number" inputmode="decimal" step="any" min="0"></div>
@@ -2110,7 +2130,25 @@
         <h4><span class="step-badge">10</span>Effets de l'UVCE</h4>
         <div class="calc-grid">
           <div class="calc-field"><label for="toxUvceMass">Masse de gaz libérée mc (kg)</label><input id="toxUvceMass" type="number" inputmode="decimal" step="any" min="0"></div>
-          <div class="calc-field"><label for="toxUvcePci">PCI (MJ/kg)</label><input id="toxUvcePci" type="number" inputmode="decimal" step="any" min="0"></div>
+          <div class="calc-field">
+            <label for="toxUvcePciPreset">PCI (MJ/kg)</label>
+            <select id="toxUvcePciPreset">
+              <option value="">Sélectionner un produit</option>
+<option value="10.9">CO - 10,9 MJ/kg</option>
+<option value="38.1">Gaz naturel - 38,1 MJ/kg</option>
+<option value="50.1">Méthane - 50,1 MJ/kg</option>
+<option value="45.6">Butane - 45,6 MJ/kg</option>
+<option value="47.6">Ethane - 47,6 MJ/kg</option>
+<option value="45.8">Propane - 45,8 MJ/kg</option>
+<option value="42.5">Essence3 - 42,5 MJ/kg</option>
+<option value="43.0">Diesel3 ou FOD - 43,0 MJ/kg</option>
+<option value="120.1">Dihydrogène - 120,1 MJ/kg</option>
+<option value="28.54">Acétone - 28,54 MJ/kg</option>
+<option value="317000">Ammoniac - 317×10³ MJ/kg</option>
+<option value="manual">Autre / saisie manuelle</option>
+            </select>
+            <input id="toxUvcePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none; margin-top:8px;">
+          </div>
           <div class="calc-field"><label for="toxUvceYield">Rendement explosion (%)</label><input id="toxUvceYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="5"><small>RCH 003 : 5 % pour un UVCE.</small></div>
         </div>
         <div class="formula-card"><code>mTNT = a × (PCI / 4,69) × mc</code><br><code>R = λ × ∛mTNT</code><br>λ = 25 (50 mbar) ; 9 (140 mbar) ; 7,5 (200 mbar).</div>
@@ -3119,6 +3157,11 @@ function toggleLeakPanel(forceOpen) {
 
 openLeakCalc.addEventListener("click", () => toggleLeakPanel());
 
+wirePciPreset("uvcePciPreset", "uvcePci", () => {
+  if (typeof scheduleAutoComputeRch === "function") scheduleAutoComputeRch();
+});
+
+
 document.getElementById("closeLeakCalc").addEventListener("click", () => {
   toggleLeakPanel(false);
   openLeakCalc.scrollIntoView({behavior:"smooth", block:"nearest"});
@@ -3151,11 +3194,39 @@ if (closeToxicLiquefiedCalc) {
   });
 }
 
+wirePciPreset("toxUvcePciPreset", "toxUvcePci");
+
+
 leakCdPreset.addEventListener("change", () => {
   leakCdCustomWrap.style.display =
     leakCdPreset.value === "venturi" ? "block" : "none";
   if (typeof scheduleAutoComputeRch === "function") scheduleAutoComputeRch();
 });
+
+
+function wirePciPreset(selectId, inputId, onChange) {
+  const select = document.getElementById(selectId);
+  const input = document.getElementById(inputId);
+  if (!select || !input) return;
+
+  const sync = () => {
+    if (select.value === "manual") {
+      input.style.display = "block";
+      input.focus();
+    } else {
+      input.style.display = "none";
+      input.value = select.value || "";
+    }
+
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    if (typeof onChange === "function") onChange();
+  };
+
+  select.addEventListener("change", sync);
+  input.addEventListener("input", () => {
+    if (typeof onChange === "function") onChange();
+  });
+}
 
 function numberValue(id) {
   const el = document.getElementById(id);
@@ -4185,11 +4256,14 @@ scheduleAutoComputeToxicLiquefied();
 
 <script>
 (() => {
-  const openBtn = document.getElementById("openCdImageHelp");
+  const openBtns = [
+    document.getElementById("openCdImageHelp"),
+    document.getElementById("openToxCdImageHelp")
+  ].filter(Boolean);
   const closeBtn = document.getElementById("closeCdImageHelp");
   const overlay = document.getElementById("cdImageHelp");
 
-  if (!openBtn || !overlay) return;
+  if (!openBtns.length || !overlay) return;
 
   function openHelp() {
     overlay.classList.add("open");
@@ -4201,7 +4275,7 @@ scheduleAutoComputeToxicLiquefied();
     overlay.setAttribute("aria-hidden", "true");
   }
 
-  openBtn.addEventListener("click", openHelp);
+  openBtns.forEach(btn => btn.addEventListener("click", openHelp));
   closeBtn?.addEventListener("click", closeHelp);
 
   overlay.addEventListener("click", (event) => {
