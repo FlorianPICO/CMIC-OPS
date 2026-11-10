@@ -373,16 +373,7 @@
       }
 
     }
-
-      .brand-subtitle {
-        font-size: 1.05rem;
-
-        margin-bottom: 7px;
-      }
-
-    }
-
-    @media (max-width: 420px) {
+@media (max-width: 420px) {
 
       .logo {
         width: min(320px, 82vw);
@@ -402,6 +393,179 @@
         text-align: center;
       }
 
+    }
+
+  
+    /* ===== ALIGNEMENT EXACT SUR LE CARTOUCHE DE CHOIX-OUTILS ===== */
+
+    header {
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:390px;
+      padding:55px 18px 52px;
+      text-align:center;
+      color:#fff;
+      overflow:hidden;
+      background:linear-gradient(135deg,#7c2d12 0%,#9a3412 22%,#c2410c 50%,#ea580c 78%,#fb923c 100%);
+    }
+
+    header::before {
+      content:"";
+      position:absolute;
+      width:420px;
+      height:420px;
+      top:-230px;
+      right:-130px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+
+    header::after {
+      content:"";
+      position:absolute;
+      width:330px;
+      height:330px;
+      bottom:-220px;
+      left:-130px;
+      border-radius:50%;
+      background:rgba(255,255,255,.06);
+    }
+
+    .hero {
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:900px;
+    }
+
+    .logo {
+      display:block;
+      width:min(420px,78vw);
+      max-height:190px;
+      height:auto;
+      object-fit:contain;
+      margin:0 auto 8px;
+    }
+
+    h1.brand {
+      margin:0;
+      font-size:clamp(2.6rem,9vw,5rem);
+      font-weight:900;
+      line-height:1;
+      letter-spacing:.035em;
+    }
+
+    h1.brand span {
+      color:#ffedd5;
+    }
+
+    .brand-subtitle {
+      margin:5px 0 10px;
+      color:#fff;
+      font-size:clamp(1.2rem,3.8vw,1.65rem);
+      line-height:1.15;
+      font-weight:850;
+      letter-spacing:.012em;
+      text-align:center;
+      text-shadow:0 1px 2px rgba(0,0,0,.16);
+    }
+
+    .header-sub {
+      margin:6px 0 0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:5px;
+      color:#fff;
+      font-size:1.12rem;
+      line-height:1.45;
+      font-weight:750;
+      text-align:center;
+    }
+
+    .header-sub span {
+      font-weight:700;
+    }
+
+    .header-mail {
+      color:#fff;
+      text-decoration:none;
+      font-size:1.03em;
+      font-weight:800;
+      opacity:.95;
+    }
+
+    .header-mail:hover,
+    .header-mail:focus {
+      text-decoration:underline;
+      opacity:1;
+    }
+
+    section.page {
+      width:100%;
+      max-width:1000px;
+      margin:auto;
+      padding:0 20px 45px;
+    }
+
+    .intro-card {
+      position:relative;
+      z-index:10;
+      margin-top:24px;
+      padding:27px;
+      border:1px solid var(--border);
+      border-radius:17px;
+      background:var(--white);
+      box-shadow:var(--shadow);
+    }
+
+    .intro-line {
+      width:65px;
+      height:5px;
+      margin-bottom:17px;
+      border-radius:999px;
+      background:var(--orange);
+    }
+
+    @media (max-width:700px) {
+      header {
+        min-height:auto;
+        padding:42px 15px 38px;
+      }
+
+      section.page {
+        padding:0 10px 35px;
+      }
+
+      .intro-card {
+        margin-top:18px;
+        padding:20px;
+      }
+    }
+
+    @media (max-width:560px) {
+      .header-sub {
+        font-size:1rem !important;
+      }
+
+      .brand-subtitle {
+        font-size:clamp(1.1rem,5vw,1.35rem);
+        margin:4px 0 8px;
+      }
+    }
+
+    @media (max-width:420px) {
+      .logo {
+        width:min(320px,82vw);
+        max-height:155px;
+      }
+
+      h1.brand {
+        font-size:2.5rem;
+      }
     }
 
   </style>
