@@ -1942,6 +1942,36 @@
       }
     }
 
+
+  /* ===== RCH 005 - MELANGES ET RISQUE LOCAL ===== */
+  .mixture-panel {
+    margin-top: 14px;
+    padding: 14px;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    background: #fffaf5;
+  }
+  .mixture-grid {
+    display: grid;
+    grid-template-columns: minmax(110px,.8fr) minmax(130px,1fr) minmax(110px,.8fr);
+    gap: 8px;
+    align-items: center;
+  }
+  .mixture-grid > div:not(.mixture-head) { font-weight: 800; color:#44403c; }
+  .mixture-grid input {
+    width:100%; box-sizing:border-box; padding:10px 11px; border:1px solid #d6d3d1; border-radius:9px;
+    font:inherit; background:#fff;
+  }
+  .mixture-head { color:#9a3412; font-size:.78rem; font-weight:900; text-transform:uppercase; letter-spacing:.04em; }
+  .spill-risk-badge {
+    display:inline-flex; align-items:center; padding:7px 10px; border-radius:999px; font-size:.82rem; font-weight:900;
+  }
+  .spill-risk-safe { background:#ecfdf5; color:#166534; border:1px solid #bbf7d0; }
+  .spill-risk-explosive { background:#fff7ed; color:#9a3412; border:1px solid #fdba74; }
+  .spill-risk-rich { background:#fef2f2; color:#991b1b; border:1px solid #fecaca; }
+  .spill-pressure-card { grid-column:1 / -1; }
+  @media(max-width:620px){ .mixture-grid{grid-template-columns:1fr 1fr;} .mixture-head:first-child{display:none;} .mixture-grid>div:not(.mixture-head){grid-column:1/-1;margin-top:4px;} }
+
 </style>
 </head>
 
@@ -2706,6 +2736,177 @@
       <div class="calc-actions">
         <button class="calc-btn secondary" type="button" id="resetFireLiquefiedCalc">Réinitialiser</button>
         <button class="calc-btn secondary" type="button" id="closeFireLiquefiedCalc">Fermer l'outil</button>
+      </div>
+    </section>
+
+
+    <button type="button" class="tool-card" id="openSpillConfinedCalc" aria-expanded="false" aria-controls="spillConfinedCalcPanel">
+      <div class="tool-header">
+        <div class="tool-icon">🛢️</div>
+        <h3>Déversement de liquide inflammable dans un milieu confiné</h3>
+      </div>
+      <div class="tool-body">
+        <p class="tool-description">Calcul RCH 005 : masse volumique, débit de fuite, temps de vidange, concentration dans un local clos et effets de surpression.</p>
+        <span class="status available">Disponible</span>
+        <div class="tool-action"><span>Ouvrir l'outil</span><span>↓</span></div>
+      </div>
+    </button>
+
+    <section class="calc-panel" id="spillConfinedCalcPanel" aria-labelledby="spillConfinedCalcTitle">
+      <h3 id="spillConfinedCalcTitle">RCH 005 - Déversement de liquide inflammable dans un milieu confiné</h3>
+
+      <div class="school-intro">
+        <strong>Méthode RCH 005 :</strong> calcul automatique étape par étape pour un épandage de liquide inflammable dans un local confiné.
+        <br><strong>Hypothèse du mémento :</strong> le local est considéré clos et la vaporisation peut se poursuivre jusqu'à la pression de vapeur saturante (PVS), sous réserve qu'il y ait suffisamment de matière.
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">1</span>Récupération des données</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="spillProduct">Produit</label><input id="spillProduct" type="text" placeholder="Ex. Essence, acétone..."></div>
+          <div class="calc-field"><label for="spillNature">Nature du produit</label><select id="spillNature"><option value="unique">Produit unique</option><option value="mixture">Mélange</option></select></div>
+          <div class="calc-field" id="spillUniqueDensityWrap"><label for="spillLiquidDensity">Densité du liquide</label><input id="spillLiquidDensity" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG / FDS"></div>
+          <div class="calc-field"><label for="spillGasDensityRef">Densité du gaz / vapeur - référence</label><input id="spillGasDensityRef" type="number" inputmode="decimal" step="any" min="0" placeholder="Facultatif"></div>
+          <div class="calc-field"><label for="spillMolarMass">Masse molaire M (g/mol)</label><input id="spillMolarMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 58,1"></div>
+          <div class="calc-field"><label for="spillPvs">PVS (bar abs.)</label><input id="spillPvs" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 0,53"></div>
+          <div class="calc-field"><label for="spillLie">LIE (% vol.)</label><input id="spillLie" type="number" inputmode="decimal" step="any" min="0" max="100"></div>
+          <div class="calc-field"><label for="spillLse">LSE (% vol.)</label><input id="spillLse" type="number" inputmode="decimal" step="any" min="0" max="100"></div>
+          <div class="calc-field"><label for="spillTemp">Température du produit / local (°C)</label><input id="spillTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20"></div>
+          <div class="calc-field"><label for="spillProductVolume">Volume de produit / contenant (m³)</label><input id="spillProductVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 1,5"></div>
+        </div>
+
+        <div id="spillMixtureFields" class="mixture-panel" style="display:none;">
+          <div class="substep-title">Composition volumique du mélange</div>
+          <div class="calc-note" style="margin-bottom:10px;">Renseigner les densités liquides et pourcentages volumiques. Le total doit être égal à 100 %.</div>
+          <div class="mixture-grid">
+            <div class="mixture-head">Composant</div><div class="mixture-head">Densité liquide</div><div class="mixture-head">% vol.</div>
+            <div>Produit 1</div><input id="spillMixDensity1" type="number" inputmode="decimal" step="any" min="0"><input id="spillMixPct1" type="number" inputmode="decimal" step="any" min="0" max="100">
+            <div>Produit 2</div><input id="spillMixDensity2" type="number" inputmode="decimal" step="any" min="0"><input id="spillMixPct2" type="number" inputmode="decimal" step="any" min="0" max="100">
+            <div>Produit 3</div><input id="spillMixDensity3" type="number" inputmode="decimal" step="any" min="0"><input id="spillMixPct3" type="number" inputmode="decimal" step="any" min="0" max="100">
+            <div>Produit 4</div><input id="spillMixDensity4" type="number" inputmode="decimal" step="any" min="0"><input id="spillMixPct4" type="number" inputmode="decimal" step="any" min="0" max="100">
+          </div>
+        </div>
+        <div class="calc-result step-result" id="spillResult1" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">2</span>Calcul de la masse volumique du produit</h4>
+        <div class="formula-card">
+          <strong>Produit unique :</strong> <code>ρ = densité liquide × 1000</code> kg/m³<br>
+          <strong>Mélange :</strong> <code>ρmélange = Σ(ρi × Vi) / Vtotal</code>
+        </div>
+        <div class="calc-result step-result" id="spillResult2" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">3</span>Calcul de la masse totale de produit</h4>
+        <div class="formula-card"><code>M = ρ × Vproduit</code></div>
+        <div class="calc-result step-result" id="spillResult3" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">4</span>Calcul du débit de fuite liquide</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="spillLeakDiameter">Diamètre de l'orifice de fuite</label><input id="spillLeakDiameter" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 10"></div>
+          <div class="calc-field"><label for="spillLeakUnit">Unité</label><select id="spillLeakUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select><small>Conversion physique utilisée : 1 pouce = 0,0254 m.</small></div>
+          <div class="calc-field">
+            <div class="field-help-row"><label for="spillCdPreset">Coefficient de décharge Cd</label><button type="button" class="help-btn" id="openSpillCdImageHelp">? Aide</button></div>
+            <select id="spillCdPreset"><option value="0.50">Orifice de Borda - Cd 0,50</option><option value="0.62" selected>Orifice mince / aigu - Cd 0,62</option><option value="0.82">Orifice de Poleni - Cd 0,82</option><option value="0.96">Orifice arrondi - Cd 0,96</option><option value="0.95">Ajustage convergent - Cd 0,95</option><option value="1.00">Rupture guillotine parfaite - Cd 1,00</option><option value="venturi">Venturi - Cd &gt; 1</option></select>
+          </div>
+          <div class="calc-field" id="spillCdCustomWrap" style="display:none;"><label for="spillCdCustom">Cd Venturi (&gt; 1)</label><input id="spillCdCustom" type="number" inputmode="decimal" step="0.01" min="1"></div>
+          <div class="calc-field"><label for="spillLiquidHeight">Δh - hauteur de liquide au-dessus de la fuite (m)</label><input id="spillLiquidHeight" type="number" inputmode="decimal" step="any" min="0" value="0"></div>
+          <div class="calc-field"><label for="spillDeltaP">ΔP - différence de pression (Pa)</label><input id="spillDeltaP" type="number" inputmode="decimal" step="any" min="0" value="0"><small>Le RCH 005 indique que ΔP peut être considéré égal à 0 en l'absence de différence de pression.</small></div>
+        </div>
+        <div class="formula-card">
+          <code>S = π × R²</code><br>
+          <code>Qliquide = ρ × Cd × S × √(2gΔh + 2ΔP/ρ)</code>
+        </div>
+        <div class="calc-result step-result" id="spillResult4" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">6</span>Temps de vidange du bac</h4>
+        <div class="formula-card"><code>T = Mproduit / Qliquide</code> en secondes.</div>
+        <div class="calc-result step-result" id="spillResult6" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">7</span>Concentration de produit dans le local</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="spillLocalVolume">Volume du local (m³)</label><input id="spillLocalVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 250"></div>
+        </div>
+        <div class="substep-title">7.1 - Nombre de moles disponibles</div>
+        <div class="formula-card"><code>n = (m × 10³) / M</code> avec m en kg et M en g/mol.</div>
+
+        <div class="substep-title" style="margin-top:18px;">7.2 - Concentration dans le local clos</div>
+        <div class="formula-card">
+          <code>Vgaz,PVS = Vlocal × PVS / 1,013</code><br>
+          <code>Cvol = Vgaz / Vlocal × 100</code><br>
+          Comparaison automatique à la LIE et à la LSE.
+        </div>
+
+        <div class="substep-title" style="margin-top:18px;">7.3 - Quantité de matière nécessaire pour atteindre la PVS</div>
+        <div class="formula-card">
+          <code>nvap = PVS × Vlocal / (R × T)</code><br>
+          <code>Massevap = nvap × M</code>
+        </div>
+        <div class="calc-result step-result" id="spillResult7" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step">
+        <h4><span class="step-badge">8</span>Calcul de l'explosion du local</h4>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="spillPciPreset">PCI du produit (MJ/kg)</label><select id="spillPciPreset">
+              <option value="">Sélectionner un produit</option>
+              <option value="10.9">CO - 10,9 MJ/kg</option>
+              <option value="38.1">Gaz naturel - 38,1 MJ/kg</option>
+              <option value="50.1">Méthane - 50,1 MJ/kg</option>
+              <option value="45.6">Butane - 45,6 MJ/kg</option>
+              <option value="47.6">Ethane - 47,6 MJ/kg</option>
+              <option value="45.8">Propane - 45,8 MJ/kg</option>
+              <option value="42.5">Essence - 42,5 MJ/kg</option>
+              <option value="43.0">Diesel / FOD - 43,0 MJ/kg</option>
+              <option value="120.1">Dihydrogène - 120,1 MJ/kg</option>
+              <option value="28.54">Acétone - 28,54 MJ/kg</option>
+              <option value="317000">Ammoniac - 317×10³ MJ/kg</option>
+              <option value="manual">Autre / saisie manuelle</option>
+            </select><input id="spillPci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none;margin-top:8px;"></div>
+          <div class="calc-field"><label for="spillYield">Rendement explosion (%)</label><select id="spillYield"><option value="10" selected>10 % - BLEVE (valeur RCH)</option><option value="5">5 % - UVCE</option></select></div>
+        </div>
+        <div class="formula-card">
+          <strong>8.1 :</strong> <code>Vgaz,LSE = Vlocal × LSE</code> ; <code>PLSE = Vgaz,LSE × Patm / Vlocal</code><br>
+          <strong>8.2 :</strong> <code>mc = M × PLSE × V / (R × T)</code><br>
+          <code>mTNT = a × (PCI / 4,69) × mc</code><br>
+          <strong>8.3 :</strong> <code>R = λ × ∛mTNT</code> avec λ = 25 / 9 / 7,5 pour 50 / 140 / 200 mbar.
+        </div>
+        <div class="calc-result step-result" id="spillResult8" aria-live="polite"></div>
+      </div>
+
+      <div class="calc-note"><strong>Transparence :</strong> le calcul distingue la concentration théorique à la PVS de la concentration réellement atteignable avec la masse de produit disponible. Le calcul d'explosion à la LSE est signalé comme théorique si la quantité disponible ne permet pas d'atteindre la LSE.</div>
+
+      <div class="final-summary" id="spillFinalSummary" aria-live="polite">
+        <div class="final-summary-head"><div><span class="final-summary-kicker">Synthèse RCH 005</span><h4>Résumé opérationnel</h4></div><span class="final-summary-status" id="spillSummaryStatus">En attente de données</span></div>
+        <div class="final-summary-grid">
+          <div class="summary-card"><span>ρ liquide</span><strong id="spillSumRho">—</strong><small>Masse volumique retenue</small></div>
+          <div class="summary-card"><span>Masse produit</span><strong id="spillSumMass">—</strong><small>Masse totale</small></div>
+          <div class="summary-card emphasis"><span>Débit fuite</span><strong id="spillSumFlow">—</strong><small>Q liquide</small></div>
+          <div class="summary-card"><span>Vidange</span><strong id="spillSumTime">—</strong><small>Temps théorique</small></div>
+          <div class="summary-card emphasis"><span>Concentration</span><strong id="spillSumConc">—</strong><small>% vol. réellement atteignable</small></div>
+          <div class="summary-card"><span>Situation LIE/LSE</span><strong id="spillSumRisk">—</strong><small>Risque inflammable</small></div>
+          <div class="summary-card uvce-card spill-pressure-card">
+            <div class="fire-pressure-head"><span>Surpressions</span><small>Rayons calculés</small></div>
+            <div class="fire-pressure-grid">
+              <div class="fire-pressure-box"><span>50 mbar</span><strong id="spillSumR50">—</strong><small>Effets irréversibles</small></div>
+              <div class="fire-pressure-box"><span>140 mbar</span><strong id="spillSumR140">—</strong><small>Premiers effets létaux</small></div>
+              <div class="fire-pressure-box"><span>200 mbar</span><strong id="spillSumR200">—</strong><small>Effets létaux</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-actions">
+        <button class="calc-btn secondary" type="button" id="resetSpillConfinedCalc">Réinitialiser</button>
+        <button class="calc-btn secondary" type="button" id="closeSpillConfinedCalc">Fermer l'outil</button>
       </div>
     </section>
 
@@ -5817,7 +6018,8 @@ scheduleAutoComputeToxicLiquefied();
 (() => {
   const openBtns = [
     document.getElementById("openCdImageHelp"),
-    document.getElementById("openToxCdImageHelp")
+    document.getElementById("openToxCdImageHelp"),
+    document.getElementById("openSpillCdImageHelp")
   ].filter(Boolean);
   const closeBtn = document.getElementById("closeCdImageHelp");
   const overlay = document.getElementById("cdImageHelp");
@@ -5965,6 +6167,162 @@ updateRchSummary();
   });
 
   compute();
+})();
+</script>
+
+
+<script>
+(() => {
+  const panel=document.getElementById("spillConfinedCalcPanel");
+  const openBtn=document.getElementById("openSpillConfinedCalc");
+  const closeBtn=document.getElementById("closeSpillConfinedCalc");
+  const resetBtn=document.getElementById("resetSpillConfinedCalc");
+  if(!panel || !openBtn) return;
+
+  const state={rho:null,mass:null,area:null,flow:null,emptyTime:null,nAvailable:null,nPvs:null,massPvs:null,massVapor:null,concPct:null,concMgM3:null,risk:null,massLse:null,mTnt:null,r50:null,r140:null,r200:null};
+  const n=id=>{const el=document.getElementById(id);if(!el)return null;const v=String(el.value||"").trim().replace(",", ".");return v===""?null:Number(v);};
+  const f=(v,d=3)=>Number.isFinite(v)?v.toLocaleString("fr-FR",{maximumFractionDigits:d}):"—";
+  const setResult=(id,html)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=html;el.classList.add("show");};
+  const hideResult=id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML="";el.classList.remove("show");};
+  const setText=(id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt;};
+
+  function toggle(forceOpen){
+    const open=typeof forceOpen==="boolean"?forceOpen:!panel.classList.contains("open");
+    panel.classList.toggle("open",open);openBtn.setAttribute("aria-expanded",String(open));
+    if(open)setTimeout(()=>panel.scrollIntoView({behavior:"smooth",block:"start"}),50);
+  }
+  openBtn.addEventListener("click",()=>toggle());
+  closeBtn?.addEventListener("click",()=>{toggle(false);openBtn.scrollIntoView({behavior:"smooth",block:"nearest"});});
+
+  function diameterToM(v,unit){if(v==null)return null;return unit==="mm"?v/1000:unit==="cm"?v/100:unit==="inch"?v*0.0254:v;}
+  function formatDuration(s){
+    if(!Number.isFinite(s))return "—";
+    if(s<60)return `${f(s,1)} s`;
+    if(s<3600)return `${f(s/60,1)} min`;
+    return `${f(s/3600,2)} h`;
+  }
+  function updateNature(){
+    const mix=document.getElementById("spillNature")?.value==="mixture";
+    const mp=document.getElementById("spillMixtureFields");
+    const up=document.getElementById("spillUniqueDensityWrap");
+    if(mp)mp.style.display=mix?"block":"none";
+    if(up)up.style.display=mix?"none":"block";
+  }
+  function riskInfo(c,lie,lse){
+    if(!Number.isFinite(c)||!Number.isFinite(lie)||!Number.isFinite(lse))return {label:"À déterminer",cls:""};
+    if(c<lie)return {label:"Sous la LIE",cls:"spill-risk-safe"};
+    if(c<=lse)return {label:"Dans le domaine explosif",cls:"spill-risk-explosive"};
+    return {label:"Au-dessus de la LSE",cls:"spill-risk-rich"};
+  }
+  function updateSummary(){
+    setText("spillSumRho",state.rho!=null?`${f(state.rho,1)} kg/m³`:"—");
+    setText("spillSumMass",state.mass!=null?`${f(state.mass,1)} kg`:"—");
+    setText("spillSumFlow",state.flow!=null?`${f(state.flow,3)} kg/s`:"—");
+    setText("spillSumTime",state.emptyTime!=null?formatDuration(state.emptyTime):"—");
+    setText("spillSumConc",state.concPct!=null?`${f(state.concPct,2)} % vol.`:"—");
+    setText("spillSumRisk",state.risk||"—");
+    setText("spillSumR50",state.r50!=null?`${f(state.r50,1)} m`:"—");
+    setText("spillSumR140",state.r140!=null?`${f(state.r140,1)} m`:"—");
+    setText("spillSumR200",state.r200!=null?`${f(state.r200,1)} m`:"—");
+    const ready=[state.rho,state.mass,state.flow,state.concPct,state.r50].filter(v=>v!=null).length;
+    setText("spillSummaryStatus",ready>=5?"Calculs disponibles":ready?"Calcul partiel":"En attente de données");
+  }
+
+  function compute(){
+    updateNature();
+    const nature=document.getElementById("spillNature")?.value||"unique";
+    const M=n("spillMolarMass"), pvs=n("spillPvs"), temp=n("spillTemp"), productVol=n("spillProductVolume");
+    const lie=n("spillLie"), lse=n("spillLse");
+
+    let mixturePct=0, mixtureSum=0, mixtureValid=true;
+    if(nature==="unique"){
+      const d=n("spillLiquidDensity");
+      state.rho=d!=null?d*1000:null;
+    }else{
+      for(let i=1;i<=4;i++){
+        const d=n(`spillMixDensity${i}`), pct=n(`spillMixPct${i}`);
+        if((d==null)!=(pct==null)) mixtureValid=false;
+        if(d!=null && pct!=null){mixturePct+=pct;mixtureSum+=(d*1000)*pct;}
+      }
+      const pctOk=Math.abs(mixturePct-100)<=0.5;
+      state.rho=mixtureValid && pctOk && mixturePct>0 ? mixtureSum/mixturePct : null;
+    }
+    const mixNote=nature==="mixture"?`<span>Total mélange : ${f(mixturePct,1)} %</span>`:"";
+    setResult("spillResult1",`<strong>Données RCH 005 retenues</strong><div class="result-kpis"><span>${nature==="mixture"?"Mélange":"Produit unique"}</span>${mixNote}<span>LIE : ${lie!=null?f(lie,2)+" %":"—"}</span><span>LSE : ${lse!=null?f(lse,2)+" %":"—"}</span></div>${nature==="mixture" && state.rho==null?'<div class="calc-note" style="margin-top:10px;"><strong>Mélange :</strong> renseigner densité + pourcentage pour chaque composant utilisé et obtenir un total de 100 %.</div>':''}`);
+
+    if(state.rho!=null) setResult("spillResult2",`<strong>ρ ${nature==="mixture"?"mélange":"produit"} = ${f(state.rho,2)} kg/m³</strong>`); else hideResult("spillResult2");
+
+    state.mass=state.rho!=null && productVol!=null?state.rho*productVol:null;
+    if(state.mass!=null)setResult("spillResult3",`<strong>Masse totale = ${f(state.mass,2)} kg</strong><div class="result-kpis"><span>Volume : ${f(productVol,3)} m³</span><span>ρ : ${f(state.rho,1)} kg/m³</span></div>`);else hideResult("spillResult3");
+
+    const diam=n("spillLeakDiameter"),unit=document.getElementById("spillLeakUnit")?.value||"mm";
+    const dm=diameterToM(diam,unit),cdPreset=document.getElementById("spillCdPreset")?.value,cd=cdPreset==="venturi"?n("spillCdCustom"):Number(cdPreset);
+    const dh=n("spillLiquidHeight"),dp=n("spillDeltaP");
+    state.area=dm!=null?Math.PI*Math.pow(dm/2,2):null;
+    if(state.rho!=null && state.area!=null && Number.isFinite(cd) && dh!=null && dp!=null){
+      const term=2*9.81*dh+(2*dp/state.rho);
+      state.flow=term>=0?state.rho*cd*state.area*Math.sqrt(term):null;
+    }else state.flow=null;
+    if(state.flow!=null)setResult("spillResult4",`<strong>Débit liquide = ${f(state.flow,4)} kg/s</strong><div class="result-kpis"><span>Section : ${f(state.area,7)} m²</span><span>Cd : ${f(cd,2)}</span><span>Δh : ${f(dh,2)} m</span><span>ΔP : ${f(dp,0)} Pa</span></div>`);else hideResult("spillResult4");
+
+    state.emptyTime=state.mass!=null && state.flow!=null && state.flow>0?state.mass/state.flow:null;
+    if(state.emptyTime!=null)setResult("spillResult6",`<strong>Temps de vidange = ${formatDuration(state.emptyTime)}</strong><div class="result-kpis"><span>${f(state.emptyTime,1)} s</span><span>${f(state.emptyTime/60,1)} min</span></div>`);else hideResult("spillResult6");
+
+    const localV=n("spillLocalVolume"),tempK=temp!=null?temp+273:null;
+    state.nAvailable=state.mass!=null && M!=null && M>0?(state.mass*1000)/M:null;
+    state.nPvs=pvs!=null && localV!=null && tempK>0?(pvs*1e5*localV)/(8.3145*tempK):null;
+    state.massPvs=state.nPvs!=null && M!=null?(state.nPvs*M)/1000:null;
+    state.massVapor=state.mass!=null && state.massPvs!=null?Math.min(state.mass,state.massPvs):null;
+    let nVapor=state.massVapor!=null && M!=null && M>0?(state.massVapor*1000)/M:null;
+    const partialPa=nVapor!=null && tempK>0 && localV>0?nVapor*8.3145*tempK/localV:null;
+    state.concPct=partialPa!=null?(partialPa/(1.013e5))*100:null;
+    state.concMgM3=state.massVapor!=null && localV>0?(state.massVapor*1e6)/localV:null;
+    const risk=riskInfo(state.concPct,lie,lse);state.risk=risk.label;
+    if(state.nAvailable!=null && state.nPvs!=null){
+      const enough=state.nAvailable>=state.nPvs;
+      const theoreticalPct=pvs!=null?(pvs/1.013)*100:null;
+      setResult("spillResult7",`<strong>Concentration dans le local</strong><div class="result-kpis"><span>n disponible : ${f(state.nAvailable,1)} mol</span><span>n pour PVS : ${f(state.nPvs,1)} mol</span><span>Masse pour PVS : ${f(state.massPvs,3)} kg</span><span>Masse vaporisée retenue : ${f(state.massVapor,3)} kg</span><span>C réelle : ${f(state.concPct,2)} % vol.</span><span>C : ${f(state.concMgM3,0)} mg/m³</span></div><div style="margin-top:10px;"><span class="spill-risk-badge ${risk.cls}">${risk.label}</span></div><div class="calc-note" style="margin-top:10px;">${enough?`La masse disponible permet théoriquement d'atteindre la PVS (concentration PVS : ${f(theoreticalPct,2)} % vol.).`:`La masse disponible est insuffisante pour atteindre la PVS ; la concentration est limitée par la quantité de produit disponible.`}</div>${theoreticalPct>100?'<div class="calc-note" style="margin-top:8px;"><strong>Attention :</strong> la relation simplifiée PVS / pression atmosphérique conduit ici à plus de 100 % vol. ; interpréter ce résultat théorique avec prudence.</div>':''}`);
+    }else hideResult("spillResult7");
+
+    const yieldPct=n("spillYield"),pci=n("spillPci");
+    if(lse!=null && localV!=null && M!=null && tempK>0){
+      const vGasLse=localV*(lse/100);
+      const pLseBar=(vGasLse*1.013)/localV;
+      const pLsePa=pLseBar*1e5;
+      const nLse=(pLsePa*localV)/(8.3145*tempK);
+      state.massLse=(nLse*M)/1000;
+      state.mTnt=pci!=null && yieldPct!=null?(yieldPct/100)*(pci/4.69)*state.massLse:null;
+      if(state.mTnt!=null && state.mTnt>0){const root=Math.cbrt(state.mTnt);state.r50=25*root;state.r140=9*root;state.r200=7.5*root;}else state.r50=state.r140=state.r200=null;
+      const attainable=state.massVapor!=null?state.massVapor>=state.massLse:null;
+      setResult("spillResult8",`<strong>Explosion théorique à la LSE</strong><div class="result-kpis"><span>Vgaz LSE : ${f(vGasLse,2)} m³</span><span>P LSE : ${f(pLseBar,4)} bar</span><span>Masse à la LSE : ${f(state.massLse,3)} kg</span><span>mTNT : ${state.mTnt!=null?f(state.mTnt,2)+" kg":"—"}</span><span>50 mbar : ${state.r50!=null?f(state.r50,1)+" m":"—"}</span><span>140 mbar : ${state.r140!=null?f(state.r140,1)+" m":"—"}</span><span>200 mbar : ${state.r200!=null?f(state.r200,1)+" m":"—"}</span></div>${attainable===false?'<div class="calc-note" style="margin-top:10px;"><strong>Attention :</strong> la masse vaporisable calculée est inférieure à la masse nécessaire pour atteindre la LSE. Les rayons à la LSE sont donc un scénario théorique non atteignable avec les données saisies.</div>':''}`);
+    }else{state.massLse=state.mTnt=state.r50=state.r140=state.r200=null;hideResult("spillResult8");}
+
+    updateSummary();
+  }
+
+  const nature=document.getElementById("spillNature");nature?.addEventListener("change",compute);
+  const cdPreset=document.getElementById("spillCdPreset"),cdCustomWrap=document.getElementById("spillCdCustomWrap");
+  cdPreset?.addEventListener("change",()=>{if(cdCustomWrap)cdCustomWrap.style.display=cdPreset.value==="venturi"?"block":"none";compute();});
+  const pciPreset=document.getElementById("spillPciPreset"),pciInput=document.getElementById("spillPci");
+  pciPreset?.addEventListener("change",()=>{if(pciPreset.value==="manual"){pciInput.style.display="block";pciInput.value="";pciInput.focus();}else{pciInput.style.display="none";pciInput.value=pciPreset.value||"";}compute();});
+  panel.querySelectorAll("input, select").forEach(el=>{if(el!==nature && el!==cdPreset && el!==pciPreset)el.addEventListener("input",compute);});
+
+  resetBtn?.addEventListener("click",()=>{
+    panel.querySelectorAll("input").forEach(el=>{el.value="";});
+    document.getElementById("spillNature").value="unique";
+    document.getElementById("spillCdPreset").value="0.62";
+    document.getElementById("spillLiquidHeight").value="0";
+    document.getElementById("spillDeltaP").value="0";
+    document.getElementById("spillPciPreset").value="";
+    document.getElementById("spillPci").style.display="none";
+    document.getElementById("spillYield").value="10";
+    if(cdCustomWrap)cdCustomWrap.style.display="none";
+    Object.keys(state).forEach(k=>state[k]=null);
+    [1,2,3,4,6,7,8].forEach(i=>hideResult(`spillResult${i}`));
+    updateNature();updateSummary();compute();
+  });
+
+  updateNature();compute();
 })();
 </script>
 
