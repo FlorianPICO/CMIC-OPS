@@ -4924,6 +4924,710 @@ const CMIC_PRODUCT_SHEETS = {
       "Empêcher la dispersion vers les réseaux et les milieux aquatiques."
     ]
   }
+,
+
+  chlorine_rch: {
+    key: "chlorine_rch",
+    names: ["chlore", "chlorine"],
+    title: "Chlore",
+    cas: "7782-50-5",
+    un: "1017",
+    ec: "-",
+    formula: "Cl2",
+    sourceLabel: "Mémento RCH 3 - Fiche produit CHLORE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression"],
+      ["Point d'ébullition", "-34 °C"],
+      ["Pression de vapeur", "6,7 bar"],
+      ["Densité gaz", "2,5"],
+      ["Densité liquide", "1,56"],
+      ["Solubilité", "Faible"],
+      ["Apparence à l'air libre", "Nuage jaune verdâtre"],
+      ["Réactivité", "Oxydant puissant, comburant ; réaction avec les métaux"],
+      ["Seuil olfactif", "0,05 ppm"],
+      ["Odeur", "Piquante et suffocante"],
+      ["Couleur", "Jaune verdâtre"],
+      ["LIE / LSE", "Non renseignées"],
+      ["Point d'inflammabilité", "Non applicable / non renseigné"]
+    ],
+    extinction: [
+      ["Eau", "Pas d'éclaboussure"],
+      ["Rideaux d'eau", "Oui - mécanique"],
+      ["Mousse", "Non renseigné"],
+      ["Poudre", "Non renseigné"],
+      ["CO2", "Non renseigné"]
+    ],
+    toxicology: [
+      ["VSTAF SEI 60 min", "19 ppm"],
+      ["VSTAF SEL 60 min", "110 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "1 / 3 / 20 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "0,5 / 2 / 20 ppm"],
+      ["VME", "0,5 ppm"],
+      ["SES 30 min", "30 ppm"],
+      ["IDLH", "10 ppm"]
+    ],
+    fire: [
+      "Gaz non inflammable mais oxydant puissant et comburant.",
+      "Le document signale une forte réactivité avec certains métaux.",
+      "Éviter tout contact non maîtrisé avec les matières combustibles.",
+      "Utiliser les moyens d'extinction adaptés à l'incendie environnant et refroidir les contenants exposés."
+    ],
+    health: [
+      "Gaz très irritant et toxique par inhalation.",
+      "Odeur piquante et suffocante ; le seuil olfactif indiqué est de 0,05 ppm.",
+      "Se reporter aux seuils toxicologiques de la fiche pour le zonage et l'engagement.",
+      "Cette synthèse reprend les données du mémento RCH fourni."
+    ]
+  },
+
+  ammonia_rch: {
+    key: "ammonia_rch",
+    names: ["ammoniac", "ammoniaque", "ammoniac anhydre", "ammoniaque solution", "solution ammoniacale"],
+    title: "Ammoniac / Ammoniaque (solution)",
+    cas: "7664-41-7 / 1336-21-6",
+    un: "1005 / 2672",
+    ec: "-",
+    formula: "NH3 / NH4OH",
+    sourceLabel: "Mémento RCH 3 - Fiche produit AMMONIAC / AMMONIAQUE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression / solution aqueuse"],
+      ["Point d'ébullition", "-33 °C"],
+      ["Pression de vapeur", "8,5 bar"],
+      ["Densité gaz", "0,6"],
+      ["Densité liquide", "0,69"],
+      ["Solubilité", "Totale"],
+      ["Apparence à l'air libre", "Nuage jaune verdâtre"],
+      ["Réactivité", "Alcaline"],
+      ["Seuil olfactif", "5 ppm"],
+      ["Odeur", "Piquante caractéristique"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "15 / 28 % vol."],
+      ["Point d'inflammabilité", "651 °C"]
+    ],
+    extinction: [
+      ["Eau", "Pas d'éclaboussure"],
+      ["Rideaux d'eau", "Oui - diffusion efficace vers le haut"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Oui"],
+      ["CO2", "Oui"]
+    ],
+    toxicology: [
+      ["VSTAF SER / SEI / SEL - 60 min", "80 / 354 / 3400 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "25 / 150 / 1500 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "30 / 160 / 1100 ppm"],
+      ["VME", "20 ppm"],
+      ["SES 30 min", "30 ppm"],
+      ["IDLH", "30 ppm"]
+    ],
+    fire: [
+      "Produit inflammable dans une plage de 15 à 28 % vol. dans l'air.",
+      "Le document décrit un produit alcalin, très soluble dans l'eau.",
+      "Les rideaux d'eau sont indiqués avec diffusion efficace vers le haut.",
+      "Mousse, poudre et CO2 sont indiqués comme utilisables sur la fiche."
+    ],
+    health: [
+      "Gaz irritant et toxique par inhalation.",
+      "L'odeur piquante caractéristique est perceptible à faible concentration.",
+      "Utiliser les valeurs toxicologiques de la fiche pour le zonage opérationnel.",
+      "Distinguer l'ammoniac anhydre de la solution ammoniacale."
+    ]
+  },
+
+  h2s_rch: {
+    key: "h2s_rch",
+    names: ["sulfure d hydrogene", "hydrogene sulfure", "sulfure d'hydrogene", "h2s"],
+    title: "Sulfure d'hydrogène",
+    cas: "7783-06-4",
+    un: "1053",
+    ec: "-",
+    formula: "H2S",
+    sourceLabel: "Mémento RCH 3 - Fiche produit SULFURE D'HYDROGENE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression"],
+      ["Point d'ébullition", "-60 °C"],
+      ["Pression de vapeur", "18,6 bar"],
+      ["Densité gaz", "1,2"],
+      ["Densité liquide", "0,97"],
+      ["Solubilité", "Moyenne"],
+      ["Réactivité", "Base"],
+      ["Seuil olfactif", "0,1 ppm"],
+      ["Odeur", "Œufs pourris"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "4,3 / 45,5 % vol."],
+      ["Point d'inflammabilité", "260 °C"]
+    ],
+    extinction: [
+      ["Eau", "Pas d'éclaboussure"],
+      ["Rideaux d'eau", "Oui - mécanique"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Oui"],
+      ["CO2", "Oui"]
+    ],
+    toxicology: [
+      ["VSTAF SEI / SEL - 60 min", "80 / 372 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "0,1 / 30 / 100 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "0,51 / 27 / 37 ppm"],
+      ["VME", "5 ppm"],
+      ["IDLH", "100 ppm"]
+    ],
+    fire: [
+      "Gaz inflammable ; plage d'explosivité 4,3 à 45,5 % vol.",
+      "Le gaz est légèrement plus lourd que l'air.",
+      "Éliminer les sources d'ignition et ventiler les zones basses.",
+      "Refroidir les contenants exposés au feu."
+    ],
+    health: [
+      "Produit très toxique par inhalation.",
+      "L'odeur d'œufs pourris ne doit pas être considérée comme un moyen fiable de détection à forte concentration.",
+      "Utiliser les seuils ERPG, AEGL et IDLH indiqués dans la fiche.",
+      "Contrôler l'atmosphère avant engagement."
+    ]
+  },
+
+  so2_rch: {
+    key: "so2_rch",
+    names: ["dioxyde de soufre", "anhydride sulfureux", "so2"],
+    title: "Dioxyde de soufre",
+    cas: "7446-09-5",
+    un: "1079",
+    ec: "-",
+    formula: "SO2",
+    sourceLabel: "Mémento RCH 3 - Fiche produit DIOXYDE DE SOUFFRE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression"],
+      ["Point d'ébullition", "-10 °C"],
+      ["Pression de vapeur", "3,2 bar"],
+      ["Densité gaz", "2,3"],
+      ["Densité liquide", "1,46"],
+      ["Solubilité", "Grande"],
+      ["Réactivité", "Oxydant"],
+      ["Seuil olfactif", "1 ppm"],
+      ["Odeur", "Piquante"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "Non renseignées"]
+    ],
+    extinction: [
+      ["Rideaux d'eau", "Non"],
+      ["Autres moyens", "Non renseignés dans la fiche"]
+    ],
+    toxicology: [
+      ["VSTAF SER / SEI / SEL - 60 min", "3 / 81 / 725 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "0,3 / 3 / 15 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "0,25 / 1 / 27 ppm"],
+      ["VME", "0,5 ppm"],
+      ["SES 30 min", "100 ppm"],
+      ["IDLH", "100 ppm"]
+    ],
+    fire: [
+      "Gaz non inflammable ; la fiche le classe comme oxydant.",
+      "Gaz plus lourd que l'air.",
+      "Éviter le contact avec les matériaux incompatibles.",
+      "Refroidir les récipients exposés selon les conditions de l'incendie."
+    ],
+    health: [
+      "Gaz irritant et toxique par inhalation.",
+      "Odeur piquante ; seuil olfactif indiqué à 1 ppm.",
+      "Les seuils toxicologiques du mémento doivent guider le zonage.",
+      "Assurer une protection respiratoire adaptée."
+    ]
+  },
+
+  hcl37_rch: {
+    key: "hcl37_rch",
+    names: ["acide chlorhydrique", "acide chlorhydrique 37", "acide chlorhydrique 37 %", "chlorure d hydrogene solution", "hcl"],
+    title: "Acide chlorhydrique 37 %",
+    cas: "7647-01-0",
+    un: "1789",
+    ec: "-",
+    formula: "HCl",
+    sourceLabel: "Mémento RCH 3 - Fiche produit ACIDE CHLORHYDRIQUE 37 %",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Point d'ébullition", "110 °C"],
+      ["Densité gaz", "1,3"],
+      ["Densité liquide", "1,19"],
+      ["Solubilité", "Totale"],
+      ["Apparence", "Liquide incolore à jaunâtre"],
+      ["Réactivité", "Avec toutes les bases"],
+      ["Seuil olfactif", "5 ppm"],
+      ["Odeur", "Piquante"],
+      ["Couleur", "Incolore à jaunâtre"],
+      ["LIE / LSE", "Non renseignées"],
+      ["Point d'inflammabilité", "Non applicable / non renseigné"]
+    ],
+    extinction: [
+      ["Rideaux d'eau", "Non"],
+      ["Autres moyens", "Non renseignés dans la fiche"]
+    ],
+    toxicology: [
+      ["VSTAF SEI / SEL - 60 min", "40 / 240 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "3 / 20 / 150 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "1,8 / 22 / 104 ppm"],
+      ["VME", "2 ppm"],
+      ["SES 30 min", "100 ppm"],
+      ["IDLH", "100 ppm"]
+    ],
+    fire: [
+      "Produit non inflammable mais fortement corrosif.",
+      "Réagit avec les bases et peut attaquer certains métaux.",
+      "Éviter les projections et utiliser des protections adaptées aux acides.",
+      "Adapter les moyens d'extinction à l'incendie environnant."
+    ],
+    health: [
+      "Liquide et vapeurs corrosifs pour la peau, les yeux et les voies respiratoires.",
+      "Odeur piquante ; seuil olfactif indiqué à 5 ppm.",
+      "Utiliser les seuils ERPG, AEGL et IDLH de la fiche pour le zonage.",
+      "Éviter tout contact direct et toute inhalation."
+    ]
+  },
+
+  carbon_monoxide_rch: {
+    key: "carbon_monoxide_rch",
+    names: ["monoxyde de carbone", "oxyde de carbone", "co"],
+    title: "Monoxyde de carbone",
+    cas: "630-08-0",
+    un: "1016",
+    ec: "-",
+    formula: "CO",
+    sourceLabel: "Mémento RCH 3 - Fiche produit MONOXYDE DE CARBONE",
+    physical: [
+      ["État physique", "Gaz"],
+      ["Point d'ébullition", "-191 °C"],
+      ["Pression de vapeur", "0,34 bar"],
+      ["Densité gaz", "0,97"],
+      ["Solubilité", "Faible"],
+      ["Apparence", "Gaz incolore et inodore"],
+      ["Réactivité", "Forme un mélange explosif avec l'air"],
+      ["Seuil olfactif", "Pas d'odeur"],
+      ["Couleur", "Sans / incolore"],
+      ["LIE / LSE", "12,5 / 75 % vol."],
+      ["Point d'inflammabilité", "620 °C"]
+    ],
+    extinction: [
+      ["Eau", "Oui"],
+      ["Rideaux d'eau", "Oui - mécanique"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Oui"],
+      ["CO2", "Oui"]
+    ],
+    toxicology: [
+      ["VSTAF SEI / SEL - 60 min", "800 / 3200 ppm"],
+      ["VME", "30 ppm"],
+      ["SES 30 min", "1500 ppm"],
+      ["IDLH", "1200 ppm"]
+    ],
+    fire: [
+      "Gaz inflammable ; plage d'explosivité 12,5 à 75 % vol.",
+      "Gaz pratiquement de même densité que l'air.",
+      "Éliminer les sources d'ignition et contrôler l'atmosphère.",
+      "Les moyens d'extinction indiqués dans la fiche comprennent eau, mousse, poudre et CO2."
+    ],
+    health: [
+      "Gaz toxique, incolore et inodore.",
+      "Absence d'odeur : la détection instrumentale est indispensable.",
+      "Le document indique une VME de 30 ppm et un IDLH de 1200 ppm.",
+      "Ventiler et protéger les intervenants contre l'inhalation."
+    ]
+  },
+
+  hcn_rch: {
+    key: "hcn_rch",
+    names: ["acide cyanhydrique", "cyanure d hydrogene", "cyanure d'hydrogene", "hcn"],
+    title: "Acide cyanhydrique",
+    cas: "74-90-8",
+    un: "1051",
+    ec: "-",
+    formula: "HCN",
+    sourceLabel: "Mémento RCH 3 - Fiche produit ACIDE CYANHYDRIQUE",
+    physical: [
+      ["État physique", "Liquide ; gazeux dès 26 °C"],
+      ["Point d'ébullition", "26 °C"],
+      ["Pression de vapeur", "840 mbar / 0,84 bar"],
+      ["Densité gaz", "0,94"],
+      ["Densité liquide", "0,68"],
+      ["Solubilité", "Totale"],
+      ["Apparence", "Liquide incolore"],
+      ["Réactivité", "Mélange explosif"],
+      ["Seuil olfactif", "1 ppm"],
+      ["Odeur", "Amandes amères"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "6 / 47 % vol."],
+      ["Point d'inflammabilité", "535 °C"]
+    ],
+    extinction: [
+      ["Eau", "Oui"],
+      ["Rideaux d'eau", "Oui"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Non"],
+      ["CO2", "Non"]
+    ],
+    toxicology: [
+      ["ERPG 2 / 3 - 60 min", "10 / 25 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "2 / 7,1 / 15 ppm"],
+      ["VME", "1,9 ppm"],
+      ["SES 30 min", "50 ppm"]
+    ],
+    fire: [
+      "Liquide extrêmement inflammable ; mélange explosif avec l'air.",
+      "Le produit devient gazeux dès environ 26 °C selon la fiche.",
+      "Éliminer strictement toutes les sources d'ignition.",
+      "La fiche indique eau, rideaux d'eau et mousse parmi les moyens utilisables."
+    ],
+    health: [
+      "Produit extrêmement toxique.",
+      "L'odeur d'amandes amères ne constitue pas un moyen fiable de détection pour tous les individus.",
+      "Utiliser les seuils ERPG et AEGL du mémento pour le zonage.",
+      "Protection respiratoire isolante indispensable en atmosphère suspecte."
+    ]
+  },
+
+  no2_rch: {
+    key: "no2_rch",
+    names: ["dioxyde d azote", "dioxyde d'azote", "peroxyde d azote", "peroxyde d'azote", "vapeurs nitreuses", "no2", "n2o4"],
+    title: "Dioxyde d'azote / N2O4",
+    cas: "101-44-0 (valeur indiquée dans le mémento)",
+    un: "1067",
+    ec: "-",
+    formula: "NO2 / N2O4",
+    sourceLabel: "Mémento RCH 3 - Fiche produit DIOXYDE D'AZOTE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression"],
+      ["Point d'ébullition", "21 °C"],
+      ["Pression de vapeur", "1 bar"],
+      ["Densité gaz", "1,6 à 3,2"],
+      ["Densité liquide", "1,45"],
+      ["Solubilité", "Faible"],
+      ["Réactivité", "Réaction acide avec l'humidité de l'air ; corrosif pour les métaux"],
+      ["Seuil olfactif", "0,5 ppm"],
+      ["Odeur", "Âcre et piquante"],
+      ["Couleur", "Liquide / gaz brun-jaune-rouge"],
+      ["LIE / LSE", "Non renseignées"]
+    ],
+    extinction: [
+      ["Eau", "Oui"],
+      ["Rideaux d'eau", "Oui - mécanique"],
+      ["Autres moyens", "Non renseignés dans la fiche"]
+    ],
+    toxicology: [
+      ["VSTAF SER / SEI / SEL - 60 min", "5 / 40 / 70 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "1 / 15 / 30 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "0,5 / 12 / 20 ppm"],
+      ["VME", "3 ppm"],
+      ["SES 30 min", "50 ppm"],
+      ["IDLH", "13 ppm"]
+    ],
+    fire: [
+      "Gaz comburant ; non présenté comme combustible dans la fiche.",
+      "Réagit avec l'humidité de l'air en donnant une réaction acide.",
+      "Corrosif pour les métaux.",
+      "Éviter le contact avec les matières combustibles et incompatibles."
+    ],
+    health: [
+      "Gaz très irritant et toxique par inhalation.",
+      "Odeur âcre et piquante ; seuil olfactif 0,5 ppm selon le mémento.",
+      "Utiliser les valeurs AEGL/ERPG/IDLH indiquées pour le zonage.",
+      "Protection respiratoire adaptée indispensable."
+    ]
+  },
+
+  co2_rch: {
+    key: "co2_rch",
+    names: ["dioxyde de carbone", "gaz carbonique", "acide carbonique", "co2"],
+    title: "Dioxyde de carbone",
+    cas: "124-38-9",
+    un: "1013 / 2187",
+    ec: "-",
+    formula: "CO2",
+    sourceLabel: "Mémento RCH 3 - Fiche produit DIOXYDE DE CARBONE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression / fortement réfrigéré"],
+      ["Point d'ébullition / sublimation", "-78,5 °C"],
+      ["Pression de vapeur", "57,6 bar"],
+      ["Densité gaz", "1,5"],
+      ["Densité liquide", "0,77 à 58 bar"],
+      ["Solubilité", "Faible"],
+      ["Apparence", "Gaz"],
+      ["Réactivité", "Risque d'explosion avec produits en 'ium'"],
+      ["Seuil olfactif", "Pas d'odeur"],
+      ["Odeur", "Inodore"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "Non renseignées"]
+    ],
+    extinction: [
+      ["Eau", "Oui"],
+      ["Rideaux d'eau", "Oui - mécanique"],
+      ["Autres moyens", "Non renseignés dans la fiche"]
+    ],
+    toxicology: [
+      ["VSTAF SER / SEI / SEL - 60 min", "5 / 40 / 70 ppm (valeurs indiquées dans le mémento)"],
+      ["ERPG 1 / 2 / 3 - 60 min", "1 / 15 / 30 ppm (valeurs indiquées dans le mémento)"],
+      ["AEGL 1 / 2 / 3 - 60 min", "0,5 / 12 / 20 ppm (valeurs indiquées dans le mémento)"],
+      ["VME", "5000 ppm"],
+      ["SES 30 min", "50000 ppm"],
+      ["IDLH", "40000 ppm"]
+    ],
+    fire: [
+      "Gaz non inflammable.",
+      "Le principal risque opérationnel est l'asphyxie par déplacement de l'oxygène.",
+      "Le gaz est plus lourd que l'air et peut s'accumuler dans les points bas.",
+      "Prendre en compte le risque lié au froid pour le CO2 liquéfié/réfrigéré."
+    ],
+    health: [
+      "Gaz asphyxiant à forte concentration.",
+      "Inodore et incolore : contrôle atmosphérique indispensable.",
+      "La fiche indique VME 5000 ppm et IDLH 40000 ppm.",
+      "Risque de brûlure froide avec le produit liquéfié ou fortement réfrigéré."
+    ]
+  },
+
+  sulfuric_acid_rch: {
+    key: "sulfuric_acid_rch",
+    names: ["acide sulfurique", "h2so4"],
+    title: "Acide sulfurique",
+    cas: "7644-93-9",
+    un: "1830 / 2796",
+    ec: "-",
+    formula: "H2SO4",
+    sourceLabel: "Mémento RCH 3 - Fiche produit ACIDE SULFURIQUE",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Point d'ébullition", "338 °C"],
+      ["Pression de vapeur", "0 bar"],
+      ["Densité gaz", "3,4"],
+      ["Densité liquide", "1,84"],
+      ["Solubilité", "Totale"],
+      ["Apparence", "Liquide huileux"],
+      ["Réactivité", "Risque d'explosion avec produits en 'ium'"],
+      ["Seuil olfactif", "0,3 ppm"],
+      ["Odeur", "Inodore"],
+      ["Couleur", "Incolore à jaunâtre"],
+      ["LIE / LSE", "Non renseignées"]
+    ],
+    extinction: [
+      ["Eau", "Pas d'éclaboussure"],
+      ["Rideaux d'eau", "Oui"],
+      ["Autres moyens", "Non renseignés dans la fiche"]
+    ],
+    toxicology: [
+      ["VSTAF SEI / SEL - 60 min", "9 / 83 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "0,5 / 2,5 / 7,5 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "0,2 / 8,7 / 160 mg/m³"],
+      ["VME", "0,1 mg/m³"],
+      ["SES 30 min", "80 mg/m³"],
+      ["IDLH", "15 mg/m³"]
+    ],
+    fire: [
+      "Produit non inflammable mais fortement réactif et corrosif.",
+      "Le mémento signale un risque d'explosion avec certains produits métalliques.",
+      "Éviter les projections d'eau directes sur le produit concentré.",
+      "Adapter les moyens d'extinction à l'incendie environnant."
+    ],
+    health: [
+      "Produit fortement corrosif pour la peau et les yeux.",
+      "Les brouillards et vapeurs peuvent être très irritants.",
+      "Utiliser les seuils AEGL/ERPG/IDLH indiqués par le mémento.",
+      "Éviter toute dilution non maîtrisée en raison de l'échauffement."
+    ]
+  },
+
+  acetone_rch: {
+    key: "acetone_rch",
+    names: ["acetone", "propanone", "dimethylcetone"],
+    title: "Acétone",
+    cas: "67-64-1",
+    un: "1090",
+    ec: "-",
+    formula: "C3H6O",
+    sourceLabel: "Mémento RCH 3 - Fiche produit ACETONE",
+    physical: [
+      ["État physique", "Liquide"],
+      ["Point d'ébullition", "56 °C (le tableau du mémento affiche '-56 °C')"],
+      ["Pression de vapeur", "240 mbar"],
+      ["Densité gaz", "2"],
+      ["Densité liquide", "0,79"],
+      ["Solubilité", "Totale"],
+      ["Apparence", "Liquide huileux"],
+      ["Réactivité", "Mélange explosif avec l'air"],
+      ["Seuil olfactif", "200 à 450 ppm"],
+      ["Odeur", "Suave"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "2,2 / 12,8 % vol."],
+      ["Point d'inflammabilité", "540 °C"]
+    ],
+    extinction: [
+      ["Rideaux d'eau", "Non"],
+      ["Mousse", "Oui"],
+      ["Autres moyens", "Non renseignés dans le tableau de synthèse"]
+    ],
+    toxicology: [
+      ["ERPG 1 / 2 / 3 - 60 min", "570 / 1470 / 1950 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "200 / 3200 / 5700 ppm"],
+      ["VME", "500 ppm"],
+      ["SES 30 min", "20000 ppm"],
+      ["IDLH", "2500 ppm"]
+    ],
+    fire: [
+      "Liquide très inflammable ; mélange explosif avec l'air.",
+      "La fiche indique une LIE de 2,2 % et une LSE de 12,8 % vol.",
+      "Mousse indiquée comme moyen d'extinction dans le tableau de synthèse.",
+      "Éliminer les sources d'ignition et ventiler."
+    ],
+    health: [
+      "Les vapeurs peuvent provoquer des effets narcotiques à forte concentration.",
+      "Odeur suave ; seuil olfactif indiqué entre 200 et 450 ppm.",
+      "Utiliser les seuils ERPG/AEGL et IDLH indiqués par le mémento.",
+      "Éviter l'inhalation et le contact prolongé."
+    ]
+  },
+
+  phosgene_rch: {
+    key: "phosgene_rch",
+    names: ["phosgene", "oxychlorure de carbone", "carbonyl dichloride", "cocl2"],
+    title: "Phosgène",
+    cas: "75-44-5",
+    un: "1076",
+    ec: "-",
+    formula: "COCl2",
+    sourceLabel: "Mémento RCH 3 - Fiche produit PHOSGENE",
+    physical: [
+      ["État physique", "Gaz liquéfié sous pression"],
+      ["Point d'ébullition", "8 °C"],
+      ["Pression de vapeur", "1,6 bar"],
+      ["Densité gaz", "3,4"],
+      ["Densité liquide", "1,41"],
+      ["Solubilité", "Faible"],
+      ["Réactivité", "Acide avec l'humidité de l'air"],
+      ["Seuil olfactif", "0,5 ppm"],
+      ["Odeur", "Foin pourri"],
+      ["Couleur", "Incolore à jaunâtre"],
+      ["LIE / LSE", "Non renseignées"]
+    ],
+    extinction: [
+      ["Eau", "Oui - pas d'éclaboussure"],
+      ["Rideaux d'eau", "Oui - mécanique"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Oui"],
+      ["CO2", "Oui"]
+    ],
+    toxicology: [
+      ["VSTAF SEI / SEL - 60 min", "0,5 / 1 ppm"],
+      ["ERPG 1 / 2 / 3 - 60 min", "0,1 / 0,5 / 5 ppm"],
+      ["AEGL 2 / 3 - 60 min", "0,3 / 0,75 ppm"],
+      ["VME", "0,1 ppm"],
+      ["SES 30 min", "2 ppm"],
+      ["IDLH", "50 ppm"]
+    ],
+    fire: [
+      "Gaz non inflammable selon la fiche, mais très réactif avec l'humidité.",
+      "Gaz lourd pouvant s'accumuler en zones basses.",
+      "Les moyens d'extinction indiqués comprennent eau, mousse, poudre et CO2.",
+      "Éviter tout contact direct avec le liquide et les vapeurs."
+    ],
+    health: [
+      "Gaz extrêmement toxique par inhalation.",
+      "Odeur de foin pourri ; seuil olfactif indiqué à 0,5 ppm.",
+      "Les seuils AEGL et ERPG sont très bas : zonage prudent indispensable.",
+      "Protection respiratoire isolante indispensable en atmosphère suspecte."
+    ]
+  },
+
+  hf_rch: {
+    key: "hf_rch",
+    names: ["acide fluorhydrique", "fluorure d hydrogene", "fluorure d'hydrogene", "hydrofluorure", "hf"],
+    title: "Acide fluorhydrique",
+    cas: "7664-39-3",
+    un: "1790 / 1052",
+    ec: "-",
+    formula: "HF",
+    sourceLabel: "Mémento RCH 3 - Fiche produit ACIDE FLUORHYDRIQUE",
+    physical: [
+      ["État physique", "Liquide / gaz selon présentation"],
+      ["Point d'ébullition", "110 °C (valeur indiquée dans le mémento pour la solution)"],
+      ["Densité gaz", "0,6"],
+      ["Densité liquide", "1,26"],
+      ["Solubilité", "Totale"],
+      ["Apparence", "Liquide fumant à l'air"],
+      ["Réactivité", "Attaque les métaux en dégageant de l'hydrogène"],
+      ["Odeur", "Irritante et piquante"],
+      ["Couleur", "Incolore à légèrement jaunâtre"],
+      ["LIE / LSE", "Non renseignées"]
+    ],
+    extinction: [
+      ["Eau", "Oui - pas d'éclaboussure"],
+      ["Rideaux d'eau", "Non"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Oui"],
+      ["CO2", "Oui"]
+    ],
+    toxicology: [
+      ["ERPG 1 / 2 / 3 - 60 min", "1 / 2 / 20 ppm"],
+      ["AEGL 1 / 2 / 3 - 60 min", "1 / 13 / 26 ppm"],
+      ["VME", "1,8 ppm"],
+      ["SES 30 min", "30 ppm"],
+      ["IDLH", "50 ppm"]
+    ],
+    fire: [
+      "Produit non inflammable mais fortement corrosif et réactif.",
+      "Attaque de nombreux métaux avec dégagement possible d'hydrogène inflammable.",
+      "Éviter les projections et tout contact avec les matériaux incompatibles.",
+      "Utiliser des équipements de protection adaptés au risque HF."
+    ],
+    health: [
+      "Produit extrêmement corrosif et toxique.",
+      "Les brûlures peuvent être profondes et d'évolution retardée.",
+      "Utiliser les seuils toxicologiques de la fiche pour le zonage.",
+      "Prendre en compte les procédures spécifiques HF applicables dans le service."
+    ]
+  },
+
+  phosphoric_acid_rch: {
+    key: "phosphoric_acid_rch",
+    names: ["acide phosphorique", "h3po4"],
+    title: "Acide phosphorique",
+    cas: "7664-38-2",
+    un: "1805",
+    ec: "-",
+    formula: "H3PO4",
+    sourceLabel: "Mémento RCH 3 - Fiche produit ACIDE PHOSPHORIQUE",
+    physical: [
+      ["État physique", "Solution liquide"],
+      ["Point d'ébullition", "158 °C"],
+      ["Pression de vapeur", "2 mbar"],
+      ["Densité gaz", "3,4"],
+      ["Densité liquide", "1,71"],
+      ["Solubilité", "Totale"],
+      ["Apparence", "Liquide"],
+      ["Réactivité", "Attaque les métaux avec dégagement d'hydrogène"],
+      ["Odeur", "Inodore"],
+      ["Couleur", "Incolore"],
+      ["LIE / LSE", "2,1 / 9,5 % vol. (valeurs indiquées dans le mémento)"],
+      ["Point d'inflammabilité", "Non renseigné"]
+    ],
+    extinction: [
+      ["Eau", "Oui - pas d'éclaboussure"],
+      ["Rideaux d'eau", "Oui"],
+      ["Mousse", "Oui"],
+      ["Poudre", "Oui"],
+      ["CO2", "Oui"]
+    ],
+    toxicology: [
+      ["ERPG 1 / 2 / 3 - 60 min", "3 / 30 / 150 mg/m³"],
+      ["VME", "1 mg/m³"],
+      ["IDLH", "2100 ppm (valeur indiquée dans le mémento)"]
+    ],
+    fire: [
+      "Produit non inflammable selon la description générale, mais corrosif.",
+      "Attaque les métaux avec dégagement possible d'hydrogène.",
+      "Éviter les projections et utiliser des protections adaptées aux acides.",
+      "Adapter les moyens d'extinction à l'incendie environnant."
+    ],
+    health: [
+      "Produit corrosif pour la peau et les yeux.",
+      "Les vapeurs ou brouillards chauds peuvent irriter les voies respiratoires.",
+      "Utiliser les valeurs ERPG et VME indiquées dans la fiche.",
+      "Éviter tout contact direct et toute inhalation d'aérosols."
+    ]
+  }
 
 };
 
@@ -4958,6 +5662,20 @@ function findCmicProductSheet(item) {
   if (/^(?:fioul|fioul\s*domestique|fod|fuel\s*domestique|fuel\s*oil\s*domestique)$/.test(norm)) return CMIC_PRODUCT_SHEETS.fioul_fod;
   if (/^(?:sp\s*95|sans\s*plomb\s*95|essence\s*sp\s*95|super\s*95|sp\s*95\s*e5|sp\s*95\s*e10)$/.test(norm)) return CMIC_PRODUCT_SHEETS.sp95;
   if (/^(?:sp\s*98|sans\s*plomb\s*98|essence\s*sp\s*98|super\s*98|sp\s*98\s*e5)$/.test(norm)) return CMIC_PRODUCT_SHEETS.sp98;
+  if (/^chlore(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.chlorine_rch;
+  if (/^(?:ammoniac|ammoniaque)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.ammonia_rch;
+  if (/^(?:sulfure\s+d\s*hydrogene|hydrogene\s+sulfure|h2s)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.h2s_rch;
+  if (/^(?:dioxyde\s+de\s+soufre|anhydride\s+sulfureux|so2)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.so2_rch;
+  if (/^acide\s+chlorhydrique(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hcl37_rch;
+  if (/^(?:monoxyde\s+de\s+carbone|oxyde\s+de\s+carbone|co)$/.test(norm)) return CMIC_PRODUCT_SHEETS.carbon_monoxide_rch;
+  if (/^(?:acide\s+cyanhydrique|cyanure\s+d\s*hydrogene|hcn)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hcn_rch;
+  if (/^(?:dioxyde\s+d\s*azote|peroxyde\s+d\s*azote|vapeurs\s+nitreuses|no2|n2o4)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.no2_rch;
+  if (/^(?:dioxyde\s+de\s+carbone|gaz\s+carbonique|co2)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.co2_rch;
+  if (/^acide\s+sulfurique(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.sulfuric_acid_rch;
+  if (/^(?:acetone|propanone|dimethylcetone)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.acetone_rch;
+  if (/^(?:phosgene|oxychlorure\s+de\s+carbone|carbonyl\s+dichloride|cocl2)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.phosgene_rch;
+  if (/^(?:acide\s+fluorhydrique|fluorure\s+d\s*hydrogene|hydrofluorure|hf)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hf_rch;
+  if (/^acide\s+phosphorique(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.phosphoric_acid_rch;
 
   return null;
 }
@@ -4993,7 +5711,7 @@ function renderCmicProductSheet(sheet) {
           <strong>Fiche produit CMIC-OPS - ${escapeHtml(sheet.title)}</strong>
           <small>Synthèse opérationnelle - données physico-chimiques et sécurité</small>
         </div>
-        <span class="cmic-sheet-badge">Hors fiche INRS</span>
+        <span class="cmic-sheet-badge">Synthèse CMIC-OPS</span>
       </div>
 
       <div class="cmic-product-accordion">
@@ -5039,9 +5757,21 @@ function renderCmicProductSheet(sheet) {
             <ul class="cmic-product-list">
               ${sheet.health.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
             </ul>
+            ${sheet.extinction ? `
+            <details class="cmic-product-item" style="margin-top:12px;">
+              <summary><span>Moyens d'extinction</span><span class="cmic-product-chevron">›</span></summary>
+              <div class="cmic-product-body">${renderCmicProductTable(sheet.extinction)}</div>
+            </details>` : ""}
+            ${sheet.toxicology ? `
+            <details class="cmic-product-item" style="margin-top:8px;">
+              <summary><span>Données toxicologiques</span><span class="cmic-product-chevron">›</span></summary>
+              <div class="cmic-product-body">${renderCmicProductTable(sheet.toxicology)}</div>
+            </details>` : ""}
             <div class="cmic-source-note">
               Source principale :
-              <a href="${sheet.sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sheet.sourceLabel)}</a>.
+              ${sheet.sourceUrl
+                ? `<a href="${sheet.sourceUrl}" target="_blank" rel="noopener">${escapeHtml(sheet.sourceLabel)}</a>`
+                : `<strong>${escapeHtml(sheet.sourceLabel)}</strong>`}.
               Cette synthèse CMIC-OPS ne remplace pas la FDS du fournisseur ni les documents opérationnels applicables.
             </div>
           </div>
@@ -5080,7 +5810,7 @@ function documentationScore(item) {
   const inrs = findInrsForItem(item);
   const cmicSheet = findCmicProductSheet(item);
   if (inrs) score += 2; // PDF INRS + modules statiques disponibles.
-  else if (cmicSheet) score += 1.5; // Fiche produit CMIC-OPS disponible.
+  if (cmicSheet) score += 1.5; // Fiche produit CMIC-OPS disponible.
   return score;
 }
 
@@ -5126,24 +5856,27 @@ function renderResults(items, heading) {
     const guideLabel = item.guide.replace("P", "") + (item.guide.endsWith("P") ? " (P)" : "");
     const href = `${PDF_FILE}#page=${item.page}`;
     const inrs = findInrsForItem(item);
-    const cmicSheet = !inrs ? findCmicProductSheet(item) : null;
+    const cmicSheet = findCmicProductSheet(item);
     const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const cmicHostId = cmicSheet ? `cmic-product-${escapeHtml(cmicSheet.key)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
 
-    const extraDocumentation = inrs
-      ? `<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">PDF INRS ${escapeHtml(inrs.ft)}</a>
-         <button type="button" class="pdf-link inrs-modules-btn" data-ft="${escapeHtml(inrs.ft)}" data-host="${moduleHostId}">Modules INRS</button>`
-      : cmicSheet
-        ? `<button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(cmicSheet.key)}" data-host="${cmicHostId}">Fiche CMIC-OPS</button>`
-        : `<span class="inrs-unavailable" title="Aucune fiche complémentaire identifiée automatiquement pour cette appellation.">Documentation complémentaire indisponible</span>`;
+    const docLinks = [];
+    if (inrs) {
+      docLinks.push(`<a class="pdf-link inrs-link" href="${INRS_DIR}${encodeURIComponent(inrs.file)}" target="_blank" rel="noopener">PDF INRS ${escapeHtml(inrs.ft)}</a>`);
+      docLinks.push(`<button type="button" class="pdf-link inrs-modules-btn" data-ft="${escapeHtml(inrs.ft)}" data-host="${moduleHostId}">Modules INRS</button>`);
+    }
+    if (cmicSheet) {
+      docLinks.push(`<button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(cmicSheet.key)}" data-host="${cmicHostId}">Fiche CMIC-OPS</button>`);
+    }
+    const extraDocumentation = docLinks.length
+      ? docLinks.join("")
+      : `<span class="inrs-unavailable" title="Aucune fiche complémentaire identifiée automatiquement pour cette appellation.">Documentation complémentaire indisponible</span>`;
 
     const docs = `<div class="result-doc-badges">
       <span class="doc-badge available">GMU</span>
-      ${inrs
-        ? `<span class="doc-badge available">INRS</span><span class="doc-badge available">Modules</span>`
-        : cmicSheet
-          ? `<span class="doc-badge available">Fiche CMIC-OPS</span>`
-          : `<span class="doc-badge">Doc. complémentaire indisponible</span>`}
+      ${inrs ? `<span class="doc-badge available">INRS</span><span class="doc-badge available">Modules</span>` : ""}
+      ${cmicSheet ? `<span class="doc-badge available">Fiche CMIC-OPS</span>` : ""}
+      ${!inrs && !cmicSheet ? `<span class="doc-badge">Doc. complémentaire indisponible</span>` : ""}
     </div>`;
 
     return `<div class="result-card">
