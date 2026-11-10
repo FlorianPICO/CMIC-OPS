@@ -2059,6 +2059,36 @@
     }
   }
 
+    .cmic-evac-table th {
+      width: auto;
+      background: #fff7ed;
+      color: #7c2d12;
+      text-align: center;
+      font-size: .82rem;
+    }
+
+    .cmic-evac-table td {
+      text-align: center;
+    }
+
+    .cmic-evac-table td:first-child {
+      text-align: left;
+      font-weight: 750;
+    }
+
+    .cmic-evac-indoor {
+      margin-bottom: 12px;
+    }
+
+    .cmic-evac-indoor > strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #9a3412;
+      font-size: .92rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
 </style>
 </head>
 
@@ -4966,6 +4996,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "30 ppm"],
       ["IDLH", "10 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "1600 m", "800 m"],
+        ["Flaque 80 m² (Ø 10 m)", "3200 m", "2400 m"]
+      ]
+    },
     fire: [
       "Gaz non inflammable mais oxydant puissant et comburant.",
       "Le document signale une forte réactivité avec certains métaux.",
@@ -5019,6 +5056,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "30 ppm"],
       ["IDLH", "30 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "300 m", "150 m"],
+        ["Flaque 80 m² (Ø 10 m)", "650 m", "450 m"]
+      ]
+    },
     fire: [
       "Produit inflammable dans une plage de 15 à 28 % vol. dans l'air.",
       "Le document décrit un produit alcalin, très soluble dans l'eau.",
@@ -5070,6 +5114,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["VME", "5 ppm"],
       ["IDLH", "100 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "650 m", "300 m"],
+        ["Flaque 80 m² (Ø 10 m)", "1600 m", "800 m"]
+      ]
+    },
     fire: [
       "Gaz inflammable ; plage d'explosivité 4,3 à 45,5 % vol.",
       "Le gaz est légèrement plus lourd que l'air.",
@@ -5118,6 +5169,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "100 ppm"],
       ["IDLH", "100 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "500 m", "300 m"],
+        ["Flaque 80 m² (Ø 10 m)", "1200 m", "800 m"]
+      ]
+    },
     fire: [
       "Gaz non inflammable ; la fiche le classe comme oxydant.",
       "Gaz plus lourd que l'air.",
@@ -5167,6 +5225,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "100 ppm"],
       ["IDLH", "100 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "300 m", "200 m"],
+        ["Flaque 80 m² (Ø 10 m)", "800 m", "500 m"]
+      ]
+    },
     fire: [
       "Produit non inflammable mais fortement corrosif.",
       "Réagit avec les bases et peut attaquer certains métaux.",
@@ -5216,6 +5281,17 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "1500 ppm"],
       ["IDLH", "1200 ppm"]
     ],
+    evacuation: {
+      note: "Consignes du mémento données pour un cylindre de 50 litres.",
+      indoor: [
+        "Évacuer immédiatement la pièce et les locaux adjacents ; si nécessaire, même tout l’étage. Attention au feu.",
+        "Boucler la zone et éliminer les sources d’allumage.",
+        "Prévoir l’évacuation de l’immeuble, en priorité des étages supérieurs, en évitant la zone contaminée."
+      ],
+      rows: [
+        ["Fuite à l’extérieur", "150 m", "150 m"]
+      ]
+    },
     fire: [
       "Gaz inflammable ; plage d'explosivité 12,5 à 75 % vol.",
       "Gaz pratiquement de même densité que l'air.",
@@ -5267,6 +5343,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["VME", "1,9 ppm"],
       ["SES 30 min", "50 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "800 m", "400 m"],
+        ["Flaque 80 m² (Ø 10 m)", "1600 m", "800 m"]
+      ]
+    },
     fire: [
       "Liquide extrêmement inflammable ; mélange explosif avec l'air.",
       "Le produit devient gazeux dès environ 26 °C selon la fiche.",
@@ -5316,6 +5399,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "50 ppm"],
       ["IDLH", "13 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "500 m", "300 m"],
+        ["Flaque 80 m² (Ø 10 m)", "1300 m", "1000 m"]
+      ]
+    },
     fire: [
       "Gaz comburant ; non présenté comme combustible dans la fiche.",
       "Réagit avec l'humidité de l'air en donnant une réaction acide.",
@@ -5517,6 +5607,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "2 ppm"],
       ["IDLH", "50 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "3200 m", "1800 m"],
+        ["Flaque 80 m² (Ø 10 m)", "8000 m", "4800 m"]
+      ]
+    },
     fire: [
       "Gaz non inflammable selon la fiche, mais très réactif avec l'humidité.",
       "Gaz lourd pouvant s'accumuler en zones basses.",
@@ -5566,6 +5663,13 @@ const CMIC_PRODUCT_SHEETS = {
       ["SES 30 min", "30 ppm"],
       ["IDLH", "50 ppm"]
     ],
+    evacuation: {
+      note: "Pour un vent de 10 à 20 km/h.",
+      rows: [
+        ["Flaque 20 m² (Ø 5 m)", "500 m", "300 m"],
+        ["Flaque 80 m² (Ø 10 m)", "1100 m", "800 m"]
+      ]
+    },
     fire: [
       "Produit non inflammable mais fortement corrosif et réactif.",
       "Attaque de nombreux métaux avec dégagement possible d'hydrogène inflammable.",
@@ -5734,6 +5838,44 @@ function renderCmicProductSheet(sheet) {
             ${renderCmicProductTable(sheet.physical)}
           </div>
         </details>
+
+        ${sheet.evacuation ? `
+        <details class="cmic-product-item">
+          <summary>
+            <span>Distances d'évacuation</span>
+            <span class="cmic-product-chevron">›</span>
+          </summary>
+          <div class="cmic-product-body">
+            <div class="cmic-product-alert">${escapeHtml(sheet.evacuation.note || "Valeurs issues du mémento produit.")}</div>
+            ${sheet.evacuation.indoor ? `
+              <div class="cmic-evac-indoor">
+                <strong>Fuite dans un local</strong>
+                <ul class="cmic-product-list">
+                  ${sheet.evacuation.indoor.map(x => `<li>${escapeHtml(x)}</li>`).join("")}
+                </ul>
+              </div>` : ""}
+            ${sheet.evacuation.rows?.length ? `
+              <div class="cmic-product-table-wrap">
+                <table class="cmic-product-table cmic-evac-table">
+                  <thead>
+                    <tr>
+                      <th>Scénario / dimension</th>
+                      <th>Profondeur à évacuer</th>
+                      <th>Largeur à évacuer</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${sheet.evacuation.rows.map(row => `
+                      <tr>
+                        <td>${escapeHtml(row[0])}</td>
+                        <td><strong>${escapeHtml(row[1])}</strong></td>
+                        <td><strong>${escapeHtml(row[2])}</strong></td>
+                      </tr>`).join("")}
+                  </tbody>
+                </table>
+              </div>` : ""}
+          </div>
+        </details>` : ""}
 
         <details class="cmic-product-item">
           <summary>
