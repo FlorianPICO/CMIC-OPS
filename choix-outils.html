@@ -1172,6 +1172,151 @@
       .inrs-module-text { font-size:.96rem; line-height:1.68; }
     }
 
+
+    /* ===== RENDU INRS STRUCTURÉ ===== */
+    .inrs-section-block {
+      margin: 0 0 18px;
+      border: 1px solid #e7e5e4;
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .inrs-section-title {
+      margin: 0;
+      padding: 11px 14px;
+      background: #f5f5f4;
+      border-bottom: 1px solid #e7e5e4;
+      color: #7c2d12;
+      font-size: .98rem;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .inrs-section-body {
+      padding: 14px;
+    }
+
+    .inrs-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid #d6d3d1;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .inrs-data-table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: collapse;
+      font-size: .94rem;
+      line-height: 1.45;
+    }
+
+    .inrs-data-table th,
+    .inrs-data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e7e5e4;
+      border-right: 1px solid #e7e5e4;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .inrs-data-table th:last-child,
+    .inrs-data-table td:last-child {
+      border-right: 0;
+    }
+
+    .inrs-data-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .inrs-data-table thead th {
+      background: #57534e;
+      color: #fff;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .inrs-data-table tbody th {
+      width: 30%;
+      background: #fafaf9;
+      color: #44403c;
+      font-weight: 800;
+    }
+
+    .inrs-data-table tbody tr:nth-child(even) td {
+      background: #fffaf5;
+    }
+
+    .inrs-data-table .value-lines {
+      display: grid;
+      gap: 3px;
+    }
+
+    .inrs-key-note {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border-left: 4px solid #ea580c;
+      border-radius: 8px;
+      background: #fff7ed;
+      color: #7c2d12;
+      font-weight: 750;
+    }
+
+    .inrs-identity-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .inrs-identity-card {
+      padding: 12px 13px;
+      border: 1px solid #e7e5e4;
+      border-radius: 11px;
+      background: #fafaf9;
+    }
+
+    .inrs-identity-card span {
+      display: block;
+      color: #78716c;
+      font-size: .76rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .inrs-identity-card strong {
+      display: block;
+      margin-top: 3px;
+      color: #1c1917;
+      font-size: 1rem;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .inrs-hazard-box {
+      margin-top: 12px;
+      padding: 13px 14px;
+      border: 1px solid #fdba74;
+      border-radius: 11px;
+      background: #fff7ed;
+      color: #7c2d12;
+      line-height: 1.55;
+    }
+
+    .inrs-hazard-box strong {
+      color: #9a3412;
+    }
+
+    @media (max-width: 700px) {
+      .inrs-identity-grid { grid-template-columns: 1fr; }
+      .inrs-data-table { min-width: 500px; font-size: .9rem; }
+      .inrs-data-table th,
+      .inrs-data-table td { padding: 9px 10px; }
+    }
+
 </style>
 </head>
 
@@ -1725,7 +1870,189 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
 
-function formatInrsModuleText(value) {
+function linesOf(value) {
+  return String(value || "").replace(/\r/g, "").split("\n");
+}
+
+function cleanLine(line) {
+  return String(line || "").replace(/\s+/g, " ").trim();
+}
+
+function valueLinesHtml(values) {
+  const arr = Array.isArray(values) ? values : [values];
+  return `<div class="value-lines">${arr.filter(Boolean).map(v => `<div>${escapeHtml(cleanLine(v))}</div>`).join("")}</div>`;
+}
+
+function renderKeyValueTable(rows, headers = ["Paramètre", "Valeur"]) {
+  if (!rows.length) return "";
+  return `
+    <div class="inrs-table-wrap">
+      <table class="inrs-data-table">
+        <thead><tr>${headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${rows.map(row => `
+            <tr>
+              <th scope="row">${escapeHtml(row.label)}</th>
+              <td>${valueLinesHtml(row.values)}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function formatInrsCharacteristics(value) {
+  const lines = linesOf(value);
+  const properties = [
+    "Formule", "N° CAS", "Etat Physique", "État Physique", "Masse molaire",
+    "Point de fusion", "Point d'ébullition", "Densité", "Pression de vapeur",
+    "Point d'éclair", "Température d'auto-inflammation", "Limites d'explosivité",
+    "Solubilité", "Viscosité"
+  ];
+
+  const propPattern = new RegExp(`^\\s*(${properties.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})\\s{2,}(.+?)\\s*$`, "i");
+  const rows = [];
+  let current = null;
+  let tableStart = -1;
+  let tableEnd = -1;
+
+  for (let i = 0; i < lines.length; i++) {
+    if (/Nom Substance\s+Détails/i.test(lines[i])) {
+      tableStart = i;
+      continue;
+    }
+    if (tableStart < 0) continue;
+
+    const raw = lines[i];
+    const t = cleanLine(raw);
+
+    if (/^Propriétés chimiques$/i.test(t) || /^Propriétés toxicologiques$/i.test(t)) {
+      tableEnd = i;
+      break;
+    }
+
+    const m = raw.match(propPattern);
+    if (m) {
+      current = { label: cleanLine(m[1]), values: [cleanLine(m[2])] };
+      rows.push(current);
+      continue;
+    }
+
+    if (current && /^\s{20,}\S/.test(raw) && t && !/^\[/.test(t)) {
+      current.values.push(t);
+      continue;
+    }
+  }
+
+  if (tableEnd < 0) tableEnd = lines.length;
+
+  const before = lines.slice(0, tableStart >= 0 ? tableStart : lines.length).join("\n").trim();
+  const after = lines.slice(tableEnd).join("\n").trim();
+
+  let note = "";
+  const noteMatch = lines.join("\n").match(/À\s+\d+\s*°C[\s\S]{0,160}?1\s*ppm\s*=\s*[^.\n]+(?:\.)?/i);
+  if (noteMatch) note = cleanLine(noteMatch[0]);
+
+  return `
+    ${before ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Description et utilisations</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(before)}</div></div>` : ""}
+    ${rows.length ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Propriétés physico-chimiques</h5><div class="inrs-section-body">${renderKeyValueTable(rows)}${note ? `<div class="inrs-key-note">${escapeHtml(note)}</div>` : ""}</div></div>` : ""}
+    ${after ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Propriétés chimiques</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(after)}</div></div>` : ""}
+  `;
+}
+
+function parseVlepTable(lines) {
+  const headerIndex = lines.findIndex(line => /Substance\s+Pays\s+VLEP 8h/i.test(line));
+  if (headerIndex < 0) return null;
+
+  const headers = ["Substance", "Pays", "VLEP 8h (ppm)", "VLEP 8h (mg/m³)", "Description"];
+  const rows = [];
+  let endIndex = headerIndex + 1;
+
+  for (let i = headerIndex + 1; i < lines.length; i++) {
+    const raw = lines[i];
+    const t = cleanLine(raw);
+
+    if (!t) continue;
+    if (/^Méthodes d'évaluation/i.test(t) || /^Méthodes de prélèvement/i.test(t)) {
+      endIndex = i;
+      break;
+    }
+
+    const parts = raw.trim().split(/\s{2,}/).map(cleanLine).filter(Boolean);
+    if (parts.length >= 4) {
+      const row = {
+        label: parts[0],
+        cells: [
+          parts[0] || "",
+          parts[1] || "",
+          parts[2] || "",
+          parts[3] || "",
+          parts.slice(4).join(" ") || ""
+        ]
+      };
+      rows.push(row);
+    }
+    endIndex = i + 1;
+  }
+
+  return { headerIndex, endIndex, headers, rows };
+}
+
+function formatInrsVlep(value) {
+  const lines = linesOf(value);
+  const parsed = parseVlepTable(lines);
+  if (!parsed || !parsed.rows.length) return formatInrsModuleTextGeneric(value);
+
+  const intro = lines.slice(0, parsed.headerIndex).join("\n").trim();
+  const after = lines.slice(parsed.endIndex).join("\n").trim();
+
+  const table = `
+    <div class="inrs-table-wrap">
+      <table class="inrs-data-table">
+        <thead><tr>${parsed.headers.map(h => `<th>${escapeHtml(h)}</th>`).join("")}</tr></thead>
+        <tbody>
+          ${parsed.rows.map(r => `<tr>${r.cells.map((c, idx) => idx === 0 ? `<th scope="row">${escapeHtml(c)}</th>` : `<td>${escapeHtml(c)}</td>`).join("")}</tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
+
+  return `
+    ${intro ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Valeurs limites d'exposition professionnelle</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(intro)}</div></div>` : ""}
+    <div class="inrs-section-block"><h5 class="inrs-section-title">Tableau des VLEP</h5><div class="inrs-section-body">${table}</div></div>
+    ${after ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Méthodes d'évaluation et de mesurage</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(after)}</div></div>` : ""}
+  `;
+}
+
+function formatInrsGeneralites(value) {
+  const lines = linesOf(value);
+  const raw = lines.join("\n");
+
+  const cards = [];
+  const pairs = [
+    ["Formule chimique", /Formule Chimique[\s\S]{0,120}?\n\s*([A-Z0-9][^\n]{0,40})/i],
+    ["Nom", /\bNom\s{2,}([^\n]+)/i],
+    ["N° CAS", /Numéro CAS\s{2,}([^\n]+)/i],
+    ["N° CE", /Numéro CE\s{2,}([^\n]+)/i],
+    ["N° index", /Numéro index\s{2,}([^\n]+)/i],
+    ["Synonymes", /Synonymes\s{2,}([^\n]+)/i]
+  ];
+
+  for (const [label, rx] of pairs) {
+    const m = raw.match(rx);
+    if (m && cleanLine(m[1])) cards.push({label, value: cleanLine(m[1])});
+  }
+
+  const edition = raw.match(/Edition\s+([^\n]+)/i);
+  const hazardLines = lines.filter(l => /\bH\d{3}\b|\bEUH\d{3}\b|Danger\b/i.test(cleanLine(l))).map(cleanLine);
+
+  return `
+    ${edition ? `<div class="inrs-key-note">Édition INRS : ${escapeHtml(cleanLine(edition[1]))}</div>` : ""}
+    ${cards.length ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Identité de la substance</h5><div class="inrs-section-body"><div class="inrs-identity-grid">${cards.map(c => `<div class="inrs-identity-card"><span>${escapeHtml(c.label)}</span><strong>${escapeHtml(c.value)}</strong></div>`).join("")}</div></div></div>` : ""}
+    ${hazardLines.length ? `<div class="inrs-section-block"><h5 class="inrs-section-title">Étiquetage / dangers</h5><div class="inrs-section-body"><div class="inrs-hazard-box">${[...new Set(hazardLines)].map(h => `<div>${escapeHtml(h)}</div>`).join("")}</div></div></div>` : ""}
+    <div class="inrs-section-block"><h5 class="inrs-section-title">Informations générales</h5><div class="inrs-section-body">${formatInrsModuleTextGeneric(value)}</div></div>
+  `;
+}
+
+function formatInrsModuleTextGeneric(value) {
   const raw = String(value || "").replace(/\r/g, "").trim();
   if (!raw) return "";
 
@@ -1751,6 +2078,13 @@ function formatInrsModuleText(value) {
 
     return `<p class="inrs-text-paragraph">${lines.map(escapeHtml).join("<br>")}</p>`;
   }).join("");
+}
+
+function formatInrsModuleText(value, key = "") {
+  if (key === "generalites") return formatInrsGeneralites(value);
+  if (key === "caracteristiques") return formatInrsCharacteristics(value);
+  if (key === "vlep_mesurages") return formatInrsVlep(value);
+  return formatInrsModuleTextGeneric(value);
 }
 
 function uniqueResults(items) {
@@ -1824,7 +2158,7 @@ function renderInrsStaticFiche(fiche) {
           <span class="inrs-module-chevron">›</span>
         </summary>
         <div class="inrs-module-content">
-          <div class="inrs-module-text">${formatInrsModuleText(modules[key])}</div>
+          <div class="inrs-module-text">${formatInrsModuleText(modules[key], key)}</div>
         </div>
       </details>`)
     .join("");
