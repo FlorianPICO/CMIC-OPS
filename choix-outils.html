@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="fr">
 <head>
   <meta charset="utf-8">
@@ -3353,9 +3352,24 @@ function normalizeText(value) {
 
 
 const INRS_ALIAS_OVERRIDES = {
-  // Alias métier GMU validé : même substance que la fiche INRS n°13.
+  // Alias métier explicitement vérifié.
   "acide muriatique": "13"
 };
+
+// RCH / GMU : libellés tronqués, formulations commerciales ou synonymes
+// absents de l'index textuel INRS. Chaque correction exige À LA FOIS
+// le numéro ONU et un motif précis sur le nom : jamais l'ONU seul.
+// La fiche INRS décrit la substance / famille ; vérifier sa compatibilité
+// avec la concentration et la forme réellement présentes dans la FDS.
+const INRS_GMU_VERIFIED_MATCHES = [
+  { un: "1017", ft: "51", name: /^chlore(?: |$)/ },
+  { un: "2672", ft: "16", name: /^(?:ammoniac|hydroxyde d ammonium)(?: |$)/ },
+  { un: "1016", ft: "47", name: /^monoxyde de carbone(?: |$)/ },
+  { un: "1067", ft: "133", name: /^(?:dioxyde d azote|tetroxyde de diazote|peroxyde d azote)(?: |$)/ },
+  { un: "1830", ft: "30", name: /^acide sulfurique(?: |$)/ },
+  { un: "2796", ft: "30", name: /^(?:acide sulfurique|electrolyte acide pour accumulateurs)(?: |$)/ },
+  { un: "1805", ft: "37", name: /^acide phosphorique(?: |$)/ }
+];
 
 const INRS_CANONICAL_STOPWORDS = new Set([
   "anhydre", "comprime", "comprimee", "liquefie", "liquefiee",
@@ -3403,6 +3417,14 @@ const INRS_BY_NUMBER = new Map(INRS_INDEX.map(fiche => [String(fiche.ft), fiche]
 function findInrsForItem(item) {
   const q = normalizeText(item.name);
   if (!q) return null;
+
+  // 0. Corrections vérifiées sur les fiches du mémento RCH.
+  const verified = INRS_GMU_VERIFIED_MATCHES.find(rule =>
+    String(item.un) === rule.un && rule.name.test(q)
+  );
+  if (verified && INRS_BY_NUMBER.has(verified.ft)) {
+    return INRS_BY_NUMBER.get(verified.ft);
+  }
 
   // 1. Alias métier explicitement validé.
   const overrideFt = INRS_ALIAS_OVERRIDES[q];
