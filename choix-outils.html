@@ -2089,6 +2089,28 @@
       letter-spacing: .03em;
     }
 
+
+/* BIG 2013 — consultation des fiches originales */
+.big-host {grid-column:1 / -1;min-width:0;}
+.big-sheet {margin-top:14px;border:1px solid #fed7aa;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(28,25,23,.07);}
+.big-sheet-head {padding:15px 18px;background:linear-gradient(115deg,#7c2d12,#c2410c,#ea580c);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.big-sheet-head strong {display:block;font-size:1.06rem;line-height:1.3;}
+.big-sheet-head small {display:block;color:#ffedd5;margin-top:3px;}
+.big-sheet-body {padding:14px;background:#fffaf5;}
+.big-sheet-note {padding:12px 14px;background:#fff;border-left:4px solid #ea580c;border-radius:9px;color:#44403c;line-height:1.5;font-size:.91rem;margin-bottom:12px;}
+.big-panels {display:grid;gap:9px;}
+.big-panel {border:1px solid #fed7aa;background:#fff;border-radius:12px;overflow:hidden;}
+.big-panel summary {padding:12px 14px;cursor:pointer;font-weight:850;color:#7c2d12;background:#fff7ed;list-style-position:inside;}
+.big-panel[open] summary {background:#ffedd5;border-bottom:1px solid #fed7aa;}
+.big-panel-content {padding:13px 15px;color:#44403c;font-size:.94rem;line-height:1.6;}
+.big-panel-content ul {margin:0;padding-left:18px;}
+.big-panel-content li+li {margin-top:6px;}
+.big-safety {color:#9a3412;font-weight:700;}
+.big-viewer {width:100%;height:690px;max-height:75vh;border:1px solid #e7e5e4;border-radius:12px;background:#fff;}
+.big-open {display:inline-flex;align-items:center;margin:8px 0 12px;background:#c2410c;color:#fff!important;font-weight:800;padding:9px 12px;border-radius:9px;text-decoration:none!important;}
+.big-source {font-size:.79rem;color:#78716c;margin:6px 0 0;line-height:1.5;}
+@media(max-width:700px){.big-viewer{height:550px;max-height:67vh;}.big-sheet-head{align-items:flex-start;}}
+
 </style>
 </head>
 
@@ -2235,7 +2257,7 @@
           <div class="calc-field">
             <label for="leakFillRate">Taux de remplissage (%)</label>
             <input id="leakFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85">
-            <small>La fiche rappelle un taux de remplissage maximal de 85 %.</small>
+            <small>Saisie autorisée jusqu’à 100 %. La fiche de référence recommande un maximum de 85 % : vérifier les conditions réelles.</small>
           </div>
         </div>
         <div class="calc-result step-result" id="resultStep1" aria-live="polite"></div>
@@ -2534,7 +2556,7 @@
 
       <div class="school-intro">
         <strong>Méthode RCH 003 :</strong> calcul automatique étape par étape, en conservant les valeurs issues du SPG/BIG et les lectures d'abaques sous la responsabilité de l'utilisateur.
-        <br><strong>Important :</strong> le taux de remplissage est limité à 85 %. Pour la dispersion, le débit utilisé est <strong>Qgaz</strong> et non Qmono ou Qdiphasique.
+        <br><strong>Important :</strong> le remplissage peut être saisi jusqu’à 100 % (le mémento retient 85 % maximum). Pour la dispersion, le débit utilisé est <strong>Qgaz</strong> et non Qmono ou Qdiphasique.
       </div>
 
       <div class="school-step">
@@ -2549,7 +2571,7 @@
           <div class="calc-field"><label for="toxLie">LIE (% vol.)</label><input id="toxLie" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxLse">LSE (% vol.)</label><input id="toxLse" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxVolume">Volume du contenant (m³)</label><input id="toxVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55"></div>
-          <div class="calc-field"><label for="toxFillRate">Taux de remplissage (%)</label><input id="toxFillRate" type="number" inputmode="decimal" step="any" min="0" max="85" value="85"><small>RCH 003 : remplissage maximal 85 %.</small></div>
+          <div class="calc-field"><label for="toxFillRate">Taux de remplissage (%)</label><input id="toxFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85"><small>Saisie jusqu’à 100 % autorisée ; au-delà de 85 %, vérifier l’hypothèse physique et les prescriptions de remplissage applicables.</small></div>
         </div>
 
         <div class="substep-title" style="margin-top:18px;">Valeurs toxicologiques de référence</div>
@@ -2602,7 +2624,7 @@
           <div class="calc-field"><label for="toxPipeLength">L - longueur entre le bac et la fuite (m)</label><input id="toxPipeLength" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxPipeDiameter">D - diamètre de la canalisation</label><input id="toxPipeDiameter" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxPipeDiameterUnit">Unité de D</label><select id="toxPipeDiameterUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select></div>
-          <div class="calc-field" id="toxTankLiquidFlowWrap" style="display:none;"><label for="toxTankLiquidFlow">Qliquide retenu pour la vidange (kg/s)</label><input id="toxTankLiquidFlow" type="number" inputmode="decimal" step="any" min="0"><small>Pour L &lt; 3D, RCH 003 donne Qgaz = 0,3 × Qmono mais n'isole pas Qliquide. Cette valeur reste donc à renseigner.</small></div>
+          <div class="calc-field" id="toxTankLiquidFlowWrap" style="display:none;"><label for="toxTankLiquidFlow">Débit total de rejet retenu (kg/s)</label><input id="toxTankLiquidFlow" type="number" inputmode="decimal" step="any" min="0"><small>Pour L &lt; 3D, RCH 003 ne fournit pas Qdiphasique total. Renseigner ici un débit total déterminé séparément ; Qgaz seul ne convient pas.</small></div>
         </div>
         <div class="formula-card">
           <code>S = π × R²</code><br>
@@ -2615,8 +2637,8 @@
       </div>
 
       <div class="school-step">
-        <h4><span class="step-badge">6</span>Temps de vidange du contenant</h4>
-        <div class="formula-card"><code>T = Mproduit / Qliquide</code> en secondes.</div>
+        <h4><span class="step-badge">6</span>Temps théorique de rejet (débit total)</h4>
+        <div class="formula-card"><code>T = Mliquide / Qdiphasique total</code> en secondes (fuite sur canalisation, L &gt; 3D).<br><small>Qgaz, Qaérosol et Qliquide sont les fractions du débit total : ne pas utiliser la fraction liquide seule pour le temps de rejet.</small></div>
         <div class="calc-result step-result" id="toxResult6" aria-live="polite"></div>
       </div>
 
@@ -2626,7 +2648,7 @@
           <div class="calc-field"><label for="toxTargetDistance">Distance cible / observateur (m)</label><input id="toxTargetDistance" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxWindKmh">Vitesse du vent (km/h)</label><input id="toxWindKmh" type="number" inputmode="decimal" step="any" min="0"></div>
         </div>
-        <div class="formula-card"><code>ttransfert = distance / vitesse du vent</code><br><code>tdurée = Mproduit / Qtotal fuite</code><br>Si tdurée &gt; 4 × ttransfert : <strong>panache</strong> ; si tdurée &lt; 4 × ttransfert : <strong>bouffée</strong>.</div>
+        <div class="formula-card"><code>ttransfert = distance / vitesse du vent</code><br><code>tdurée = temps estimé de rejet (étape 6)</code><br>Si tdurée &gt; 4 × ttransfert : <strong>panache</strong> ; si tdurée &lt; 4 × ttransfert : <strong>bouffée</strong>.</div>
         <div class="calc-result step-result" id="toxResult7" aria-live="polite"></div>
       </div>
 
@@ -2690,7 +2712,7 @@
           <div class="summary-card"><span>ρ gaz</span><strong id="toxSumRhoGas">—</strong><small>Masse volumique du ciel gazeux</small></div>
           <div class="summary-card emphasis"><span>Q total</span><strong id="toxSumQTotal">—</strong><small>Débit retenu</small></div>
           <div class="summary-card emphasis"><span>Q gaz</span><strong id="toxSumQGas">—</strong><small>Débit pour la dispersion</small></div>
-          <div class="summary-card"><span>Vidange</span><strong id="toxSumEmpty">—</strong><small>Temps théorique</small></div>
+          <div class="summary-card"><span>Durée du rejet</span><strong id="toxSumEmpty">—</strong><small>Calculée avec le débit total</small></div>
           <div class="summary-card"><span>Rejet</span><strong id="toxSumRelease">—</strong><small>Panache / bouffée</small></div>
           <div class="summary-card"><span>Concentration ext.</span><strong id="toxSumCext">—</strong><small>ppm</small></div>
           <div class="summary-card"><span>Concentration int.</span><strong id="toxSumCint">—</strong><small>ppm</small></div>
@@ -2721,7 +2743,7 @@
 
       <div class="school-intro">
         <strong>Méthode RCH 004 :</strong> calcul automatique étape par étape des masses, des effets thermiques d'un BLEVE et des effets de surpression.
-        <br><strong>Important :</strong> taux de remplissage maximal 85 %. Pour une citerne vide mais non dégazée, utiliser le volume total du contenant et la pression atmosphérique pour la phase gazeuse.
+        <br><strong>Important :</strong> taux de remplissage saisissable jusqu’à 100 % (le mémento retient normalement 85 % maximum). Pour une citerne vide mais non dégazée, utiliser le volume total du contenant et la pression atmosphérique pour la phase gazeuse.
       </div>
 
       <div class="school-step">
@@ -2734,7 +2756,7 @@
           <div class="calc-field"><label for="firePvs">Pression de vapeur saturante PVS (bar abs.)</label><input id="firePvs" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
           <div class="calc-field"><label for="fireTemp">Température du produit (°C)</label><input id="fireTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20"></div>
           <div class="calc-field"><label for="fireVolume">Volume du contenant (m³)</label><input id="fireVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55"></div>
-          <div class="calc-field"><label for="fireFillRate">Taux de remplissage (%)</label><input id="fireFillRate" type="number" inputmode="decimal" step="any" min="0" max="85" value="85"><small>RCH 004 : maximum 85 %.</small></div>
+          <div class="calc-field"><label for="fireFillRate">Taux de remplissage (%)</label><input id="fireFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85"><small>Saisie jusqu’à 100 % autorisée ; au-delà de 85 %, vérifier l’hypothèse physique et les prescriptions de remplissage applicables.</small></div>
           <div class="calc-field fire-special-case">
             <div class="fire-special-head">
               <div>
@@ -2775,6 +2797,36 @@
           <code>Mgaz = ρgaz × Vciel</code>
         </div>
         <div class="calc-result step-result" id="fireResult4" aria-live="polite"></div>
+      </div>
+
+      <div class="school-step" id="fireLeakModule">
+        <h4><span class="step-badge">4 bis</span>Module complémentaire — Débit de fuite</h4>
+        <div class="school-intro">
+          <strong>Complément au RCH 004 :</strong> estimation d’un débit de fuite liquide / diphasique sur la base de la méthode de fuite du RCH 003.
+          Les résultats de cette section sont indépendants du calcul des effets thermiques BLEVE et ne modifient pas ses hypothèses.
+        </div>
+        <div class="calc-grid">
+          <div class="calc-field"><label for="fireLeakDiameter">Diamètre de l’orifice de fuite</label><input id="fireLeakDiameter" type="number" inputmode="decimal" min="0" step="any" placeholder="Ex. 10"></div>
+          <div class="calc-field"><label for="fireLeakUnit">Unité de l’orifice</label><select id="fireLeakUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select><small>1 pouce = 0,0254 m</small></div>
+          <div class="calc-field">
+            <div class="field-help-row"><label for="fireLeakCdPreset">Coefficient de décharge Cd</label><button type="button" class="help-btn" id="openFireCdImageHelp">? Aide</button></div>
+            <select id="fireLeakCdPreset"><option value="0.50">Orifice de Borda — 0,50</option><option value="0.62" selected>Orifice mince / aigu — 0,62</option><option value="0.82">Orifice de Poleni — 0,82</option><option value="0.96">Orifice arrondi — 0,96</option><option value="0.95">Ajustage convergent — 0,95</option><option value="1">Rupture guillotine — 1,00</option><option value="custom">Autre / Cd personnalisé</option></select>
+          </div>
+          <div class="calc-field" id="fireLeakCdCustomWrap" style="display:none;"><label for="fireLeakCdCustom">Cd personnalisé</label><input id="fireLeakCdCustom" type="number" inputmode="decimal" min="0" step="any"></div>
+          <div class="calc-field"><label for="fireLeakPipeLength">L — longueur entre citerne et fuite (m)</label><input id="fireLeakPipeLength" type="number" min="0" step="any" inputmode="decimal"></div>
+          <div class="calc-field"><label for="fireLeakPipeDiameter">D — diamètre de canalisation</label><input id="fireLeakPipeDiameter" type="number" min="0" step="any" inputmode="decimal"></div>
+          <div class="calc-field"><label for="fireLeakPipeUnit">Unité de D</label><select id="fireLeakPipeUnit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="inch">pouce</option></select></div>
+          <div class="calc-field" id="fireLeakTankLiquidWrap" style="display:none;"><label for="fireLeakTankLiquid">Débit total retenu (kg/s) — fuite sur citerne</label><input id="fireLeakTankLiquid" type="number" min="0" step="any" inputmode="decimal"><small>Pour L &lt; 3D, le mémento ne donne pas le débit diphasique total : saisir un débit total établi séparément pour estimer la durée du rejet.</small></div>
+        </div>
+        <div class="formula-card">
+          <code>S = π × (d / 2)²</code><br>
+          <code>ΔP = (PVS − 1,013) × 10⁵</code> Pa<br>
+          <code>Qmono = Cd × S × √(2 × ρliquide × ΔP)</code><br>
+          <strong>Canalisation L &gt; 3D :</strong> <code>Qdiphasique = Qmono / 2,5</code>, avec Qgaz 30 %, Qaérosol 20 %, Qliquide 50 %.<br>
+          <strong>Fuite sur citerne L &lt; 3D :</strong> <code>Qgaz = 30 % × Qmono</code> ; débit total non fourni par le mémento.<br>
+          <code>Trejet = Mliquide / Qdiphasique total</code> pour L &gt; 3D. Pour L &lt; 3D, le débit affiché Qgaz est une fraction gazeuse, et la durée n’est calculée qu’avec un débit total justifié et renseigné.
+        </div>
+        <div class="calc-result step-result" id="fireLeakResult" aria-live="polite"></div>
       </div>
 
       <div class="school-step">
@@ -2828,6 +2880,7 @@
           <div class="summary-card"><span>ρ liquide</span><strong id="fireSumRhoLiq">—</strong><small>Masse volumique liquide</small></div>
           <div class="summary-card"><span>Masse liquide</span><strong id="fireSumMassLiq">—</strong><small>Phase liquide</small></div>
           <div class="summary-card"><span>Masse gaz</span><strong id="fireSumMassGas">—</strong><small>Ciel gazeux</small></div>
+          <div class="summary-card emphasis"><span>Débit calculé</span><strong id="fireSumLeakFlow">—</strong><small>Qdiphasique total si L &gt; 3D ; Qgaz si L &lt; 3D</small></div>
           <div class="summary-card emphasis"><span>Boule de feu</span><strong id="fireSumBall">—</strong><small>Diamètre / durée</small></div>
           <div class="summary-card emphasis"><span>Thermique 3 kW/m²</span><strong id="fireSumThermal3">—</strong><small>Zone d'exclusion</small></div>
           <div class="summary-card"><span>Thermique 5 kW/m²</span><strong id="fireSumThermal5">—</strong><small>Premiers effets létaux</small></div>
@@ -4078,14 +4131,29 @@ function renderInrsStaticFiche(fiche) {
     </div>`;
 }
 
+function closeOtherIdentificationSheets(activeButton) {
+  if (!resultArea) return;
+  resultArea.querySelectorAll(".inrs-modules-btn, .cmic-product-btn, .big-modules-btn").forEach(otherButton => {
+    if (otherButton === activeButton) return;
+    const otherHost = document.getElementById(otherButton.dataset.host);
+    if (!otherHost) return;
+    otherHost.hidden = true;
+    otherButton.setAttribute("aria-expanded", "false");
+    otherButton.textContent = otherButton.classList.contains("inrs-modules-btn") ? "Modules INRS" : otherButton.classList.contains("big-modules-btn") ? "Module BIG" : "Fiche CMIC-OPS";
+  });
+}
+
 async function toggleInrsModules(button) {
   const host = document.getElementById(button.dataset.host);
   if (!host) return;
+  const willOpen = host.dataset.loaded !== "true" || host.hidden;
+  if (willOpen) closeOtherIdentificationSheets(button);
 
   if (host.dataset.loaded === "true") {
     const isHidden = host.hidden;
     host.hidden = !isHidden;
     button.textContent = isHidden ? "Masquer" : "Modules INRS";
+    button.setAttribute("aria-expanded", String(isHidden));
     return;
   }
 
@@ -4099,6 +4167,7 @@ async function toggleInrsModules(button) {
     host.innerHTML = renderInrsStaticFiche(fiche);
     host.dataset.loaded = "true";
     button.textContent = "Masquer";
+    button.setAttribute("aria-expanded", "true");
   } catch (error) {
     host.innerHTML = `<div class="inrs-load-error">Impossible de charger les modules INRS. Vérifiez que le dossier <strong>data/inrs/</strong> a bien été ajouté sur GitHub Pages.<br>${escapeHtml(error.message)}</div>`;
   } finally {
@@ -5950,11 +6019,14 @@ function toggleCmicProductSheet(button) {
   const key = button.dataset.product;
   const sheet = CMIC_PRODUCT_SHEETS[key];
   if (!host || !sheet) return;
+  const willOpen = host.dataset.loaded !== "true" || host.hidden;
+  if (willOpen) closeOtherIdentificationSheets(button);
 
   if (host.dataset.loaded === "true") {
     const hidden = host.hidden;
     host.hidden = !hidden;
     button.textContent = hidden ? "Masquer" : "Fiche CMIC-OPS";
+    button.setAttribute("aria-expanded", String(hidden));
     return;
   }
 
@@ -5962,12 +6034,125 @@ function toggleCmicProductSheet(button) {
   host.dataset.loaded = "true";
   host.hidden = false;
   button.textContent = "Masquer";
+  button.setAttribute("aria-expanded", "true");
 }
 
 function wireCmicProductButtons() {
   resultArea.querySelectorAll(".cmic-product-btn").forEach(button => {
     button.addEventListener("click", () => toggleCmicProductSheet(button));
   });
+}
+
+
+/* BIG 2013 : index établi par lecture des trois tomes scannés. Les noms d'index proviennent d'une reconnaissance optique ; vérifier la fiche source. Les résumés des pages 134 et 256 sont vérifiés, les autres fiches sont consultables en scan original. */
+const BIG_INDEX = [{"p":1,"t":"acétaldéhyde"},{"p":2,"t":"bêta-acétaldéhyde oxime"},{"p":3,"t":"acétamide"},{"p":4,"t":"acétate de 1-cyanoallyle"},{"p":5,"t":"acétate de 2-butoxyéthyle"},{"p":6,"t":"acétate de 2-éthoxyéthyle"},{"p":7,"t":"acétate de 2-méthoxyéthyle"},{"p":8,"t":"acétate de 3-méthoxybutyle"},{"p":9,"t":"acétate de baryum"},{"p":10,"t":"acétate de benzyle"},{"p":11,"t":"acétate de calcium"},{"p":12,"t":"acétate de cobalt(Il), tétrahydrate"},{"p":13,"t":"acétate d'éthyle"},{"p":14,"t":"acétate d'isoamyle"},{"p":15,"t":"acétate d'isobutyle"},{"p":16,"t":"acétate d'isopropyle"},{"p":17,"t":"acétate de manganèse(Il), tétrahydrate"},{"p":18,"t":"acétate de mercure(il)"},{"p":19,"t":"acétate de méthyle"},{"p":20,"t":"acétate de n-amyle"},{"p":21,"t":"acétate de n-butyle"},{"p":22,"t":"acétate de phénylmercure"},{"p":23,"t":"acétate de plomb(il), trihydrate"},{"p":24,"t":"acétate de propyle"},{"p":25,"t":"acétate de sec-butyle"},{"p":26,"t":"acétate de sodium"},{"p":27,"t":"acétate de tert-butyle"},{"p":28,"t":"2 acétate de vinyle, stabilisé"},{"p":29,"t":"acétoacétanilide"},{"p":30,"t":"acétoacétate d'éthyle"},{"p":31,"t":"acétoacétate de méthyle"},{"p":32,"t":"acétone"},{"p":33,"t":"acétonitrile"},{"p":34,"t":"acétophénone"},{"p":35,"t":"acétylene dissous sous pression"},{"p":36,"t":"acide 1-diezo-2-naphtol-4-sulfonique"},{"p":37,"t":"acide 2,2-dichloropropionique"},{"p":38,"t":"acide 2,4-hexadiénoïque"},{"p":39,"t":"acide 4-aminotoluène-3-sulfonique"},{"p":40,"t":"acide 4-méthylbenzènesulfonique"},{"p":41,"t":"ÿ acide 4-tert-butylbenzoïque"},{"p":42,"t":"acide acétique"},{"p":43,"t":"acide acétique, 80%\u003cconc\u003c90%, solutions aqueuses"},{"p":44,"t":"acide acétyl salicylique"},{"p":45,"t":"acide acrylique, stabilisé"},{"p":46,"t":"acide adipique"},{"p":47,"t":"acide aminoacétique"},{"p":48,"t":"acide arsénique, conc=80%, solution aqueuse"},{"p":49,"t":"acide benzènesulfonique, conc acide sulfurique\u003c5%"},{"p":50,"t":"acide benzoïque"},{"p":51,"t":"acide borique"},{"p":52,"t":"acide butyrique"},{"p":53,"t":"acide chloro-2 propionique"},{"p":54,"t":"acide chloroacétique"},{"p":55,"t":"acide chlorosulfonique"},{"p":56,"t":"acide citrique"},{"p":57,"t":"acide dichloroacétique"},{"p":58,"t":"acide édetique"},{"p":59,"t":"acide 2-éthylhexanoïque"},{"p":60,"t":"acide fluorosulfonique"},{"p":61,"t":"acide formique"},{"p":62,"t":"acide fumarique"},{"p":63,"t":"acide glutarique"},{"p":64,"t":"acide glycolique"},{"p":65,"t":"acide glyoxylique"},{"p":66,"t":"acide heptanoïque"},{"p":67,"t":"acide hexylique #:"},{"p":68,"t":"acide hydrobromique,conc=47%, solution aqueuse"},{"p":69,"t":"x acide hydrobromiqueliquéfié,sous pression"},{"p":70,"t":"acide isobutyrique"},{"p":71,"t":"acide isophtalique"},{"p":72,"t":"cJ acide L-aspartique"},{"p":73,"t":"acide maléique"},{"p":74,"t":"acide métaphosphorique"},{"p":75,"t":"acide méthacrylique, stabilisé"},{"p":76,"t":"acide méthoxyacétique"},{"p":77,"t":"J acide nitrique"},{"p":78,"t":"acide nitrique, conc>=70%, solutions aqueuses"},{"p":79,"t":"acide n-octanoïque"},{"p":80,"t":"acide nonanoïque"},{"p":81,"t":"acide oléique"},{"p":82,"t":"acide oxalique"},{"p":83,"t":"acide perchlorique, 50%=\u003cconc\u003c72%, solutions aqueuses"},{"p":84,"t":"acide phénylacétique"},{"p":85,"t":"acide phosphorique, conc>=25%, solutions aqueuses"},{"p":86,"t":"acide phosphorique, solide 3"},{"p":87,"t":"acide phtalique"},{"p":88,"t":"acide picrique, sec"},{"p":89,"t":"acide pivalique"},{"p":90,"t":"acide propionique"},{"p":91,"t":"acide salicylique"},{"p":92,"t":"acide sélénieux"},{"p":93,"t":"acide succinique"},{"p":94,"t":"acide sulfamique"},{"p":95,"t":"acide sulfurique, conc=98%"},{"p":96,"t":"acide sulfurique fumant, conc $03=65%"},{"p":97,"t":"acide tartrique, L-(+)-"},{"p":98,"t":"acide téréphtalique"},{"p":99,"t":"acide tétrafluoroborique"},{"p":100,"t":"acide thioacétique"},{"p":101,"t":"acide thioglycolique"},{"p":102,"t":"J acide trichloroacétique"},{"p":103,"t":"acide trichloroisocyanurique"},{"p":104,"t":"acide trifluoroacétique"},{"p":105,"t":"acide valérique"},{"p":106,"t":"acrylamide, stabilisé"},{"p":107,"t":"acrylate d'éthyle, stabilisé"},{"p":108,"t":"acrylate de 2-éthylhexyle"},{"p":109,"t":"acrylate de 2-hydroxyéthyle, stabilisé"},{"p":110,"t":"acrylate de 2-hydroxypropyle, stabilisé"},{"p":111,"t":"acrylate de méthyle, stabilisé"},{"p":112,"t":"acrylate de normal-butyle, stabilisé"},{"p":113,"t":"J acrylonitrile, stabilisé"},{"p":114,"t":"adiponitrile"},{"p":115,"t":"air, liquéfié, fortement réfrigéré"},{"p":116,"t":"alcool allylique"},{"p":117,"t":"J alcool benzylique"},{"p":118,"t":"alcool furfurylique"},{"p":119,"t":"alcool oléylique"},{"p":120,"t":"alcool tétrahydrofurfurylique, stabilisé"},{"p":121,"t":"aldéhyde butyrique"},{"p":122,"t":"allylamine"},{"p":123,"t":"aluminate de sodium"},{"p":124,"t":"aluminium, poudre, non enrobé, non pyrophorique, hydroréactif"},{"p":125,"t":"J amiante, blanc 72"},{"p":126,"t":"amidure de sodium 2"},{"p":127,"t":"amino-2-éthanol"},{"p":128,"t":"2-amino-2-méthylpropanol"},{"p":129,"t":"1-amino-2-propanol"},{"p":130,"t":"2-(2-aminoéthylamino)éthanol"},{"p":131,"t":"2-aminophénol"},{"p":132,"t":"4-aminophénol"},{"p":133,"t":"2-aminopyridine"},{"p":134,"t":"Ammoniac, liquéfié sous pression"},{"p":135,"t":"J anhydride acétique"},{"p":136,"t":"ù anhydride isobutyrique"},{"p":137,"t":"anhydride maléique"},{"p":138,"t":"anhydride phtalique"},{"p":139,"t":"anhydride propionique"},{"p":140,"t":"aniline"},{"p":141,"t":"o-anisidine"},{"p":142,"t":"p-anisidine"},{"p":143,"t":"anthracène"},{"p":144,"t":"anthraquinone"},{"p":145,"t":"argon, comprimé"},{"p":146,"t":"argon, liquéfié, fortement réfrigéré"},{"p":147,"t":"arsenic"},{"p":148,"t":"arsine, liquide, sous pression"},{"p":149,"t":"aziridine, stabilisée"},{"p":150,"t":"azobenzène"},{"p":151,"t":"2,2'-azo-bis(2-méthylpropionitrile)"},{"p":152,"t":"azodicarbonamide"},{"p":153,"t":"azote, comprimé"},{"p":154,"t":"azote, liquéfié, fortement réfrigéré"},{"p":155,"t":"azoture de baryum, sec"},{"p":156,"t":"azoture de sodium"},{"p":157,"t":"baryum, métal"},{"p":158,"t":"J benzaldéhyde"},{"p":159,"t":"mandélonitrile"},{"p":160,"t":"Benzène"},{"p":161,"t":"1,2-benzènedicarbonitrile"},{"p":162,"t":"benzidine"},{"p":163,"t":"1,2-benzisothiazol-3(2H)-one"},{"p":164,"t":"benzoate de benzyle"},{"p":165,"t":"benzoate de butyle"},{"p":166,"t":"benzoate d'éthyle 3"},{"p":167,"t":"benzoate de méthyle"},{"p":168,"t":"benzonitrile"},{"p":169,"t":"benzophénone"},{"p":170,"t":"benzoquinone"},{"p":171,"t":"benzotriazole"},{"p":172,"t":"benzylamine"},{"p":173,"t":"béryllium, poudre"},{"p":174,"t":"bicarbonate d'ammonium"},{"p":175,"t":"bicarbonate de sodium"},{"p":176,"t":"bioxyde de chlore 2"},{"p":177,"t":"bis(2-chloroéthyl)éther"},{"p":178,"t":"bis(2-éthoxyéthyl)éther"},{"p":179,"t":"bisphénol A"},{"p":180,"t":"bisulfite d'ammonium, solutions aqueuses"},{"p":181,"t":"2 borohydrure de sodium"},{"p":182,"t":"œ bromoacétate d'éthyle"},{"p":183,"t":"bromate de potassium"},{"p":184,"t":"bromate de sodium"},{"p":185,"t":"brome"},{"p":186,"t":"3-bromo-1-propène"},{"p":187,"t":"bromo-2-nitro-2-propanediol-1,3"},{"p":188,"t":"1-bromo-3-chloropropane"},{"p":189,"t":"4-bromoaniline"},{"p":190,"t":"bromochlorométhane"},{"p":191,"t":"bromoéthane"},{"p":192,"t":"bromoforme"},{"p":193,"t":"bromométhane, liquide, sous pression"},{"p":194,"t":"bromure de benzyle"},{"p":195,"t":"bromure de calcium, anhydre"},{"p":196,"t":"J bromure de cétrimonium"},{"p":197,"t":"bromure d'éthidium"},{"p":198,"t":"bromure de cyanogène"},{"p":199,"t":"bromure de potassium"},{"p":200,"t":"bromure de vinyle, stabilisé"},{"p":201,"t":"1,3-butadiène, stabilisé, liquéfié, sous pression"},{"p":202,"t":"Butane, liquéfié sous pression"},{"p":203,"t":"1,2-butanediol"},{"p":204,"t":"1,3-butanediol"},{"p":205,"t":"1,4-butanediol"},{"p":206,"t":"2,3-butanediol"},{"p":207,"t":"2,3-butanedione"},{"p":208,"t":"1-butanethiol"},{"p":209,"t":"1-butanol"},{"p":210,"t":"butanol-2"},{"p":211,"t":"J 2-butanonoxime"},{"p":212,"t":"1-butène, liquéfié, sous pression"},{"p":213,"t":"2-butène, mélange d'isomères"},{"p":214,"t":"butoxy-1-époxypropane-2,3"},{"p":215,"t":"2-butoxyéthanol"},{"p":216,"t":"cJ 2-(2-butoxyéthoxy)éthanol"},{"p":217,"t":"2-butyl-2-éthylpropanediol"},{"p":218,"t":"n-butylamine"},{"p":219,"t":"tert-butylamine"},{"p":220,"t":"SJ n-butyllithium"},{"p":221,"t":"4-tert-butylpyrocatéchol"},{"p":222,"t":"4-tert-butyltoluène"},{"p":223,"t":"2-butyne"},{"p":224,"t":"gamma-butyrolactone"},{"p":225,"t":"butyronitrile"},{"p":226,"t":"calcium, non pyrophorique"},{"p":227,"t":"camphre"},{"p":228,"t":"caprolactam"},{"p":229,"t":"J captane"},{"p":230,"t":"carbadox"},{"p":231,"t":"carbofuran"},{"p":232,"t":"carbonate d'éthylène"},{"p":233,"t":"carbonate de baryum"},{"p":234,"t":"carbonate de calcium"},{"p":235,"t":"carbonate de césium"},{"p":236,"t":"carbonate de cuivre(Il), basique"},{"p":237,"t":"carbonate de diméthyle"},{"p":238,"t":"carbonate de lithium"},{"p":239,"t":"carbonate de nickel(ll)"},{"p":240,"t":"carbonate de plomb"},{"p":241,"t":"carbonate de sodium"},{"p":242,"t":"carbonate diéthylique"},{"p":243,"t":"Carburant pour moteurs, essence comprise"},{"p":244,"t":"carbure de calcium, très hydroréactif"},{"p":245,"t":"à, carbure de silicium"},{"p":246,"t":"y charbon, activé"},{"p":247,"t":"chloracétate d'éthyle"},{"p":248,"t":"chloracétate de méthyle"},{"p":249,"t":"chloracétone, stabilisée"},{"p":250,"t":"chloracétonitrile"},{"p":251,"t":"chloral, hydrate"},{"p":252,"t":"chloral, stabilisé"},{"p":253,"t":"chloranile"},{"p":254,"t":"chlorate de potassium"},{"p":255,"t":"chlorate de sodium"},{"p":256,"t":"Chlore, liquéfié sous pression"},{"p":257,"t":"chlorhydrate d'aniline"},{"p":258,"t":"chlorite de sodium"},{"p":259,"t":"1-chloro-1,1-difluoroéthane"},{"p":260,"t":"3-chloro-1,2-propanediol"},{"p":261,"t":"2-chloro-1,3-butadiène, stabilisé"},{"p":262,"t":"chloro-1-nitro-4-benzène"},{"p":263,"t":"1-chloro-2,3-époxypropane 72"},{"p":264,"t":"1-chloro-2,4-dinitrobenzène"},{"p":265,"t":"chloro-2-acétamide"},{"p":266,"t":"chloro-2-aniline"},{"p":267,"t":"chloro-2-méthyl-2-propane"},{"p":268,"t":"1-chloro-2-nitrobenzène"},{"p":269,"t":"chloro-2-toluène"},{"p":270,"t":"chloro-4-aniline"},{"p":271,"t":"chloro-4-méthyl-3-phénol"},{"p":272,"t":"3-chloro-4-méthylbenzenamine"},{"p":273,"t":"2-chloro-4-nitroaniline"},{"p":274,"t":"chloro-4-toluène"},{"p":275,"t":"alpha-chloroacétophénone"},{"p":276,"t":"chlorobenzène"},{"p":277,"t":"1-chlorobutane"},{"p":278,"t":"chlorodifluorométhane"},{"p":279,"t":"chlorodiisobutylaluminium"},{"p":280,"t":"chloroéthane, liquéfié, sous pression"},{"p":281,"t":"2-chloroéthanol"},{"p":282,"t":"chloroéthène, stabilisé"},{"p":283,"t":"chloroforme"},{"p":284,"t":"chloroformiate d'éthyle"},{"p":285,"t":"chloroformiate d'isopropyle"},{"p":286,"t":"chloroformiate de méthyle"},{"p":287,"t":"chlorométhane"},{"p":288,"t":"chlorométhoxyméthane"},{"p":289,"t":"1-chloronaphtalène"},{"p":290,"t":"chloroparaffines, C14-17"},{"p":291,"t":"2-chlorophénol"},{"p":292,"t":"4-chlorophénol"},{"p":293,"t":"chloropicrine"},{"p":294,"t":"2-chloropropane"},{"p":295,"t":"chlorotrifluorométhane, liquéfié, sous pression"},{"p":296,"t":"chlorpyriphos"},{"p":297,"t":"chlorure cyanurique"},{"p":298,"t":"chlorure de 3,5,5-triméthylhexanoyle"},{"p":299,"t":"chlorure de 3,5-dinitrobenzoyle"},{"p":300,"t":"chlorure d'acétyle"},{"p":301,"t":"chlorure d'allyle"},{"p":302,"t":"chlorure d'aluminium"},{"p":303,"t":"chlorure d'ammonium"},{"p":304,"t":"chlorure d'arsenic(ill)"},{"p":305,"t":"chlorure d'étain(Il), dihydrate"},{"p":306,"t":"chlorure d'étain(IV)"},{"p":307,"t":"Chlorure d’hydrogène, concentration 37 %, solution aqueuse"},{"p":308,"t":"chlorure d'hydrogène, liquéfié, fortement réfrigéré"},{"p":309,"t":"chlorure d'hydrogène, liquéfié, sous pression"},{"p":310,"t":"chlorure de baryum, anhydre"},{"p":311,"t":"chlorure de benzènesulfonyle"},{"p":312,"t":"chlorure de benzoyle"},{"p":313,"t":"chlorure de benzyle, stabilisé"},{"p":314,"t":"chlorure de butyryle"},{"p":315,"t":"chlorure de cadmium"},{"p":316,"t":"chlorure de calcium"},{"p":317,"t":"chlorure de cobalt(Il), hexahydrate"},{"p":318,"t":"chlorure de cuivre(l)"},{"p":319,"t":"chlorure de cuivre(ll)"},{"p":320,"t":"chlorure de dichloracétyle"},{"p":321,"t":"chlorure de diéthylaluminium"},{"p":322,"t":"chlorure de fer(lll)"},{"p":323,"t":"chlorure d'hexanoyle"},{"p":324,"t":"chlorure de lithium"},{"p":325,"t":"chlorure de magnésium"},{"p":326,"t":"chlorure de méthanesulfonyle"},{"p":327,"t":"chlorure de phénylglycyle, chlorhydrate, (R)-"},{"p":328,"t":"chlorure de phosphoryle"},{"p":329,"t":"chlorure de pivaloyle"},{"p":330,"t":"chlorure de propionyle"},{"p":331,"t":"chlorure de p-toluènesulfonyle"},{"p":332,"t":"chlorure de sodium"},{"p":333,"t":"chlorure de sulfuryle"},{"p":334,"t":"chlorure de tétraméthylammonium"},{"p":335,"t":"chlorure de thionyle"},{"p":336,"t":"J chlorure de titaneIll), pyrophorique"},{"p":337,"t":"chlorure de trifluoracétyle"},{"p":338,"t":"chlorure de triméthylammonium"},{"p":339,"t":"chlorure de vanadium (IV)"},{"p":340,"t":"chlorure de zinc"},{"p":341,"t":"chromate de plomb(ll)"},{"p":342,"t":"chromate de potassium"},{"p":343,"t":"chromate de zinc"},{"p":344,"t":"chrome"},{"p":345,"t":"chrysotile"},{"p":346,"t":"ciment de Portland"},{"p":347,"t":"cobalt, poudre, pyrophorique"},{"p":348,"t":"colchicine"},{"p":349,"t":"coumarine"},{"p":350,"t":"o-crésol"},{"p":351,"t":"crocidolite"},{"p":352,"t":"trans-crotonaldéhyde, stabilisé"},{"p":353,"t":"cuivre, poudre"},{"p":354,"t":"cumène"},{"p":355,"t":"cyanamide, stabilisé"},{"p":356,"t":"2-cyano-2-propanol, stabilisé"},{"p":357,"t":"cyanoguanidine"},{"p":358,"t":"cyanurate de triallyle"},{"p":359,"t":"Cyanure d’hydrogène, anhydre stabilisé"},{"p":360,"t":"cyanure de potassium"},{"p":361,"t":"cyanure de sodium"},{"p":362,"t":"cycloheptatriène"},{"p":363,"t":"cyclohexane"},{"p":364,"t":"cyclohexanethiol"},{"p":365,"t":"cyclohexanol"},{"p":366,"t":"cyclohexanone"},{"p":367,"t":"cyclohexanone-oxime"},{"p":368,"t":"cyclohexène, stabilisé"},{"p":369,"t":"cycloheximide"},{"p":370,"t":"cyclohexylamine"},{"p":371,"t":"N-cyclohexylbenzothiazole-2-sulfénamide"},{"p":372,"t":"1,3-cyclopentadiène"},{"p":373,"t":"cyclopentane"},{"p":374,"t":"cyclopentène ra"},{"p":375,"t":"cyclopropane, liquéfié, sous pression"},{"p":376,"t":"p-cymène"},{"p":377,"t":"décahydronaphtalène"},{"p":378,"t":"décane pa"},{"p":379,"t":"diacétate de 1,2-propanediol"},{"p":380,"t":"diacétate de cuivre monohydrate"},{"p":381,"t":"diacrylate de néopentylglycol"},{"p":382,"t":"diallylamine"},{"p":383,"t":"cis-diaminodichloroplatine(ll)"},{"p":384,"t":"1,6-diaminohexane"},{"p":385,"t":"diammoniumhydrogénophosphate"},{"p":386,"t":"diazométhane"},{"p":387,"t":"1,2-dibromo-3-chloropropane"},{"p":388,"t":"x dibromure d'éthylène"},{"p":389,"t":"dibutylamine A"},{"p":390,"t":"oxyde de dibutylétain"},{"p":391,"t":"2-(dibutylamino)éthanol"},{"p":392,"t":"dicétène, stabilisé"},{"p":393,"t":"1,3-dichlorobenzène"},{"p":394,"t":"dichloro-1,4-benzène"},{"p":395,"t":"1,3-dichloro-2-propanol"},{"p":396,"t":"2,5-dichloroaniline"},{"p":397,"t":"3,4-dichloroaniline"},{"p":398,"t":"1,2-dichlorobenzène"},{"p":399,"t":"dichlorodifluorométhane"},{"p":400,"t":"1,1-dichloroéthane"},{"p":401,"t":"1,2-dichloroéthane"},{"p":402,"t":"1,1-dichloroéthène, stabilisé"},{"p":403,"t":"dichloroisobutylaluminium"},{"p":404,"t":"cs dichloroisocyanurate de sodium, dihydraté"},{"p":405,"t":"dichlorométhane"},{"p":406,"t":"nt 2,4-dichlorophénol"},{"p":407,"t":"2,4-dichlorophénoxyacétique"},{"p":408,"t":"1,2-dichloropropane"},{"p":409,"t":"1,3-dichloropropène, mélange d'isomères"},{"p":410,"t":"alpha,alpha-dichlorotoluène"},{"p":411,"t":"ñ dichlorprop"},{"p":412,"t":"dichlorure d'éthylaluminium"},{"p":413,"t":"dichlorure de 1,4-benzènedicarbonyle"},{"p":414,"t":"dichlorure de dimercure"},{"p":415,"t":"dichlorure de disulfure"},{"p":416,"t":"dichlorure de mercure"},{"p":417,"t":"dichlorure de méthylaluminium, conc=15 % dans hexane"},{"p":418,"t":"dichlorure de sulfure"},{"p":419,"t":"dichromate d'ammonium"},{"p":420,"t":"dichromate de potassium"},{"p":421,"t":"dichromate de sodium"},{"p":422,"t":"dicyclohexylamine"},{"p":423,"t":"dicyclopentadiène, stabilisé"},{"p":424,"t":"diéthanolamine"},{"p":425,"t":"1,1-diéthoxyéthane"},{"p":426,"t":"1,2-diéthoxyéthane"},{"p":427,"t":"diéthylamine"},{"p":428,"t":"diéthylamino-2-éthanol"},{"p":429,"t":"À N,N-diéthylbenzenamine"},{"p":430,"t":"diéthylbenzène, mélange d'isomères"},{"p":431,"t":"diéthyldichlorosilane"},{"p":432,"t":"diéthyldithiocarbamate de sodium"},{"p":433,"t":"diéthylène glycol"},{"p":434,"t":"diéthylèneglycoldiméthyléther"},{"p":435,"t":"diéthylènetriamine"},{"p":436,"t":"N,N-diéthylhydroxylamine"},{"p":437,"t":"1,1-difluoroéthane, liquéfié, sous pression"},{"p":438,"t":"1,1-difluoroéthylène"},{"p":439,"t":"3,4-dihydro-2H-pyranne"},{"p":440,"t":"dihydrogénoorthophosphate de potassium"},{"p":441,"t":"1,2-dihydroxybenzène"},{"p":442,"t":"diisocyanate de 1,5-naphtylène y A"},{"p":443,"t":"diisocyanate d’isophorone"},{"p":444,"t":"2,4-diisocyanate de toluène"},{"p":445,"t":"s, 2,6-diisocyanate de toluène"},{"p":446,"t":"1,6-diisocyanatohexane"},{"p":447,"t":"diisopropanolamine"},{"p":448,"t":"diisopropylamine"},{"p":449,"t":"dilaurate de dibutylétain"},{"p":450,"t":"diméthoxy-1,2-éthane"},{"p":451,"t":"1,1-diméthoxyéthane"},{"p":452,"t":"diméthoxyméthane"},{"p":453,"t":"N,N-diméthyl-1,3-diaminopropane"},{"p":454,"t":"2,2-diméthyl-1,3-propanediol"},{"p":455,"t":"diméthyl-1,3-urée"},{"p":456,"t":"N,N-diméthyl-1-dodécanamine"},{"p":457,"t":"2,4-diméthyl-3-pentanol"},{"p":458,"t":"2,4-diméthyl-3-pentanone"},{"p":459,"t":"a 2,6-diméthyl-4-heptanol"},{"p":460,"t":"2,6-diméthyl-4-heptanone"},{"p":461,"t":"diméthylamine, conc=60%, solution aqueuse"},{"p":462,"t":"diméthylamine, liquéfié, sous pression"},{"p":463,"t":"2-diméthylaminoéthanol"},{"p":464,"t":"2-diméthylaminopyridine"},{"p":465,"t":"N,N-diméthylaniline"},{"p":466,"t":"2,2-diméthylbutane"},{"p":467,"t":"2,3-diméthylbutane"},{"p":468,"t":"N,N-diméthylcyclohexylamine"},{"p":469,"t":"diméthyldichlorosilane"},{"p":470,"t":"N,N-diméthyléthylamine"},{"p":471,"t":"N,N-diméthylformamide"},{"p":472,"t":"N,N-diméthylhydrazine"},{"p":473,"t":"diméthylmercure"},{"p":474,"t":"dinitrate de cobalt, hexahydrate"},{"p":475,"t":"dinitrate d'éthylèneglycol"},{"p":476,"t":"dinitro-2,4 phénol"},{"p":477,"t":"2,4-dinitroaniline"},{"p":478,"t":"1,4-dioxane"},{"p":479,"t":"dioxyde d'azote"},{"p":480,"t":"dioxyde de carbone, liquéfié, fortement réfrigéré"},{"p":481,"t":"Dioxyde de carbone, liquéfié sous pression"},{"p":482,"t":"dioxyde de carbone, solide"},{"p":483,"t":"dioxyde d'étain"},{"p":484,"t":"dioxyde de sélénium"},{"p":485,"t":"Dioxyde de soufre, liquéfié sous pression"},{"p":486,"t":"dipentène"},{"p":487,"t":"diphénylamine"},{"p":488,"t":"diphényle"},{"p":489,"t":"dipropylamine"},{"p":490,"t":"dipropylèneglycol"},{"p":491,"t":"distéarate de zinc"},{"p":492,"t":"disulfirame"},{"p":493,"t":"disulfite de disodium"},{"p":494,"t":"disulfure de carbone"},{"p":495,"t":"disulfure de diméthyle"},{"p":496,"t":"2,6-di-tert-butyl-p-crésol"},{"p":497,"t":"peroxyde de di-tert-butyle"},{"p":498,"t":"2,6-di-tert-butylphénol"},{"p":499,"t":"dithionite de sodium"},{"p":500,"t":"1-dodécanethiol"},{"p":501,"t":"tert-dodécanethiol"},{"p":502,"t":"dodécène-1"},{"p":503,"t":"dodécylbenzène"},{"p":504,"t":"dodécylbenzènesulfonate de sodium"},{"p":505,"t":"époxy-1,2-butane,stabilisé"},{"p":506,"t":"époxy-2,3-propanol-1"},{"p":507,"t":"1,2-époxy-3-phénoxypropane"},{"p":508,"t":"1-époxy-4-époxyéthylcyclohexane"},{"p":509,"t":"essence de térébenthine"},{"p":510,"t":"essence naturelle"},{"p":511,"t":"essence spéciale 120/180, aliphatique"},{"p":512,"t":"essence spéciale 24/140, aliphatique"},{"p":513,"t":"étain"},{"p":514,"t":"éter di-n-butylique"},{"p":515,"t":"éthane, liquéfié, sous pression"},{"p":516,"t":"éthanethiol"},{"p":517,"t":"éthanol"},{"p":518,"t":"éthène, liquéfié, fortement réfrigéré"},{"p":519,"t":"éthène, liquéfié, sous pression"},{"p":520,"t":"éthénone"},{"p":521,"t":"éthényl-1-pyrrolidinone-2, stabilisé"},{"p":522,"t":"éther allyléthylique"},{"p":523,"t":"éther allylglycidilique"},{"p":524,"t":"éther bis(chlorométhylique)"},{"p":525,"t":"éther de dibenzyle"},{"p":526,"t":"éther diéthylique"},{"p":527,"t":"éther diisopentylique"},{"p":528,"t":"éther diisopropylique, stabilisé"},{"p":529,"t":"éther diméthylique, liquéfié, sous pression"},{"p":530,"t":"éther dipentylique"},{"p":531,"t":"éther dipropylique, stabilisé"},{"p":532,"t":"éther éthyl vinylique, stabilisé"},{"p":533,"t":"éther éthylbutylique"},{"p":534,"t":"éther monoéthylique du diéthylèneglycol"},{"p":535,"t":"éther monométhylique de dipropylèneglycol"},{"p":536,"t":"éther monométhylique du diéthylèneglycol"},{"p":537,"t":"2-éthoxyéthanol"},{"p":538,"t":"1-éthoxy-2-propanol"},{"p":539,"t":"2-éthyl-1-hexanol"},{"p":540,"t":"éthyl-2-hexanal"},{"p":541,"t":"N-éthylaniline"},{"p":542,"t":"éthylbenzène"},{"p":543,"t":"éthylènediamine"},{"p":544,"t":"éthylèneglycol"},{"p":545,"t":"2-éthylhexylamine ?:"},{"p":546,"t":"éthylidène-5-norbornène-2, stabilisé"},{"p":547,"t":"éthyltrichlorosilane"},{"p":548,"t":"ferrosilicium, 30%\u003cconc silicium\u003c90%"},{"p":549,"t":"fluor, comprimé"},{"p":550,"t":"1-fluoro-2,4-dinitrobenzène"},{"p":551,"t":"fluorure d'aluminium"},{"p":552,"t":"fluorure d'ammonium"},{"p":553,"t":"fluorure de calcium"},{"p":554,"t":"Fluorure d’hydrogène, anhydre"},{"p":555,"t":"fluorure de potassium"},{"p":556,"t":"fluorure de sodium"},{"p":557,"t":"formaline 37%"},{"p":558,"t":"formamide pa"},{"p":559,"t":"formiate d'éthyle"},{"p":560,"t":"formiate de benzyle"},{"p":561,"t":"formiate de butyle"},{"p":562,"t":"formiate de méthyle"},{"p":563,"t":"formiate de sodium"},{"p":564,"t":"furanne"},{"p":565,"t":"s, furfural"},{"p":566,"t":"gez naturel, à haute teneur en méthane, comprimé"},{"p":567,"t":"gaz naturel,à haute teneur en méthane,liquéfié fortement réfrigéré"},{"p":568,"t":"glutaraldéhyde"},{"p":569,"t":"glycérol"},{"p":570,"t":"glycolate de butyle"},{"p":571,"t":"glycolonitrile, stabilisé :"},{"p":572,"t":"glyoxal"},{"p":573,"t":"halothane"},{"p":574,"t":"héllum, comprimé"},{"p":575,"t":"helium, liquéfié, fortement réfrigéré"},{"p":576,"t":"heptanal"},{"p":577,"t":"heptane"},{"p":578,"t":"2-heptanol"},{"p":579,"t":"2-heptanone"},{"p":580,"t":"heptane-3-one"},{"p":581,"t":"4-heptanone"},{"p":582,"t":"hexabromocyclododécane pa"},{"p":583,"t":"hexachloréthane"},{"p":584,"t":"1,2,3,4,5,5-hexachloro-1,3-cyclopentadiène"},{"p":585,"t":"hexachlorobenzène"},{"p":586,"t":"hexachlorobuta-1,3-diène"},{"p":587,"t":"hexacyanoferrate de tripotassium"},{"p":588,"t":"hexafluorosilicate d'ammonium"},{"p":589,"t":"hexafluorure de soufre"},{"p":590,"t":"hexamétaphosphate de sodium"},{"p":591,"t":"hexaméthyldisiloxane"},{"p":592,"t":"à, hexaméthylènetétramine"},{"p":593,"t":"hexanal"},{"p":594,"t":"hexane"},{"p":595,"t":"hexanedione-2,5"},{"p":596,"t":"hexanol-1"},{"p":597,"t":"J 2-hexanone"},{"p":598,"t":"1-hexène"},{"p":599,"t":"huile diesel"},{"p":600,"t":"hydrazine A"},{"p":601,"t":"Hydrogène, comprimé"},{"p":602,"t":"hydrogène, liquéfié, fortement réfrigéré"},{"p":603,"t":"hydrogénoorthophosphate de disodium, dodécahydrate"},{"p":604,"t":"hydrogénosulfite de sodium"},{"p":605,"t":"hydrogénosulfure de sodium"},{"p":606,"t":"hydroquinone"},{"p":607,"t":"hydroxy-4-méthyl-4-pentanone-2"},{"p":608,"t":"hydroxyde d'ammonium,solution aqueuse,conc=25%"},{"p":609,"t":"hydroxyde de baryum, octahydrate"},{"p":610,"t":"hydroxyde de calcium"},{"p":611,"t":"hydroxyde de césium"},{"p":612,"t":"hydroxyde de lithium"},{"p":613,"t":"hydroxyde de magnésium"},{"p":614,"t":"hydroxyde de potassium"},{"p":615,"t":"hydroxyde de sodium"},{"p":616,"t":"hydroxyde de sodium, conc=50%, solution aqueuse"},{"p":617,"t":"hydroxyde de tétraméthylammonium"},{"p":618,"t":"3-hydroxypropane nitrile"},{"p":619,"t":"hydrure de calcium"},{"p":620,"t":"hydrure de diisobutylaluminium"},{"p":621,"t":"hydrure de lithium-aluminium"},{"p":622,"t":"hypochlorite de calcium"},{"p":623,"t":"hypochlorite de sodium, solution, 5%\u003c=conc chlore actif\u003c=10%"},{"p":624,"t":"hypochlorite de sodium, solution, conc chlore actif=13%"},{"p":625,"t":"3,3'-iminodi(propylamine)"},{"p":626,"t":"1H-indène"},{"p":627,"t":"indium, poudre >"},{"p":628,"t":"iodate de potassium 2"},{"p":629,"t":"iode"},{"p":630,"t":"iodoéthane"},{"p":631,"t":"iodométhane"},{"p":632,"t":"iodure de potassium ?:"},{"p":633,"t":"iodure de sodium"},{"p":634,"t":"isobutane, liquéfié, sous pression"},{"p":635,"t":"isobutène, liquéfié, sous pression"},{"p":636,"t":"n-isocyanate de butyle"},{"p":637,"t":"isocyanate de cyclohexyle"},{"p":638,"t":"isocyanate d'éthyle"},{"p":639,"t":"isocyanate de phényle"},{"p":640,"t":"isodécanol, mélange d'isomères"},{"p":641,"t":"isopentane"},{"p":642,"t":"isophorone"},{"p":643,"t":"isoprène, stabilisé"},{"p":644,"t":"2-isopropoxyéthanol"},{"p":645,"t":"krypton, comprimé"},{"p":646,"t":"lauroyle chlorure"},{"p":647,"t":"lindane"},{"p":648,"t":"lithium"},{"p":649,"t":"LPG, liquéfié, sous pression"},{"p":650,"t":"lutidine-2,6"},{"p":651,"t":"magnésium, granules, tournures ou rubans"},{"p":652,"t":"malonate de diéthyle"},{"p":653,"t":"manganèse, poudre"},{"p":654,"t":"MCPA"},{"p":655,"t":"mécoprop"},{"p":656,"t":"mélamine"},{"p":657,"t":"mercaptan méthylique perchloré"},{"p":658,"t":"mercaptan méthylique,liquéfié,sous pression"},{"p":659,"t":"mercapto-2-benzothiazole"},{"p":660,"t":"2-mercaptoéthanol"},{"p":661,"t":"mercure"},{"p":662,"t":"mésitylène"},{"p":663,"t":"métaldéhyde"},{"p":664,"t":"métasilicate de disodium"},{"p":665,"t":"méthacrylaldéhyde, stabilisé"},{"p":666,"t":"méthacrylamide"},{"p":667,"t":"méthacrylate de 2-éthylhexyle"},{"p":668,"t":"méthacrylate de 2-hydroxyéthyle, stabilisé"},{"p":669,"t":"méthacrylate de 2-hydroxypropyle"},{"p":670,"t":"méthacrylate d'éthyle, stabilisé"},{"p":671,"t":"méthacrylate de glycidyle, stabilisé"},{"p":672,"t":"méthacrylate d'isobutyle, stabilisée"},{"p":673,"t":"methacrylate de méthyle, monomère, stabilisé"},{"p":674,"t":"méthacrylate de n-butyle, stabilisé"},{"p":675,"t":"méthacrylonitrile, stabilisé"},{"p":676,"t":"Méthane, comprimé"},{"p":677,"t":"méthanol"},{"p":678,"t":"3-méthoxy-1-butanol"},{"p":679,"t":"2-méthoxy-2-méthylpropane"},{"p":680,"t":"méthoxy-2-phénol"},{"p":681,"t":"1-méthoxy-2-propanol"},{"p":682,"t":"méthoxy-4-phénol"},{"p":683,"t":"méthoxybenzène"},{"p":684,"t":"2-méthoxyéthanol"},{"p":685,"t":"4-méthyl-1,3-benzènediamine"},{"p":686,"t":"isobutanol"},{"p":687,"t":"2-méthyl-2,4-pentanediol"},{"p":688,"t":"méthyl-2-butanol-1"},{"p":689,"t":"méthyl-2-butanol-2"},{"p":690,"t":"5-méthyl-2-hexanone"},{"p":691,"t":"2-méthyl-2-propanol"},{"p":692,"t":"1-méthyl-2-pyrrolidone"},{"p":693,"t":"méthyl-3-butanol-1"},{"p":694,"t":"méthyl-3-butanone-2"},{"p":695,"t":"méthyl-3-pentane"},{"p":696,"t":"méthyl-4-morpholine"},{"p":697,"t":"méthyl-4-pentanol-2"},{"p":698,"t":"méthyl-5-heptanone-3"},{"p":699,"t":"méthylacétylène"},{"p":700,"t":"2-méthylaminoéthanol"},{"p":701,"t":"N-méthylaniline"},{"p":702,"t":"méthylate de sodium"},{"p":703,"t":"méthylcyclohexane"},{"p":704,"t":"2-méthylcyclohexanone"},{"p":705,"t":"méthyldichlorosilane ra"},{"p":706,"t":"N-méthyldiéthanolamine"},{"p":707,"t":"4,4'-méthylènebis(2-chloroaniline)"},{"p":708,"t":"4,4'-méthylènedianiline"},{"p":709,"t":"méthyléthylcétone"},{"p":710,"t":"N-méthylformamide"},{"p":711,"t":"méthylisobutylcétone"},{"p":712,"t":"N-méthyl-N-nitrosométhanamine"},{"p":713,"t":"2-méthylpentane"},{"p":714,"t":"2-(1-méthylpropyl)phénol pa"},{"p":715,"t":"2-méthylpyridine"},{"p":716,"t":"méthyltrichlorosilane"},{"p":717,"t":"méthylvinyl éther, stabilisé, liquéfié, sous pression"},{"p":718,"t":"méthylvinylcétone, stabilisé"},{"p":719,"t":"minium de plomb"},{"p":720,"t":"monobromobenzène"},{"p":721,"t":"monochloroacétate de sodium"},{"p":722,"t":"monoéthylamine, liquéfié, sous pression"},{"p":723,"t":"monométhylamine,conc=40%, solution aqueuse"},{"p":724,"t":"monométhylamine, liquéfié, sous pression"},{"p":725,"t":"monoxyde d'azote, comprimé"},{"p":726,"t":"Monoxyde de carbone, comprimé"},{"p":727,"t":"monoxyde de diazote, liquéfié, sous pression"},{"p":728,"t":"monoxyde de nickel"},{"p":729,"t":"morpholine"},{"p":730,"t":"naphtalène"},{"p":731,"t":"naphténate de plomb(il)"},{"p":732,"t":"naphténates de cobalt, poudre"},{"p":733,"t":"2-naphtol"},{"p":734,"t":"néon, comprimé"},{"p":735,"t":"nickel, catalysator, sec"},{"p":736,"t":"nickel"},{"p":737,"t":"nicotine, (S)-"},{"p":738,"t":"ninhydrine"},{"p":739,"t":"nitrate de 2-éthylhexyle"},{"p":740,"t":"nitrate d'aluminium, nonahydrate"},{"p":741,"t":"nitrate d'argent"},{"p":742,"t":"nitrate de baryum"},{"p":743,"t":"nitrate de calcium,anhydre"},{"p":744,"t":"nitrate de cuivre(Il), trihydrate"},{"p":745,"t":"nitrate de magnésium, hexahydrate, comburant"},{"p":746,"t":"nitrate de mercure(Il)"},{"p":747,"t":"nitrate de plomb(ll)"},{"p":748,"t":"nitrate de potassium"},{"p":749,"t":"nitrate de sodium"},{"p":750,"t":"y nitrate de zinc, hexahydrate"},{"p":751,"t":"nitrite d'isoamyle"},{"p":752,"t":"nitrite de potassium"},{"p":753,"t":"nitrite de sodium"},{"p":754,"t":"o-nitroaniline"},{"p":755,"t":"p-nitroaniline"},{"p":756,"t":"2-nitroanisole"},{"p":757,"t":"nitrobenzène"},{"p":758,"t":"nitroéthane"},{"p":759,"t":"nitroglycérine"},{"p":760,"t":"nitrométhane y 3"},{"p":761,"t":"4-nitrophénol"},{"p":762,"t":"1-nitropropane :"},{"p":763,"t":"2-nitropropane"},{"p":764,"t":"2-nitrotoluène"},{"p":765,"t":"3-nitrotoluène"},{"p":766,"t":"4-nitrotoluène"},{"p":767,"t":"noir de carbone"},{"p":768,"t":"y 1-nonanol"},{"p":769,"t":"nonylphénol, mélange d'isomères"},{"p":770,"t":"2,5-norbornadiène, stabilisé"},{"p":771,"t":"à, 1-octadécanamine"},{"p":772,"t":"octanal"},{"p":773,"t":"octane"},{"p":774,"t":"1-octanethiol"},{"p":775,"t":"1-octanol"},{"p":776,"t":"2-octanol"},{"p":777,"t":"1-octène"},{"p":778,"t":"octylamine"},{"p":779,"t":"4-octylphénol #:"},{"p":780,"t":"orthophosphate de trisodium"},{"p":781,"t":"orthophosphate de trisodium, dodécahydrate"},{"p":782,"t":"orthosilicate de tétraméthyle"},{"p":783,"t":"oxalate de didammonium, monohydrate"},{"p":784,"t":"x oxalate de diéthyle"},{"p":785,"t":"2-oxetanone"},{"p":786,"t":"oxyde d'antimoine(Ill)"},{"p":787,"t":"oxyde de béryllium"},{"p":788,"t":"oxyde de bis(tributylétain)"},{"p":789,"t":"oxyde de cadmium, stabilisé"},{"p":790,"t":"oxyde de calcium"},{"p":791,"t":"oxyde de chrome(ill)"},{"p":792,"t":"oxyde de chromelVi)"},{"p":793,"t":"oxyde de diéthyle trifluorure de bore"},{"p":794,"t":"oxyde de diphényle"},{"p":795,"t":"oxyde d'éthylène, liquefié, sous pression"},{"p":796,"t":"oxyde de magnésium A"},{"p":797,"t":"oxyde de manganèse(IV)"},{"p":798,"t":"oxyde de mercure{l)"},{"p":799,"t":"oxyde de mésityle"},{"p":800,"t":"oxyde de pentabromodiphényle"},{"p":801,"t":"oxyde de plomb(IV)"},{"p":802,"t":"oxyde de propylène"},{"p":803,"t":"oxyde de styrène"},{"p":804,"t":"oxyde de titane(IV)"},{"p":805,"t":"oxyde de vanadium(V)"},{"p":806,"t":"oxyde de zinc"},{"p":807,"t":"oxygène, comprimé"},{"p":808,"t":"oxygène, liquéfié, fortement réfrigéré ©?"},{"p":809,"t":"oxytrichlorure de vanadium"},{"p":810,"t":"paraformaldéhyde"},{"p":811,"t":"paraldéhyde"},{"p":812,"t":"parathion"},{"p":813,"t":"pentabromure de phosphore"},{"p":814,"t":"pentacarbonyle de fer"},{"p":815,"t":"2,3,4,5,6-pentachlorophénol"},{"p":816,"t":"pentachlorure d'antimoine"},{"p":817,"t":"pentachlorure de phosphore"},{"p":818,"t":"pentadiène-1,3, mélange d'isomères"},{"p":819,"t":"pentaérythritol"},{"p":820,"t":"pentafluorure d'antimoine"},{"p":821,"t":"pentanal"},{"p":822,"t":"2,4-pentanedione"},{"p":823,"t":"n-pentane"},{"p":824,"t":"pentanol-1"},{"p":825,"t":"pentanol-2"},{"p":826,"t":"pentanone-2"},{"p":827,"t":"3-pentanone"},{"p":828,"t":"pentasulfure de di-tertiaire-nonyl"},{"p":829,"t":"1-pentène"},{"p":830,"t":"pentoxyde d'arsenic"},{"p":831,"t":"pentoxyde de phosphore"},{"p":832,"t":"perchlorate d'ammonium, explosif, comburant"},{"p":833,"t":"perchlorate de magnésium"},{"p":834,"t":"perchlorate de potassium"},{"p":835,"t":"perchlorate de sodium"},{"p":836,"t":"periodate de potassium"},{"p":837,"t":"permanganate de potassium"},{"p":838,"t":"peroxodisulfate de diammonium"},{"p":839,"t":"peroxodisulfate de sodium"},{"p":840,"t":"peroxyde de baryum"},{"p":841,"t":"peroxyde de dilauroyle"},{"p":842,"t":"peroxyde d'hydrogène en solution aqueuse, 50%\u003c=conc\u003c60%"},{"p":843,"t":"peroxyde d'hydrogène, solutions aqueuses, 8%\u003c=conc\u003c20%"},{"p":844,"t":"peroxyde de méthyléthylcétone, conc=35% dans phtalate de diméthyle"},{"p":845,"t":"peroxyde de sodium (=Na202)"},{"p":846,"t":"peroxydisulfate de dipotassium"},{"p":847,"t":"phénol, fondu"},{"p":848,"t":"phénol, solide"},{"p":849,"t":"phénothiazine r2"},{"p":850,"t":"2-phénoxyéthanol"},{"p":851,"t":"phénylacétonitrile"},{"p":852,"t":"m-phénylènebis(méthylamine)"},{"p":853,"t":"m-phénylènediamine"},{"p":854,"t":"o-phénylènediamine"},{"p":855,"t":"p-phénylènediamine"},{"p":856,"t":"L-phényléthanol"},{"p":857,"t":"phénylhydrazine"},{"p":858,"t":"N-phénylnaphtyl-1-amine"},{"p":859,"t":"N-phényinaphtyl-2-amine"},{"p":860,"t":"phénylphosphine"},{"p":861,"t":"2-phénylpropène, stabilisé"},{"p":862,"t":"phényltrichlorosilane"},{"p":863,"t":"Phosgène"},{"p":864,"t":"phosphate de 2-éthylhexyle et de diphényle"},{"p":865,"t":"phosphate de tributyle"},{"p":866,"t":"phosphate de triéthyle"},{"p":867,"t":"phosphate de tris(2-chloro-1-méthyléthyle)"},{"p":868,"t":"phosphate de tris(2-chloroéthyle)"},{"p":869,"t":"phosphine,liquéfiée,sous pression"},{"p":870,"t":"phosphite de diéthyle"},{"p":871,"t":"5 phosphite de triéthyle"},{"p":872,"t":"phosphite de triméthyle"},{"p":873,"t":"phosphite de triphényle"},{"p":874,"t":"phosphonate de diméthyle"},{"p":875,"t":"N-(phosphonométhyl)glycine y 2"},{"p":876,"t":"phosphore, blanc ou jaune, sec"},{"p":877,"t":"phosphore, rouge"},{"p":878,"t":"phosphure d'aluminium :"},{"p":879,"t":"phtalate de benzyle et de butyle"},{"p":880,"t":"phtalate de di-2-éthylhexyle"},{"p":881,"t":"phtalate de diallyle"},{"p":882,"t":"phtalate de dibutyle"},{"p":883,"t":"phtalate de diéthyle"},{"p":884,"t":"phtalate de diisobutyle"},{"p":885,"t":"phtalate de diisodécyle"},{"p":886,"t":"phtalate de diisononyle"},{"p":887,"t":"phtalate de diisooctyle"},{"p":888,"t":"phtalate de diméthyle"},{"p":889,"t":"x phtalimide"},{"p":890,"t":"2-pipérazine-1-yléthylamine"},{"p":891,"t":"pipéridine 2"},{"p":892,"t":"plomb, poudre"},{"p":893,"t":"potassium"},{"p":894,"t":"propadiène, stabilisé"},{"p":895,"t":"propanal"},{"p":896,"t":"2-propanamine"},{"p":897,"t":"propane"},{"p":898,"t":"1,2-propanediamine"},{"p":899,"t":"1,3-propanediamine"},{"p":900,"t":"1,2-propanediol"},{"p":901,"t":"1,3-propanediol 3"},{"p":902,"t":"1-propanol"},{"p":903,"t":"2-propanol"},{"p":904,"t":"2-propénal, stabilisé"},{"p":905,"t":"1-propène, liquéfié, sous pression"},{"p":906,"t":"propionate d'éthyle"},{"p":907,"t":"propionate de butyle"},{"p":908,"t":"propionate de méthyle"},{"p":909,"t":"propionate de sodium"},{"p":910,"t":"propionitrile"},{"p":911,"t":"2-propoxyéthanol"},{"p":912,"t":"propylamine"},{"p":913,"t":"propylèneimine, stabilisée"},{"p":914,"t":"propyltrichlorosilane"},{"p":915,"t":"à, pyridine"},{"p":916,"t":"pyrophosphate de tétrasodium"},{"p":917,"t":"quartz, conc silice crystalline alvéolaire>=10%"},{"p":918,"t":"quinoléine"},{"p":919,"t":"résorcinol"},{"p":920,"t":"ricine"},{"p":921,"t":"sélénite de sodium, pentahdyrate"},{"p":922,"t":"sélénium, poudre, non pyrophorique"},{"p":923,"t":"sesquichlorure d'éthylaluminium"},{"p":924,"t":"sesquichlorure de méthylaluminium"},{"p":925,"t":"silane, liquéfié, sous pression"},{"p":926,"t":"silicate de sodium et d'aluminium"},{"p":927,"t":"silicate de tétraéthyle"},{"p":928,"t":"sodium"},{"p":929,"t":"soufre, fondu"},{"p":930,"t":"soufre, solide"},{"p":931,"t":"stéarate de butyle"},{"p":932,"t":"stéarate de magnésium"},{"p":933,"t":"styrène, stabilisé"},{"p":934,"t":"succinate de diéthyle"},{"p":935,"t":"succinate de diméthyle"},{"p":936,"t":"sulfamate d'ammonium"},{"p":937,"t":"sulfate d'aluminium"},{"p":938,"t":"sulfate d'ammonium"},{"p":939,"t":"sulfate d'hydroxylamine"},{"p":940,"t":"sulfate de baryum"},{"p":941,"t":"sulfate de cadmium"},{"p":942,"t":"sulfate de calcium"},{"p":943,"t":"sulfate de cobalt(ll)"},{"p":944,"t":"sulfate de cuivre(Il), pentahydrate"},{"p":945,"t":"sulfate de diéthyle"},{"p":946,"t":"sulfate de diméthyle"},{"p":947,"t":"sulfate de fer(ll), heptahydrate"},{"p":948,"t":"sulfate de magnésium"},{"p":949,"t":"sulfate de manganèse(Il), hydrate"},{"p":950,"t":"sulfate de mercure(il)"},{"p":951,"t":"sulfate de nickel(Il)"},{"p":952,"t":"sulfate de sodium, anhydre"},{"p":953,"t":"sulfate de zinc"},{"p":954,"t":"sulfite de sodium, anhydre"},{"p":955,"t":"sulfoxyde de diméthyle"},{"p":956,"t":"Sulfure d’hydrogène, liquéfié sous pression"},{"p":957,"t":"sulfure de baryum"},{"p":958,"t":"sulfure de cadmium"},{"p":959,"t":"sulfure de carbonyle"},{"p":960,"t":"sulfure de diéthyle"},{"p":961,"t":"sulfure de diméthyle"},{"p":962,"t":"sulfure de disodium, nonahydrate"},{"p":963,"t":"sulfure de fer(il)"},{"p":964,"t":"sulfure de potassium, anhydre ou conc d'eau de cristallisation\u003c30%"},{"p":965,"t":"sulfure de zinc"},{"p":966,"t":"2,4,5-T"},{"p":967,"t":"tale"},{"p":968,"t":"tartrate d'antimonyle et de potassium,trihydrate"},{"p":969,"t":"tellure"},{"p":970,"t":"terephtalate de diméthyle"},{"p":971,"t":"tétraborate de disodium"},{"p":972,"t":"tétrabromobisphénol A"},{"p":973,"t":"1,1,2,2-tétrabromoéthane"},{"p":974,"t":"tétrabromométhane"},{"p":975,"t":"tétracarbonyle de nickel"},{"p":976,"t":"1,1,2,2-tétrachloroéthane"},{"p":977,"t":"tétrachloroéthylène"},{"p":978,"t":"tétrachlorure de carbone"},{"p":979,"t":"tétrachlorure de silicium"},{"p":980,"t":"tétrachlorure de titane"},{"p":981,"t":"tétraéthyle de plomb"},{"p":982,"t":"tétraéthylènepentamine"},{"p":983,"t":"tétrafluoroéthylène, stabilisé"},{"p":984,"t":"1,2,3,4-tétrahydronaphtalène"},{"p":985,"t":"tétrahydrofurane"},{"p":986,"t":"tétrahydrothiophène"},{"p":987,"t":"tétraméthylplomb"},{"p":988,"t":"tétraméthylsuccinonitrile"},{"p":989,"t":"tétranitrate de pentaérithrityle"},{"p":990,"t":"tétraoxyde d'osmium"},{"p":991,"t":"tétrasulfure de disodium"},{"p":992,"t":"thallium"},{"p":993,"t":"thinner, conc toluène >60%"},{"p":994,"t":"thiocyanate d'ammonium"},{"p":995,"t":"thiocyanate de mercure(il)"},{"p":996,"t":"thiocyanate de potassium"},{"p":997,"t":"thiocyanate de sodium"},{"p":998,"t":"2,2-thiodiéthanol"},{"p":999,"t":"4-thiopentanal"},{"p":1000,"t":"thiophène"},{"p":1001,"t":"thiophénol"},{"p":1002,"t":"thiosulfate de sodium, pentahydrate"},{"p":1003,"t":"thiourée"},{"p":1004,"t":"thirame"},{"p":1005,"t":"titanate de tétraisopropyle"},{"p":1006,"t":"toluène"},{"p":1007,"t":"4-toluènesulfonamide"},{"p":1008,"t":"m-toluidine"},{"p":1009,"t":"o-toluidine"},{"p":1010,"t":"tosylchloramide sodique"},{"p":1011,"t":"triacétate de glycérine"},{"p":1012,"t":"triallylamine"},{"p":1013,"t":"1,3,5-triazine-2,4,6-triol"},{"p":1014,"t":"tribromure de bore"},{"p":1015,"t":"J tribromure de phosphore"},{"p":1016,"t":"tributylamine"},{"p":1017,"t":"trichloracétate de sodium"},{"p":1018,"t":"1,1,2-trichloro-1,2,2-trifluoroéthane"},{"p":1019,"t":"trichloro-1,2,4-benzène"},{"p":1020,"t":"2,3,4-trichloro-1-butène"},{"p":1021,"t":"1,1,1-trichloroéthane, stabilisé"},{"p":1022,"t":"1,1,2-trichloroéthane"},{"p":1023,"t":"trichloroéthylène"},{"p":1024,"t":"trichlorométhylbenzène"},{"p":1025,"t":"2,4,6-trichlorophénol"},{"p":1026,"t":"1,2,3-trichloropropane"},{"p":1027,"t":"trichlorosilane"},{"p":1028,"t":"trichlorure d'antimoine"},{"p":1029,"t":"trichlorure de bore, liquéfié, sous pression"},{"p":1030,"t":"trichlorure de phosphore"},{"p":1031,"t":"triéthanolamine"},{"p":1032,"t":"triéthylaluminium"},{"p":1033,"t":"triéthylamine"},{"p":1034,"t":"triéthylborane"},{"p":1035,"t":"triéthylèneglycol"},{"p":1036,"t":"triéthylèneglycolmonobutyl éther"},{"p":1037,"t":"triéthylèneglycolmonoéthyl éther"},{"p":1038,"t":"triéthylènetétramine"},{"p":1039,"t":"trifluorométhane, liquéfié, sous pression"},{"p":1040,"t":"à {trifluorométhyl)benzène"},{"p":1041,"t":"trifluorure de bore, liquéfié, sous pression"},{"p":1042,"t":"3,4,5-trihydroxy benzoïque"},{"p":1043,"t":"triisobutylaluminium"},{"p":1044,"t":"triisopropanolamine"},{"p":1045,"t":"2,4,4-triméthyl-1-pentène"},{"p":1046,"t":"triméthylaluminium"},{"p":1047,"t":"triméthylamine, liquéfié, sous pression"},{"p":1048,"t":"1,2,4-triméthylbenzène"},{"p":1049,"t":"triméthylchlorosilane"},{"p":1050,"t":"2,24-triméthylpentane"},{"p":1051,"t":"1,3,5-trioxane"},{"p":1052,"t":"trioxyde de diarsenic"},{"p":1053,"t":"triphénylphosphine"},{"p":1054,"t":"triphosphate de pentasodium"},{"p":1055,"t":"tripropylamine"},{"p":1056,"t":"tripropylèneglycol"},{"p":1057,"t":"troclosène de sodium"},{"p":1058,"t":"2-undécanone"},{"p":1059,"t":"Po"},{"p":1060,"t":"vaséline, raffinée"},{"p":1061,"t":"5-vinyl-2-norbornène"},{"p":1062,"t":"2-vinylpyridine, stabilisé"},{"p":1063,"t":"vinyltoluène, stabilisé, mélange de 3- et 4-vinyltoluène ?"},{"p":1064,"t":"vinyltrichlorosilane, stabilisé"},{"p":1065,"t":"warfarine"},{"p":1066,"t":"white spirit DA"},{"p":1067,"t":"xénon, liquéfié, sous pression"},{"p":1068,"t":"xylène, mélange d'isomères"},{"p":1069,"t":"m-xylène"},{"p":1070,"t":"o-xylène"},{"p":1071,"t":"p-xylène"},{"p":1072,"t":"2,4-xylénol"},{"p":1073,"t":"2,6-xylénol"},{"p":1074,"t":"zinc,poudre ou poussière, pyrophorique"},{"p":1075,"t":"Explosi instable."},{"p":1076,"t":"Provoque une iron cuanée."},{"p":1077,"t":"7 Gonna Pat ere ns on lg D |"},{"p":1078,"t":""}];
+const BIG_SEGMENTS = [{"start":1,"end":85,"url":"big/BIG-fiches-0001-0085.pdf"},{"start":86,"end":170,"url":"big/BIG-fiches-0086-0170.pdf"},{"start":171,"end":255,"url":"big/BIG-fiches-0171-0255.pdf"},{"start":256,"end":306,"url":"big/BIG-fiches-0256-0306.pdf"},{"start":307,"end":391,"url":"big/BIG-fiches-0307-0391.pdf"},{"start":392,"end":476,"url":"big/BIG-fiches-0392-0476.pdf"},{"start":477,"end":561,"url":"big/BIG-fiches-0477-0561.pdf"},{"start":562,"end":646,"url":"big/BIG-fiches-0562-0646.pdf"},{"start":647,"end":704,"url":"big/BIG-fiches-0647-0704.pdf"},{"start":705,"end":789,"url":"big/BIG-fiches-0705-0789.pdf"},{"start":790,"end":874,"url":"big/BIG-fiches-0790-0874.pdf"},{"start":875,"end":959,"url":"big/BIG-fiches-0875-0959.pdf"},{"start":960,"end":1044,"url":"big/BIG-fiches-0960-1044.pdf"},{"start":1045,"end":1078,"url":"big/BIG-fiches-1045-1078.pdf"}];
+function bigDocumentLink(page){
+ const p=Number(page);
+ if(!Number.isInteger(p)||p<1||p>1078)return null;
+ const seg=BIG_SEGMENTS.find(r=>p>=r.start&&p<=r.end);
+ if(!seg)return null;
+ return {url:seg.url,pdfPage:p-seg.start+1,volume:p<=306?1:p<=704?2:3};
+}
+function bigNormal(value){return normalizeText(String(value||""))
+ .replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();}
+// Correspondances vérifiées par fiche et ONU : pas d'association sur le seul numéro pour un mélange ambigu.
+const BIG_VERIFIED_UN = [
+ {un:"1017",name:/^chlore(?:\s|$)/,page:256},
+ {un:"1005",name:/^(?:ammoniac|ammoniaque)(?:\s|$)/,page:134},
+ {un:"1011",name:/^butane(?:\s|$)/,page:202},
+ {un:"1971",name:/^methane(?:\s|$)/,page:676},
+ {un:"1049",name:/^(?:di)?hydrogene(?:\s|$)/,page:601},
+ {un:"1090",name:/^acetone(?:\s|$)/,page:32},
+ {un:"1114",name:/^benzene(?:\s|$)/,page:160},
+ {un:"1016",name:/^monoxyde de carbone(?:\s|$)/,page:726},
+ {un:"1079",name:/^dioxyde de soufre(?:\s|$)/,page:485},
+ {un:"1052",name:/^fluorure d hydrogene(?:\s|$)/,page:554}
+];
+function bigEntriesForName(name, limit=8){
+ const q=bigNormal(name);if(q.length<3)return [];
+ const matches=BIG_INDEX.map(e=>({...e,_n:bigNormal(e.t)})).filter(e=>
+   e._n===q || e._n.startsWith(q+" ") || e._n.startsWith(q+" conc")
+ );
+ matches.sort((a,b)=>Number(b._n===q)-Number(a._n===q) || a.p-b.p);
+ return matches.slice(0,limit);
+}
+function findBigForItem(item){
+ const q=bigNormal(item?.name);if(!q)return null;
+ const rule=BIG_VERIFIED_UN.find(r=>r.page && String(item.un)===r.un && r.name.test(q));
+ if(rule)return BIG_INDEX[rule.page-1];
+ const c=bigEntriesForName(item.name,4);
+ if(c.length===1)return c[0];
+ // Noms qualifiés : on accepte uniquement le même début explicite et une fiche non ambiguë.
+ return null;
+}
+const BIG_VERIFIED_GUIDANCE = {
+  256:{
+    security:["Chlore liquéfié sous pression : isolement initial de 100 m selon la fiche BIG 256.","Petite fuite : 60 m d'isolement initial ; protection sous le vent 0,4 km le jour et 1,5 km la nuit.","Fuite importante : 500 m d'isolement initial ; sous le vent 3,0 km le jour et 7,9 km la nuit.","En cas d'incendie impliquant une citerne : envisager une première évacuation dans un rayon de 800 m."],
+    fire:["Chlore non combustible, mais pression et réactions chimiques dangereuses possibles.","Le BIG mentionne poudre BC et CO₂ ; en incendie majeur, eau pulvérisée et mousse polyvalente selon contexte.","Refroidir les récipients exposés depuis un emplacement protégé et tenir compte des eaux d'extinction toxiques."],
+    leak:["Mettre en place une protection respiratoire et chimique adaptée ; le BIG indique une combinaison antigaz.","Endiguer la propagation et empêcher l'entrée dans les égouts et l'environnement.","La fiche prévoit la dilution des gaz toxiques par eau pulvérisée et la récupération/gestion des effluents, sans contact non maîtrisé avec la fuite."],
+    aid:["Inhalation : amener à l'air frais et faire prendre en charge médicalement.","Contact cutané : rinçage immédiat et abondant à l'eau pendant au moins 15 minutes.","Contact oculaire : rinçage immédiat et abondant pendant au moins 15 minutes."]
+  },
+  134:{
+    security:["Ammoniac liquéfié sous pression : isolement initial minimal de 100 m selon la rubrique sécurité publique.","Petite fuite : 30 m d'isolement initial ; sous le vent 0,1 km le jour et 0,2 km la nuit.","Fuite importante : 150 m d'isolement initial ; sous le vent 0,8 km le jour et 2,0 km la nuit.","En cas d'incendie impliquant une citerne : envisager une première évacuation dans un rayon de 1 600 m."],
+    fire:["Le BIG signale un risque d'inflammation avec une source d'énergie forte.","En présence d'un incendie, refroidir les contenants exposés depuis une position protégée ; tenir compte du risque de rupture et des effluents."],
+    leak:["Éloigner les sources d'ignition et prévoir une protection chimique et respiratoire adaptée.","Empêcher toute propagation vers les égouts et gérer les eaux de précipitation potentiellement toxiques/corrosives.","La fiche BIG prévoit le recueil du produit et la maîtrise des vapeurs, avec des mesures adaptées à l'installation."],
+    aid:["Inhalation : emmener la victime à l'air frais, avec prise en charge médicale.","Contact cutané et oculaire : rincer immédiatement et abondamment à l'eau pendant au moins 15 minutes."]
+  }
+};
+function bigItemsOrSource(items,section){
+ if(!items||!items.length)return `<p>Consulter la rubrique « ${escapeHtml(section)} » sur la page originale BIG ci-dessous. Aucune retranscription n'est proposée pour éviter une erreur de lecture du scan.</p>`;
+ return `<ul>${items.map(i=>`<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
+}
+function renderBigSheet(entry){
+ const ref=bigDocumentLink(entry.p);if(!ref)return `<div class="big-sheet-note">Page BIG non disponible.</div>`;
+ const url=ref.url+"#page="+ref.pdfPage;
+ const guide=BIG_VERIFIED_GUIDANCE[entry.p];
+ const panels=[
+  ["Sécurité publique / isolement / évacuation","security"],
+  ["Incendie et explosion","fire"],
+  ["Fuite et nettoyage","leak"],
+  ["Premiers secours","aid"]
+ ];
+ return `<div class="big-sheet">
+    <div class="big-sheet-head"><div><strong>Fiche BIG ${entry.p} — ${escapeHtml(entry.t)}</strong><small>BIG 2013 · Tome ${ref.volume} · page PDF ${ref.pdfPage}</small></div><span>BIG</span></div>
+    <div class="big-sheet-body">
+      <div class="big-sheet-note"><strong>Conduite à tenir :</strong> lecture par rubriques du BIG 2013. Les consignes sont liées à la forme du produit et au scénario réel. <span class="big-safety">Les distances sont indicatives, à revalider avec les données et consignes opérationnelles actuelles.</span></div>
+      <div class="big-panels">${panels.map(([label,key],i)=>`<details class="big-panel" ${i===0?'open':''}><summary>${label}</summary><div class="big-panel-content">${bigItemsOrSource(guide?.[key],label)}</div></details>`).join("")}</div>
+      <details class="big-panel" open style="margin-top:10px"><summary>Fiche BIG originale : lecture intégrale et contrôle des consignes</summary><div class="big-panel-content">
+      <p>Référence : <strong>BIG 2013, fiche ${entry.p}</strong>. Les rubriques colorées comprennent l'isolement, les dangers, la protection individuelle, l'incendie, les fuites et les premiers secours.</p>
+      <a class="big-open" href="${url}" target="_blank" rel="noopener">Ouvrir la fiche BIG complète (PDF)</a>
+      <iframe class="big-viewer" loading="lazy" title="Fiche BIG ${entry.p} : ${escapeHtml(entry.t)}" src="${url}&zoom=120"></iframe>
+      <p class="big-source">Fiche source BIG 2013 (ouvrage antérieur aux versions récentes du GMU). En cas de divergence, privilégier les références réglementaires, les FDS et les procédures opérationnelles en vigueur. Fichier servi depuis le dossier <code>big/</code> de CMIC-OPS.</p>
+      </div></details>
+    </div></div>`;
+}
+function toggleBigSheet(button){
+ const host=document.getElementById(button.dataset.host);
+ const page=Number(button.dataset.bigpage),entry=BIG_INDEX[page-1];
+ if(!host||!entry||entry.p!==page)return;
+ const opening=host.dataset.loaded!=="true"||host.hidden;
+ if(opening)closeOtherIdentificationSheets(button);
+ if(host.dataset.loaded!=="true"){
+  host.innerHTML=renderBigSheet(entry);host.dataset.loaded="true";host.hidden=false;
+ }else{host.hidden=!host.hidden;}
+ button.textContent=host.hidden?"Module BIG":"Masquer";
+ button.setAttribute("aria-expanded",String(!host.hidden));
+ if(!host.hidden)host.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function wireBigButtons(){resultArea.querySelectorAll(".big-modules-btn").forEach(b=>{if(b.dataset.bigWired)return;b.dataset.bigWired="1";b.addEventListener("click",()=>toggleBigSheet(b));});}
+function bigStandaloneCard(entry){
+ const host=`big-${entry.p}-${Math.random().toString(36).slice(2,8)}`;
+ return `<div class="result-card"><div class="result-main"><strong>${escapeHtml(entry.t)}</strong><div class="result-meta">BIG 2013 · fiche ${entry.p}</div><div class="result-doc-badges"><span class="doc-badge available">BIG</span></div></div><div class="result-links"><button type="button" class="pdf-link big-modules-btn" data-bigpage="${entry.p}" data-host="${host}" aria-expanded="false">Module BIG</button></div><div class="big-host" id="${host}" hidden></div></div>`;
+}
+function appendStandaloneBigResults(entries){
+ if(!entries.length)return false;
+ let list=resultArea.querySelector(".result-list");
+ if(!list){resultArea.innerHTML=`<div class="result-message">${entries.length} fiche(s) BIG correspondante(s).</div><div class="result-list"></div>`;list=resultArea.querySelector(".result-list");}
+ const existing=new Set(Array.from(resultArea.querySelectorAll(".big-modules-btn")).map(b=>Number(b.dataset.bigpage)));
+ const fresh=entries.filter(e=>!existing.has(e.p)).slice(0,10);
+ if(fresh.length){list.insertAdjacentHTML("beforeend",fresh.map(bigStandaloneCard).join(""));wireBigButtons();}
+ return true;
 }
 
 function documentationScore(item) {
@@ -6022,6 +6207,8 @@ function renderResults(items, heading) {
     const href = `${PDF_FILE}#page=${item.page}`;
     const inrs = findInrsForItem(item);
     const cmicSheet = findCmicProductSheet(item);
+    const bigSheet = findBigForItem(item);
+    const bigHostId = bigSheet ? `big-sheet-${bigSheet.p}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const cmicHostId = cmicSheet ? `cmic-product-${escapeHtml(cmicSheet.key)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
 
@@ -6033,6 +6220,9 @@ function renderResults(items, heading) {
     if (cmicSheet) {
       docLinks.push(`<button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(cmicSheet.key)}" data-host="${cmicHostId}">Fiche CMIC-OPS</button>`);
     }
+    if (bigSheet) {
+      docLinks.push(`<button type="button" class="pdf-link big-modules-btn" data-bigpage="${bigSheet.p}" data-host="${bigHostId}" aria-expanded="false">Module BIG</button>`);
+    }
     const extraDocumentation = docLinks.length
       ? docLinks.join("")
       : `<span class="inrs-unavailable" title="Aucune fiche complémentaire identifiée automatiquement pour cette appellation.">Documentation complémentaire indisponible</span>`;
@@ -6041,7 +6231,8 @@ function renderResults(items, heading) {
       <span class="doc-badge available">GMU</span>
       ${inrs ? `<span class="doc-badge available">INRS</span><span class="doc-badge available">Modules</span>` : ""}
       ${cmicSheet ? `<span class="doc-badge available">Fiche CMIC-OPS</span>` : ""}
-      ${!inrs && !cmicSheet ? `<span class="doc-badge">Doc. complémentaire indisponible</span>` : ""}
+      ${bigSheet ? `<span class="doc-badge available">BIG</span>` : ""}
+      ${!inrs && !cmicSheet && !bigSheet ? `<span class="doc-badge">Doc. complémentaire indisponible</span>` : ""}
     </div>`;
 
     return `<div class="result-card">
@@ -6057,6 +6248,7 @@ function renderResults(items, heading) {
       </div>
       ${inrs ? `<div class="inrs-module-host" id="${moduleHostId}"></div>` : ""}
       ${cmicSheet ? `<div class="cmic-product-host" id="${cmicHostId}"></div>` : ""}
+      ${bigSheet ? `<div class="big-host" id="${bigHostId}" hidden></div>` : ""}
     </div>`;
   }).join("");
 
@@ -6067,6 +6259,7 @@ function renderResults(items, heading) {
   resultArea.innerHTML = `<div class="result-message">${escapeHtml(heading)} - ${items.length} correspondance${items.length > 1 ? "s" : ""}.</div><div class="result-list">${cards}</div>${more}`;
   wireInrsModuleButtons();
   wireCmicProductButtons();
+  wireBigButtons();
   resultArea.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
@@ -6211,6 +6404,7 @@ function searchByName() {
   }
 
   const cmicSheets = findCmicSheetsByQuery(query);
+  const bigSheets = bigEntriesForName(query,10);
   const queryWords = query.split(/\s+/).filter(Boolean);
 
   let items = GMU_DATA.filter(item => {
@@ -6223,10 +6417,13 @@ function searchByName() {
   if (items.length) {
     renderResults(items, `Recherche : ${raw}`);
     appendStandaloneCmicResults(cmicSheets);
+    appendStandaloneBigResults(bigSheets);
     return;
   }
 
-  if (renderStandaloneCmicResults(cmicSheets, `Recherche : ${raw}`)) return;
+  const hasCmic = renderStandaloneCmicResults(cmicSheets, `Recherche : ${raw}`);
+  if (appendStandaloneBigResults(bigSheets)) return;
+  if (hasCmic) return;
 
   resultArea.innerHTML = `<div class="result-message">Aucune correspondance trouvée dans l'index GMU 2024, les fiches INRS ou les fiches CMIC-OPS.</div>`;
 }
@@ -7137,7 +7334,7 @@ function computeToxStep1() {
   if (!(pvs > 1.013)) errors.push("La PVS doit être supérieure à 1,013 bar pour ce calcul de fuite.");
   if (temp === null || temp <= -273) errors.push("Renseignez une température supérieure à -273 °C.");
   if (!(volume > 0)) errors.push("Renseignez le volume du contenant.");
-  if (!(fill > 0 && fill <= 85)) errors.push("Le taux de remplissage doit être compris entre 0 et 85 %.");
+  if (!(fill > 0 && fill <= 100)) errors.push("Le taux de remplissage doit être compris entre 0 et 100 %.");
   if (errors.length) { toxSetResult("toxResult1", `<strong>Données à compléter :</strong><br>${errors.join("<br>")}`, true); return false; }
 
   const product = document.getElementById("toxProduct").value.trim() || "Produit non renseigné";
@@ -7149,7 +7346,7 @@ function computeToxStep1() {
     <div class="result-kpi"><span>PVS</span><strong>${formatNumber(pvs,3)} bar</strong></div>
     <div class="result-kpi"><span>Volume</span><strong>${formatNumber(volume,3)} m³</strong></div>
     <div class="result-kpi"><span>Remplissage</span><strong>${formatNumber(fill,1)} %</strong></div>
-  </div>${thresholds.length ? `<div style="margin-top:10px"><strong>Seuils toxiques :</strong> ${thresholds.map(x => `${escapeHtml(x.label)} = ${formatNumber(x.value,2)} ppm`).join(" · ")}</div>` : `<div style="margin-top:10px">Valeurs toxicologiques non renseignées.</div>`}`);
+  </div>${fill > 85 ? `<div class="calc-warning">Remplissage supérieur à 85 % : calcul numérique maintenu, mais ce scénario peut être incompatible avec les prescriptions de remplissage ou l’équilibre liquide/vapeur.</div>` : ""}${thresholds.length ? `<div style="margin-top:10px"><strong>Seuils toxiques :</strong> ${thresholds.map(x => `${escapeHtml(x.label)} = ${formatNumber(x.value,2)} ppm`).join(" · ")}</div>` : `<div style="margin-top:10px">Valeurs toxicologiques non renseignées.</div>`}`);
   return true;
 }
 
@@ -7175,7 +7372,7 @@ function computeToxStep4() {
   const mm = numberValue("toxMolarMass");
   const pvs = numberValue("toxPvs");
   const temp = numberValue("toxTemp");
-  if (!Number.isFinite(toxState.capacityMass) || !(fill > 0 && fill <= 85) || !(volume > 0) || !(mm > 0) || !(pvs > 0) || temp === null) { toxHide("toxResult4"); return false; }
+  if (!Number.isFinite(toxState.capacityMass) || !(fill > 0 && fill <= 100) || !(volume > 0) || !(mm > 0) || !(pvs > 0) || temp === null) { toxHide("toxResult4"); return false; }
 
   const frac = fill / 100;
   const gasVolume = volume * (1 - frac);
@@ -7226,8 +7423,7 @@ function computeToxStep5() {
     toxState.qTotal = toxState.qMono;
     toxState.qGas = 0.30 * toxState.qMono;
     toxState.qAerosol = null;
-    const manualLiquid = numberValue("toxTankLiquidFlow");
-    toxState.qLiquid = manualLiquid > 0 ? manualLiquid : null;
+    toxState.qLiquid = null; // La fiche ne fournit pas cette fraction pour L < 3D.
   } else {
     scenario = "Cas limite L = 3D - non tranché par la fiche";
     ratio = "limite";
@@ -7238,14 +7434,30 @@ function computeToxStep5() {
   }
 
   document.getElementById("toxTankLiquidFlowWrap").style.display = ratio === "citerne" ? "block" : "none";
-  toxSetResult("toxResult5", `<strong>${scenario}</strong><br>L = ${formatNumber(L,3)} m ; 3D = ${formatNumber(3*Dm,3)} m<br>S = <strong>${formatArea(area)}</strong><br>ΔP = <strong>${formatNumber(dp,0)} Pa</strong><br>Qmono = <strong>${formatNumber(toxState.qMono,6)} kg/s</strong>${ratio === "canalisation" ? `<br>Qdiphasique = <strong>${formatNumber(toxState.qTotal,6)} kg/s</strong><br>Qgaz = <strong>${formatNumber(toxState.qGas,6)} kg/s</strong> · Qaérosol = <strong>${formatNumber(toxState.qAerosol,6)} kg/s</strong> · Qliquide = <strong>${formatNumber(toxState.qLiquid,6)} kg/s</strong>` : ratio === "citerne" ? `<br>Qgaz = 0,3 × Qmono = <strong>${formatNumber(toxState.qGas,6)} kg/s</strong><br>${Number.isFinite(toxState.qLiquid) ? `Qliquide renseigné = <strong>${formatNumber(toxState.qLiquid,6)} kg/s</strong>` : `<span class="status-pill">Qliquide à renseigner pour calculer la vidange</span>`}` : `<span class="status-pill">Choisir un L différent de 3D pour appliquer le mémento.</span>`}`);
+  toxSetResult("toxResult5", `<strong>${scenario}</strong><br>L = ${formatNumber(L,3)} m ; 3D = ${formatNumber(3*Dm,3)} m<br>S = <strong>${formatArea(area)}</strong><br>ΔP = <strong>${formatNumber(dp,0)} Pa</strong><br>Qmono = <strong>${formatNumber(toxState.qMono,6)} kg/s</strong>${ratio === "canalisation" ? `<br>Qdiphasique total = <strong>${formatNumber(toxState.qTotal,6)} kg/s</strong><br>Qgaz = <strong>${formatNumber(toxState.qGas,6)} kg/s</strong> · Qaérosol = <strong>${formatNumber(toxState.qAerosol,6)} kg/s</strong> · Qliquide = <strong>${formatNumber(toxState.qLiquid,6)} kg/s</strong>` : ratio === "citerne" ? `<br>Qgaz = 0,3 × Qmono = <strong>${formatNumber(toxState.qGas,6)} kg/s</strong><br>${Number.isFinite(toxState.qLiquid) ? `Débit total renseigné = <strong>${formatNumber(toxState.qLiquid,6)} kg/s</strong>` : `<span class="status-pill">Débit total à renseigner pour estimer la durée du rejet</span>`}` : `<span class="status-pill">Choisir un L différent de 3D pour appliquer le mémento.</span>`}`);
   return true;
 }
 
 function computeToxStep6() {
-  if (!Number.isFinite(toxState.liquidMass) || !Number.isFinite(toxState.qLiquid) || !(toxState.qLiquid > 0)) { toxState.emptySeconds=null; toxHide("toxResult6"); return false; }
-  toxState.emptySeconds = toxState.liquidMass / toxState.qLiquid;
-  toxSetResult("toxResult6", `T = ${formatNumber(toxState.liquidMass,1)} / ${formatNumber(toxState.qLiquid,6)} = <strong>${formatNumber(toxState.emptySeconds,0)} s</strong><span class="big-result">Temps théorique = ${formatDuration(toxState.emptySeconds)}</span>`);
+  const L = numberValue("toxPipeLength");
+  const Dinput = numberValue("toxPipeDiameter");
+  const Dunit = document.getElementById("toxPipeDiameterUnit")?.value;
+  const Dm = Number.isFinite(Dinput) ? diameterToMeters(Dinput, Dunit) : null;
+  const onPipe = Number.isFinite(L) && Number.isFinite(Dm) && L > 3 * Dm;
+  const onTank = Number.isFinite(L) && Number.isFinite(Dm) && L < 3 * Dm;
+  const manuallySupplied = numberValue("toxTankLiquidFlow");
+  const totalFlow = onPipe ? toxState.qTotal : onTank ? manuallySupplied : null;
+  if (!Number.isFinite(toxState.liquidMass) || !(totalFlow > 0)) {
+    toxState.emptySeconds = null;
+    if (onTank) {
+      toxSetResult("toxResult6", `<div class="calc-warning">L &lt; 3D : le mémento ne donne pas Qdiphasique total. Saisir un débit total justifié pour calculer le temps de rejet. Qgaz seul ne doit pas servir de débit total.</div>`);
+    } else {
+      toxHide("toxResult6");
+    }
+    return false;
+  }
+  toxState.emptySeconds = toxState.liquidMass / totalFlow;
+  toxSetResult("toxResult6", `T = Mliquide / ${onPipe ? "Qdiphasique total" : "Qtotal renseigné"} = ${formatNumber(toxState.liquidMass,1)} / ${formatNumber(totalFlow,6)} = <strong>${formatNumber(toxState.emptySeconds,0)} s</strong><span class="big-result">Temps théorique de rejet = ${formatDuration(toxState.emptySeconds)}</span>`);
   return true;
 }
 
@@ -7388,7 +7600,8 @@ scheduleAutoComputeToxicLiquefied();
     document.getElementById("openCdImageHelp"),
     document.getElementById("openToxCdImageHelp"),
     document.getElementById("openSpillCdImageHelp"),
-    document.getElementById("openVpCdImageHelp")
+    document.getElementById("openVpCdImageHelp"),
+    document.getElementById("openFireCdImageHelp")
   ].filter(Boolean);
   const closeBtn = document.getElementById("closeCdImageHelp");
   const overlay = document.getElementById("cdImageHelp");
@@ -7428,7 +7641,7 @@ updateRchSummary();
   const resetBtn = document.getElementById("resetFireLiquefiedCalc");
   if (!panel || !openBtn) return;
 
-  const state = { rhoLiq:null, massTotal:null, massLiq:null, rhoGas:null, massGas:null, massProduct:null, ballD:null, ballT:null, thermal3:null, thermal5:null, mTnt:null, r50:null, r140:null, r200:null };
+  const state = { rhoLiq:null, massTotal:null, massLiq:null, rhoGas:null, massGas:null, massProduct:null, leakFlow:null, leakLiquid:null, leakTime:null, ballD:null, ballT:null, thermal3:null, thermal5:null, mTnt:null, r50:null, r140:null, r200:null };
 
   const n = id => { const el=document.getElementById(id); if(!el) return null; const v=String(el.value||"").trim().replace(",", "."); return v==="" ? null : Number(v); };
   const f = (v,d=3) => Number.isFinite(v) ? v.toLocaleString("fr-FR",{maximumFractionDigits:d}) : "—";
@@ -7448,6 +7661,7 @@ updateRchSummary();
     setText("fireSumRhoLiq", state.rhoLiq!=null ? `${f(state.rhoLiq,1)} kg/m³` : "—");
     setText("fireSumMassLiq", state.massLiq!=null ? `${f(state.massLiq,1)} kg` : "—");
     setText("fireSumMassGas", state.massGas!=null ? `${f(state.massGas,2)} kg` : "—");
+    setText("fireSumLeakFlow", state.leakFlow!=null ? `${f(state.leakFlow,3)} kg/s` : "—");
     setText("fireSumBall", state.ballD!=null ? `${f(state.ballD,1)} m / ${f(state.ballT,1)} s` : "—");
     setText("fireSumThermal3", state.thermal3!=null ? `${f(state.thermal3,1)} m` : "—");
     setText("fireSumThermal5", state.thermal5!=null ? `${f(state.thermal5,1)} m` : "—");
@@ -7458,13 +7672,76 @@ updateRchSummary();
     setText("fireSummaryStatus", ready>=4 ? "Calculs disponibles" : ready ? "Calcul partiel" : "En attente de données");
   }
 
+  function convertFireLength(v, unit) {
+    if (v == null) return null;
+    return unit === "mm" ? v / 1000 : unit === "cm" ? v / 100 : unit === "inch" ? v * 0.0254 : v;
+  }
+
+  function computeFireLeak(empty) {
+    state.leakFlow = state.leakLiquid = state.leakTime = null;
+    const leakCdPreset=document.getElementById("fireLeakCdPreset");
+    const leakCdWrap=document.getElementById("fireLeakCdCustomWrap");
+    if (leakCdWrap) leakCdWrap.style.display=leakCdPreset?.value==="custom" ? "block" : "none";
+    const tankWrap=document.getElementById("fireLeakTankLiquidWrap");
+    const hole=convertFireLength(n("fireLeakDiameter"),document.getElementById("fireLeakUnit")?.value);
+    const length=n("fireLeakPipeLength");
+    const pipeD=convertFireLength(n("fireLeakPipeDiameter"),document.getElementById("fireLeakPipeUnit")?.value);
+    const cd=leakCdPreset?.value==="custom" ? n("fireLeakCdCustom") : Number(leakCdPreset?.value);
+    const pvs=n("firePvs");
+    if (empty) {
+      if (tankWrap) tankWrap.style.display="none";
+      setResult("fireLeakResult",`<div class="calc-warning">Citerne vide non dégazée : pas de phase liquide disponible. Le modèle de fuite liquide/diphasique n’est pas applicable. Utiliser un modèle de fuite gazeuse approprié.</div>`);
+      return;
+    }
+    if (!(state.rhoLiq>0 && hole>0 && cd>0 && pvs>1.013 && length!=null && pipeD>0)) {
+      if (tankWrap) tankWrap.style.display="none";
+      hideResult("fireLeakResult");
+      return;
+    }
+    const area=Math.PI*(hole/2)**2;
+    const dp=(pvs-1.013)*1e5;
+    const mono=cd*area*Math.sqrt(2*state.rhoLiq*dp);
+    const ratio=length/(3*pipeD);
+    if (tankWrap) tankWrap.style.display=ratio<1 ? "block" : "none";
+    const kpis=[`<span>Section S : ${f(area,8)} m²</span>`,`<span>ΔP : ${f(dp,0)} Pa</span>`,`<span>Qmono : ${f(mono,4)} kg/s</span>`];
+    let note="";
+    if (ratio>1) {
+      const biphasic=mono/2.5;
+      const qgas=biphasic*0.3;
+      const qaero=biphasic*0.2;
+      const qliq=biphasic*0.5;
+      state.leakFlow=biphasic;
+      state.leakLiquid=qliq;
+      kpis.push(`<span>Canalisation (L &gt; 3D) — Qdiphasique total : ${f(biphasic,4)} kg/s</span>`,`<span>Q gaz : ${f(qgas,4)} kg/s</span>`,`<span>Q aérosol : ${f(qaero,4)} kg/s</span>`,`<span>Q liquide : ${f(qliq,4)} kg/s</span>`);
+    } else if (ratio<1) {
+      const qgas=0.3*mono;
+      state.leakFlow=qgas;
+      const supplied=n("fireLeakTankLiquid");
+      state.leakLiquid=supplied!=null && supplied>0 ? supplied : null;
+      kpis.push(`<span>Citerne (L &lt; 3D) — Q gaz : ${f(qgas,4)} kg/s</span>`);
+      if (state.leakLiquid!=null) kpis.push(`<span>Q total renseigné pour la durée : ${f(state.leakLiquid,4)} kg/s</span>`);
+      note=`<div class="calc-note">Pour L &lt; 3D, la synthèse affiche seulement Qgaz (30 % de Qmono), et non Qdiphasique total. La durée exige la saisie séparée d’un débit total de rejet.</div>`;
+    } else {
+      note=`<div class="calc-warning">L = 3D : cas limite, non classé par la méthode simplifiée. Affichage de Qmono seulement.</div>`;
+      state.leakFlow=mono;
+    }
+    const durationFlow = ratio>1 ? state.leakFlow : (ratio<1 ? n("fireLeakTankLiquid") : null);
+    if (durationFlow != null && durationFlow > 0 && state.massLiq != null) {
+      state.leakTime = state.massLiq / durationFlow;
+      kpis.push(`<span>Temps théorique de rejet (Mliquide / ${ratio>1 ? "Qdiphasique total" : "Qtotal renseigné"}) : ${f(state.leakTime,1)} s (${f(state.leakTime/60,2)} min)</span>`);
+    } else if (ratio<1) {
+      note += `<div class="calc-warning">Durée non calculée : pour L &lt; 3D, renseigner le débit total de rejet. Qgaz ne constitue pas le débit total.</div>`;
+    }
+    setResult("fireLeakResult",`<strong>Débit de fuite estimé — complément RCH 003</strong><div class="result-kpis">${kpis.join("")}</div>${note}<div class="calc-note">Hypothèses simplifiées à vérifier : écoulement, pression constante et géométrie. Ne pas confondre débit de fuite et masse engagée dans le BLEVE.</div>`);
+  }
+
   function compute(){
     const density=n("fireLiquidDensity"), M=n("fireMolarMass"), pvs=n("firePvs"), temp=n("fireTemp"), vol=n("fireVolume");
     let fill=n("fireFillRate");
     const empty=document.getElementById("fireEmptyNotDegassed")?.checked;
-    if(fill!=null && fill>85){ fill=85; document.getElementById("fireFillRate").value="85"; }
+    if(fill!=null && (fill<0 || fill>100)){ fill=Math.max(0,Math.min(100,fill)); document.getElementById("fireFillRate").value=String(fill); }
 
-    setResult("fireResult1", `<strong>Données RCH 004 retenues</strong><div class="result-kpis"><span>Remplissage : ${fill!=null?f(fill,1)+" %":"—"}</span><span>${empty?"Citerne vide non dégazée":"Citerne en charge"}</span></div>`);
+    setResult("fireResult1", `<strong>Données RCH 004 retenues</strong><div class="result-kpis"><span>Remplissage : ${fill!=null?f(fill,1)+" %":"—"}</span><span>${empty?"Citerne vide non dégazée":"Citerne en charge"}</span></div>${!empty && fill>85 ? `<div class="calc-warning">Remplissage supérieur à 85 % : calcul conservé à titre théorique ; vérifier les prescriptions de remplissage et les conditions réelles de pression/température.</div>` : ""}`);
 
     state.rhoLiq = density!=null ? density*1000 : null;
     if(state.rhoLiq!=null) setResult("fireResult2", `<strong>ρ liquide = ${f(state.rhoLiq,2)} kg/m³</strong>`); else hideResult("fireResult2");
@@ -7485,6 +7762,8 @@ updateRchSummary();
     state.massGas = state.rhoGas!=null && gasVolume!=null ? state.rhoGas*gasVolume : null;
     state.massProduct = (state.massLiq!=null || state.massGas!=null) ? (state.massLiq||0)+(state.massGas||0) : null;
     if(state.massLiq!=null || state.massGas!=null) setResult("fireResult4", `<strong>Répartition des phases</strong><div class="result-kpis"><span>M liquide : ${state.massLiq!=null?f(state.massLiq,1)+" kg":"—"}</span><span>Volume ciel : ${gasVolume!=null?f(gasVolume,2)+" m³":"—"}</span><span>ρ gaz : ${state.rhoGas!=null?f(state.rhoGas,3)+" kg/m³":"—"}</span><span>M gaz : ${state.massGas!=null?f(state.massGas,2)+" kg":"—"}</span></div>`); else hideResult("fireResult4");
+
+    computeFireLeak(empty);
 
     if(state.massLiq!=null && state.massLiq>0){
       state.ballD=6.48*Math.pow(state.massLiq,0.325);
@@ -7522,7 +7801,10 @@ updateRchSummary();
     compute();
   });
 
-  panel.querySelectorAll("input, select").forEach(el=>{ if(el!==pciPreset) el.addEventListener(el.type==="checkbox"?"change":"input",compute); });
+  panel.querySelectorAll("input, select").forEach(el=>{ if(el!==pciPreset) {
+    el.addEventListener(el.type==="checkbox"?"change":"input", compute);
+    if (el.tagName==="SELECT") el.addEventListener("change",compute);
+  } });
 
   resetBtn?.addEventListener("click",()=>{
     panel.querySelectorAll("input").forEach(el=>{ if(el.type==="checkbox") el.checked=false; else el.value=""; });
@@ -7532,6 +7814,10 @@ updateRchSummary();
     document.getElementById("firePci").style.display="none";
     Object.keys(state).forEach(k=>state[k]=null);
     for(let i=1;i<=6;i++) hideResult(`fireResult${i}`);
+    hideResult("fireLeakResult");
+    document.getElementById("fireLeakCdPreset").value="0.62";
+    document.getElementById("fireLeakUnit").value="mm";
+    document.getElementById("fireLeakPipeUnit").value="mm";
     updateSummary(); compute();
   });
 
