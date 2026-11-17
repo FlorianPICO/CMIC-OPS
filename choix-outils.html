@@ -6220,7 +6220,10 @@ function spgForUn(un) {
   return (SPG_BY_UN.get(String(un).padStart(4,"0")) || []).slice();
 }
 function spgFileUrl(entry) {
-  return "spg/" + encodeURIComponent(entry.f);
+  // Repartition GitHub : ONU 1000-2757 dans spg/, ONU 2758 et suivants dans spg2/.
+  // Conserve les noms originaux des PDF et images pour les correspondances SPG.
+  const folder = Number(entry.u) >= 2758 ? "spg2/" : "spg/";
+  return folder + encodeURIComponent(entry.f);
 }
 function spgLabel(entry) {
   return entry.l ? entry.l : (entry.t === "pdf" ? "PDF SPG" : "Image SPG");
