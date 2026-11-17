@@ -6343,6 +6343,7 @@ function renderResults(items, heading) {
 }
 
 function searchByUn() {
+  document.getElementById("productName").value = "";
   const danger = document.getElementById("dangerNumber").value.trim().toUpperCase();
   const un = document.getElementById("unNumber").value.replace(/\D/g, "");
 
@@ -6475,6 +6476,8 @@ function appendStandaloneCmicResults(sheets) {
 }
 
 function searchByName() {
+  document.getElementById("dangerNumber").value = "";
+  document.getElementById("unNumber").value = "";
   const raw = document.getElementById("productName").value.trim();
   const query = normalizeText(raw);
 
@@ -6509,6 +6512,30 @@ function searchByName() {
 
   resultArea.innerHTML = `<div class="result-message">Aucune correspondance trouvée dans l'index GMU 2024, les fiches INRS ou les fiches CMIC-OPS.</div>`;
 }
+
+// V37 : les deux modes de recherche sont exclusifs afin d'eviter toute ambiguite.
+const plateDangerInput = document.getElementById("dangerNumber");
+const plateUnInput = document.getElementById("unNumber");
+const materialNameInput = document.getElementById("productName");
+
+function clearOrangePlate() {
+  plateDangerInput.value = "";
+  plateUnInput.value = "";
+}
+function clearMaterialName() {
+  materialNameInput.value = "";
+}
+
+// Une saisie de nom efface immediatement les deux cases du panneau orange.
+materialNameInput.addEventListener("input", () => {
+  if (materialNameInput.value) clearOrangePlate();
+});
+// Une saisie dans l'une des deux cases du panneau efface le nom de la matiere.
+[plateDangerInput, plateUnInput].forEach(input => {
+  input.addEventListener("input", () => {
+    if (input.value) clearMaterialName();
+  });
+});
 
 document.getElementById("searchUn").addEventListener("click", searchByUn);
 document.getElementById("searchName").addEventListener("click", searchByName);
