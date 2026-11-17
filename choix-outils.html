@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr">
 <head>
@@ -2091,29 +2090,12 @@
     }
 
 
-/* BIG 2013 — consultation des fiches originales */
-.big-host {grid-column:1 / -1;min-width:0;}
-.big-sheet {margin-top:14px;border:1px solid #fed7aa;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(28,25,23,.07);}
-.big-sheet-head {padding:15px 18px;background:linear-gradient(115deg,#7c2d12,#c2410c,#ea580c);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
-.big-sheet-head strong {display:block;font-size:1.06rem;line-height:1.3;}
-.big-sheet-head small {display:block;color:#ffedd5;margin-top:3px;}
-.big-sheet-body {padding:14px;background:#fffaf5;}
-.big-sheet-note {padding:12px 14px;background:#fff;border-left:4px solid #ea580c;border-radius:9px;color:#44403c;line-height:1.5;font-size:.91rem;margin-bottom:12px;}
-.big-panels {display:grid;gap:9px;}
-.big-panel {border:1px solid #fed7aa;background:#fff;border-radius:12px;overflow:hidden;}
-.big-panel summary {padding:12px 14px;cursor:pointer;font-weight:850;color:#7c2d12;background:#fff7ed;list-style-position:inside;}
-.big-panel[open] summary {background:#ffedd5;border-bottom:1px solid #fed7aa;}
-.big-panel-content {padding:13px 15px;color:#44403c;font-size:.94rem;line-height:1.6;}
-.big-panel-content ul {margin:0;padding-left:18px;}
-.big-panel-content li+li {margin-top:6px;}
-.big-safety {color:#9a3412;font-weight:700;}
-.big-viewer {width:100%;height:690px;max-height:75vh;border:1px solid #e7e5e4;border-radius:12px;background:#fff;}
-.big-open {display:inline-flex;align-items:center;margin:8px 0 12px;background:#c2410c;color:#fff!important;font-weight:800;padding:9px 12px;border-radius:9px;text-decoration:none!important;}
-.big-source {font-size:.79rem;color:#78716c;margin:6px 0 0;line-height:1.5;}
-@media(max-width:700px){.big-viewer{height:550px;max-height:67vh;}.big-sheet-head{align-items:flex-start;}}
+/* BIG 2013 : accès direct au PDF source depuis le bouton BIG. */
+
 
 
   /* Fiches SPG — affichage du PDF / JPG original uniquement */
+  .spg-multi-part { margin-top:14px; padding:10px 15px; font-weight:700; background:#ffedd5; color:#9a3412; border:1px solid #fed7aa; border-radius:8px; }
   .spg-host { grid-column:1/-1; min-width:0; }
   .spg-panel { border:1px solid #fed7aa; border-radius:12px; overflow:hidden; background:#fff; margin-top:8px; }
   .spg-panel-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 15px; background:#fff7ed; border-bottom:1px solid #fed7aa; }
@@ -4148,13 +4130,13 @@ function renderInrsStaticFiche(fiche) {
 
 function closeOtherIdentificationSheets(activeButton) {
   if (!resultArea) return;
-  resultArea.querySelectorAll(".inrs-modules-btn, .cmic-product-btn, .big-modules-btn, .spg-sheet-btn").forEach(otherButton => {
+  resultArea.querySelectorAll(".inrs-modules-btn, .cmic-product-btn, .spg-sheet-btn").forEach(otherButton => {
     if (otherButton === activeButton) return;
     const otherHost = document.getElementById(otherButton.dataset.host);
     if (!otherHost) return;
     otherHost.hidden = true;
     otherButton.setAttribute("aria-expanded", "false");
-    otherButton.textContent = otherButton.classList.contains("inrs-modules-btn") ? "Modules INRS" : otherButton.classList.contains("big-modules-btn") ? "Module BIG" : otherButton.classList.contains("spg-sheet-btn") ? "Fiche SPG" : "Fiche CMIC-OPS";
+    otherButton.textContent = otherButton.classList.contains("inrs-modules-btn") ? "Modules INRS" : otherButton.classList.contains("spg-sheet-btn") ? "Fiche SPG" : "Fiche CMIC-OPS";
   });
 }
 
@@ -6101,72 +6083,19 @@ function findBigForItem(item){
  // Noms qualifiés : on accepte uniquement le même début explicite et une fiche non ambiguë.
  return null;
 }
-const BIG_VERIFIED_GUIDANCE = {
-  256:{
-    security:["Chlore liquéfié sous pression : isolement initial de 100 m selon la fiche BIG 256.","Petite fuite : 60 m d'isolement initial ; protection sous le vent 0,4 km le jour et 1,5 km la nuit.","Fuite importante : 500 m d'isolement initial ; sous le vent 3,0 km le jour et 7,9 km la nuit.","En cas d'incendie impliquant une citerne : envisager une première évacuation dans un rayon de 800 m."],
-    fire:["Chlore non combustible, mais pression et réactions chimiques dangereuses possibles.","Le BIG mentionne poudre BC et CO₂ ; en incendie majeur, eau pulvérisée et mousse polyvalente selon contexte.","Refroidir les récipients exposés depuis un emplacement protégé et tenir compte des eaux d'extinction toxiques."],
-    leak:["Mettre en place une protection respiratoire et chimique adaptée ; le BIG indique une combinaison antigaz.","Endiguer la propagation et empêcher l'entrée dans les égouts et l'environnement.","La fiche prévoit la dilution des gaz toxiques par eau pulvérisée et la récupération/gestion des effluents, sans contact non maîtrisé avec la fuite."],
-    aid:["Inhalation : amener à l'air frais et faire prendre en charge médicalement.","Contact cutané : rinçage immédiat et abondant à l'eau pendant au moins 15 minutes.","Contact oculaire : rinçage immédiat et abondant pendant au moins 15 minutes."]
-  },
-  134:{
-    security:["Ammoniac liquéfié sous pression : isolement initial minimal de 100 m selon la rubrique sécurité publique.","Petite fuite : 30 m d'isolement initial ; sous le vent 0,1 km le jour et 0,2 km la nuit.","Fuite importante : 150 m d'isolement initial ; sous le vent 0,8 km le jour et 2,0 km la nuit.","En cas d'incendie impliquant une citerne : envisager une première évacuation dans un rayon de 1 600 m."],
-    fire:["Le BIG signale un risque d'inflammation avec une source d'énergie forte.","En présence d'un incendie, refroidir les contenants exposés depuis une position protégée ; tenir compte du risque de rupture et des effluents."],
-    leak:["Éloigner les sources d'ignition et prévoir une protection chimique et respiratoire adaptée.","Empêcher toute propagation vers les égouts et gérer les eaux de précipitation potentiellement toxiques/corrosives.","La fiche BIG prévoit le recueil du produit et la maîtrise des vapeurs, avec des mesures adaptées à l'installation."],
-    aid:["Inhalation : emmener la victime à l'air frais, avec prise en charge médicale.","Contact cutané et oculaire : rincer immédiatement et abondamment à l'eau pendant au moins 15 minutes."]
-  }
-};
-function bigItemsOrSource(items,section){
- if(!items||!items.length)return `<p>Consulter la rubrique « ${escapeHtml(section)} » sur la page originale BIG ci-dessous. Aucune retranscription n'est proposée pour éviter une erreur de lecture du scan.</p>`;
- return `<ul>${items.map(i=>`<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
-}
-function renderBigSheet(entry){
- const ref=bigDocumentLink(entry.p);if(!ref)return `<div class="big-sheet-note">Page BIG non disponible.</div>`;
- const url=ref.url+"#page="+ref.pdfPage;
- const guide=BIG_VERIFIED_GUIDANCE[entry.p];
- const panels=[
-  ["Sécurité publique / isolement / évacuation","security"],
-  ["Incendie et explosion","fire"],
-  ["Fuite et nettoyage","leak"],
-  ["Premiers secours","aid"]
- ];
- return `<div class="big-sheet">
-    <div class="big-sheet-head"><div><strong>Fiche BIG ${entry.p} — ${escapeHtml(entry.t)}</strong><small>BIG 2013 · Tome ${ref.volume} · page PDF ${ref.pdfPage}</small></div><span>BIG</span></div>
-    <div class="big-sheet-body">
-      <div class="big-sheet-note"><strong>Conduite à tenir :</strong> lecture par rubriques du BIG 2013. Les consignes sont liées à la forme du produit et au scénario réel. <span class="big-safety">Les distances sont indicatives, à revalider avec les données et consignes opérationnelles actuelles.</span></div>
-      <div class="big-panels">${panels.map(([label,key],i)=>`<details class="big-panel" ${i===0?'open':''}><summary>${label}</summary><div class="big-panel-content">${bigItemsOrSource(guide?.[key],label)}</div></details>`).join("")}</div>
-      <details class="big-panel" open style="margin-top:10px"><summary>Fiche BIG originale : lecture intégrale et contrôle des consignes</summary><div class="big-panel-content">
-      <p>Référence : <strong>BIG 2013, fiche ${entry.p}</strong>. Les rubriques colorées comprennent l'isolement, les dangers, la protection individuelle, l'incendie, les fuites et les premiers secours.</p>
-      <a class="big-open" href="${url}" target="_blank" rel="noopener">Ouvrir la fiche BIG complète (PDF)</a>
-      <iframe class="big-viewer" loading="lazy" title="Fiche BIG ${entry.p} : ${escapeHtml(entry.t)}" src="${url}&zoom=120"></iframe>
-      <p class="big-source">Fiche source BIG 2013 (ouvrage antérieur aux versions récentes du GMU). En cas de divergence, privilégier les références réglementaires, les FDS et les procédures opérationnelles en vigueur. Fichier servi depuis le dossier <code>big/</code> de CMIC-OPS.</p>
-      </div></details>
-    </div></div>`;
-}
-function toggleBigSheet(button){
- const host=document.getElementById(button.dataset.host);
- const page=Number(button.dataset.bigpage),entry=BIG_INDEX[page-1];
- if(!host||!entry||entry.p!==page)return;
- const opening=host.dataset.loaded!=="true"||host.hidden;
- if(opening)closeOtherIdentificationSheets(button);
- if(host.dataset.loaded!=="true"){
-  host.innerHTML=renderBigSheet(entry);host.dataset.loaded="true";host.hidden=false;
- }else{host.hidden=!host.hidden;}
- button.textContent=host.hidden?"Module BIG":"Masquer";
- button.setAttribute("aria-expanded",String(!host.hidden));
- if(!host.hidden)host.scrollIntoView({behavior:"smooth",block:"nearest"});
-}
-function wireBigButtons(){resultArea.querySelectorAll(".big-modules-btn").forEach(b=>{if(b.dataset.bigWired)return;b.dataset.bigWired="1";b.addEventListener("click",()=>toggleBigSheet(b));});}
 function bigStandaloneCard(entry){
- const host=`big-${entry.p}-${Math.random().toString(36).slice(2,8)}`;
- return `<div class="result-card"><div class="result-main"><strong>${escapeHtml(entry.t)}</strong><div class="result-meta">BIG 2013 · fiche ${entry.p}</div><div class="result-doc-badges"><span class="doc-badge available">BIG</span></div></div><div class="result-links"><button type="button" class="pdf-link big-modules-btn" data-bigpage="${entry.p}" data-host="${host}" aria-expanded="false">Module BIG</button></div><div class="big-host" id="${host}" hidden></div></div>`;
+ const ref=bigDocumentLink(entry.p);
+ if(!ref)return "";
+ const url=ref.url+"#page="+ref.pdfPage;
+ return `<div class="result-card"><div class="result-main"><strong>${escapeHtml(entry.t)}</strong><div class="result-meta">BIG 2013 · fiche ${entry.p}</div><div class="result-doc-badges"><span class="doc-badge available">BIG</span></div></div><div class="result-links"><a class="pdf-link big-pdf-link" data-bigpage="${entry.p}" href="${url}" target="_blank" rel="noopener">BIG</a></div></div>`;
 }
 function appendStandaloneBigResults(entries){
  if(!entries.length)return false;
  let list=resultArea.querySelector(".result-list");
  if(!list){resultArea.innerHTML=`<div class="result-message">${entries.length} fiche(s) BIG correspondante(s).</div><div class="result-list"></div>`;list=resultArea.querySelector(".result-list");}
- const existing=new Set(Array.from(resultArea.querySelectorAll(".big-modules-btn")).map(b=>Number(b.dataset.bigpage)));
+ const existing=new Set(Array.from(resultArea.querySelectorAll(".big-pdf-link")).map(b=>Number(b.dataset.bigpage)));
  const fresh=entries.filter(e=>!existing.has(e.p)).slice(0,10);
- if(fresh.length){list.insertAdjacentHTML("beforeend",fresh.map(bigStandaloneCard).join(""));wireBigButtons();}
+ if(fresh.length)list.insertAdjacentHTML("beforeend",fresh.map(bigStandaloneCard).join(""));
  return true;
 }
 
@@ -6230,14 +6159,49 @@ function spgFileUrl(entry) {
 function spgLabel(entry) {
   return entry.l ? entry.l : (entry.t === "pdf" ? "PDF SPG" : "Image SPG");
 }
+/* Une fiche SPG peut comporter plusieurs images : numéro ONU, puis suffixe E / bis / ter.
+   Les fichiers décrivant des produits différents (ex. variantes nommées) restent indépendants. */
+function spgIsSidecar(entry) {
+  const stem = entry.f.replace(/\.[^.]+$/, "");
+  const suffix = stem.slice(entry.u.length).trim();
+  return /^(?:e|bis|ter|quater)$/i.test(suffix);
+}
+function spgIsMainImage(entry) {
+  return entry.f.replace(/\.[^.]+$/, "") === entry.u && /^(?:jpg|jpeg|png)$/i.test(entry.t);
+}
+function spgGroupedEntries(entries) {
+  const groups = [];
+  const used = new Set();
+  const main = entries.find(spgIsMainImage);
+  if(main) {
+    const companions = entries.filter(e => spgIsSidecar(e));
+    if(companions.length) {
+      const rank = { e:1, bis:2, ter:3, quater:4 };
+      companions.sort((a,b) => {
+        const suffix = e => e.f.replace(/\.[^.]+$/, "").slice(e.u.length).trim().toLowerCase();
+        return (rank[suffix(a)]||9) - (rank[suffix(b)]||9);
+      });
+      const group = [main, ...companions];
+      group.forEach(e => used.add(e.i));
+      groups.push(group);
+    }
+  }
+  entries.forEach(e => { if(!used.has(e.i))groups.push([e]); });
+  groups.sort((a,b)=>a[0].i-b[0].i);
+  return groups;
+}
 function spgCardButtons(entries, prefix) {
-  return entries.map(entry => {
-    const host = `spg-${prefix}-${entry.i}`;
-    return `<button type="button" class="pdf-link spg-sheet-btn" data-spg="${entry.i}" data-host="${host}" aria-expanded="false" title="${escapeHtml(entry.f)}">Fiche SPG${entries.length>1 ? " : "+escapeHtml(spgLabel(entry)) : ""}</button>`;
+  const groups=spgGroupedEntries(entries);
+  return groups.map(group => {
+    const entry=group[0];
+    const host=`spg-${prefix}-${entry.i}`;
+    const label=group.length>1 ? `Fiche SPG (${group.length} documents)` :
+      `Fiche SPG${groups.length>1 ? " : "+escapeHtml(spgLabel(entry)) : ""}`;
+    return `<button type="button" class="pdf-link spg-sheet-btn" data-spg="${entry.i}" data-host="${host}" aria-expanded="false" title="${escapeHtml(group.map(e=>e.f).join(' + '))}">${label}</button>`;
   }).join("");
 }
 function spgCardHosts(entries,prefix) {
-  return entries.map(entry => `<div class="spg-host" id="spg-${prefix}-${entry.i}" hidden></div>`).join("");
+  return spgGroupedEntries(entries).map(group => `<div class="spg-host" id="spg-${prefix}-${group[0].i}" hidden></div>`).join("");
 }
 function renderOriginalSpg(entry) {
   const href=spgFileUrl(entry);
@@ -6259,7 +6223,13 @@ function toggleSpgSheet(button) {
   if(!entry||!host)return;
   const opening=host.hidden;
   if(opening)closeOtherIdentificationSheets(button);
-  if(!host.dataset.loaded){host.innerHTML=renderOriginalSpg(entry);host.dataset.loaded="true";}
+  if(!host.dataset.loaded){
+    const group=spgGroupedEntries(spgForUn(entry.u)).find(g=>g[0].i===entry.i) || [entry];
+    host.innerHTML=group.map((file, index)=>
+      `${group.length>1 ? `<div class="spg-multi-part">${index===0 ? "Document principal" : "Complément / verso"} · ${index+1}/${group.length}</div>` : ""}${renderOriginalSpg(file)}`
+    ).join("");
+    host.dataset.loaded="true";
+  }
   host.hidden=!opening;
   button.textContent=opening ? "Masquer SPG" : "Fiche SPG";
   button.setAttribute("aria-expanded",String(opening));
@@ -6275,13 +6245,18 @@ function wireSpgButtons(){
 function appendStandaloneSpgResults(entries,limit=20) {
   if(!entries.length)return false;
   let list=resultArea.querySelector(".result-list");
-  if(!list){resultArea.innerHTML=`<div class="result-message">${entries.length} fiche(s) SPG trouvée(s).</div><div class="result-list"></div>`;list=resultArea.querySelector(".result-list");}
+  if(!list){resultArea.innerHTML=`<div class="result-message">${entries.length} document(s) SPG trouvé(s).</div><div class="result-list"></div>`;list=resultArea.querySelector(".result-list");}
   const existing=new Set(Array.from(resultArea.querySelectorAll(".spg-sheet-btn")).map(b=>Number(b.dataset.spg)));
-  const fresh=entries.filter(e=>!existing.has(e.i)).slice(0,limit);
+  const byUn=new Map();
+  entries.forEach(e=>{if(!byUn.has(e.u))byUn.set(e.u,[]);byUn.get(e.u).push(e);});
+  const grouped=Array.from(byUn.values()).flatMap(spgGroupedEntries);
+  const fresh=grouped.filter(g=>!existing.has(g[0].i)).slice(0,limit);
   if(fresh.length){
-    list.insertAdjacentHTML("beforeend",fresh.map(entry=>{
+    list.insertAdjacentHTML("beforeend",fresh.map(group=>{
+      const entry=group[0];
       const prefix=`extra-${entry.i}`;
-      return `<div class="result-card"><div class="result-main"><strong>SPG — ONU ${escapeHtml(entry.u)}${entry.l ? " — "+escapeHtml(entry.l):""}</strong><div class="result-meta">Document original · ${escapeHtml(entry.f)}</div><div class="result-doc-badges"><span class="doc-badge available">SPG</span></div></div><div class="result-links">${spgCardButtons([entry],prefix)}</div>${spgCardHosts([entry],prefix)}</div>`;
+      const description=group.length>1 ? `${group.length} documents associés (principal + complément)` : escapeHtml(entry.f);
+      return `<div class="result-card"><div class="result-main"><strong>SPG — ONU ${escapeHtml(entry.u)}${entry.l ? " — "+escapeHtml(entry.l):""}</strong><div class="result-meta">Document original · ${description}</div><div class="result-doc-badges"><span class="doc-badge available">SPG</span></div></div><div class="result-links">${spgCardButtons(group,prefix)}</div>${spgCardHosts(group,prefix)}</div>`;
     }).join(""));
     wireSpgButtons();
   }
@@ -6310,7 +6285,6 @@ function renderResults(items, heading) {
     const bigSheet = findBigForItem(item);
     const spgSheets = spgForUn(item.un);
     const spgPrefix = `gmu-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}`;
-    const bigHostId = bigSheet ? `big-sheet-${bigSheet.p}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const cmicHostId = cmicSheet ? `cmic-product-${escapeHtml(cmicSheet.key)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
 
@@ -6323,7 +6297,8 @@ function renderResults(items, heading) {
       docLinks.push(`<button type="button" class="pdf-link cmic-product-btn" data-product="${escapeHtml(cmicSheet.key)}" data-host="${cmicHostId}">Fiche CMIC-OPS</button>`);
     }
     if (bigSheet) {
-      docLinks.push(`<button type="button" class="pdf-link big-modules-btn" data-bigpage="${bigSheet.p}" data-host="${bigHostId}" aria-expanded="false">Module BIG</button>`);
+      const bigRef = bigDocumentLink(bigSheet.p);
+      if(bigRef)docLinks.push(`<a class="pdf-link big-pdf-link" data-bigpage="${bigSheet.p}" href="${bigRef.url}#page=${bigRef.pdfPage}" target="_blank" rel="noopener">BIG</a>`);
     }
     if(spgSheets.length)docLinks.push(spgCardButtons(spgSheets,spgPrefix));
     const extraDocumentation = docLinks.length
@@ -6352,7 +6327,6 @@ function renderResults(items, heading) {
       </div>
       ${inrs ? `<div class="inrs-module-host" id="${moduleHostId}"></div>` : ""}
       ${cmicSheet ? `<div class="cmic-product-host" id="${cmicHostId}"></div>` : ""}
-      ${bigSheet ? `<div class="big-host" id="${bigHostId}" hidden></div>` : ""}
       ${spgCardHosts(spgSheets,spgPrefix)}
     </div>`;
   }).join("");
@@ -6364,7 +6338,6 @@ function renderResults(items, heading) {
   resultArea.innerHTML = `<div class="result-message">${escapeHtml(heading)} - ${items.length} correspondance${items.length > 1 ? "s" : ""}.</div><div class="result-list">${cards}</div>${more}`;
   wireInrsModuleButtons();
   wireCmicProductButtons();
-  wireBigButtons();
   wireSpgButtons();
   resultArea.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
