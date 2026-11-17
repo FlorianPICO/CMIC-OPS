@@ -2725,7 +2725,7 @@
           <div class="summary-card"><span>ρ gaz</span><strong id="toxSumRhoGas">—</strong><small>Masse volumique du ciel gazeux</small></div>
           <div class="summary-card emphasis"><span>Q total</span><strong id="toxSumQTotal">—</strong><small>Débit retenu</small></div>
           <div class="summary-card emphasis"><span>Q gaz</span><strong id="toxSumQGas">—</strong><small>Débit pour la dispersion</small></div>
-          <div class="summary-card"><span>Durée du rejet</span><strong id="toxSumEmpty">—</strong><small>Calculée avec le débit total</small></div>
+          <div class="summary-card emphasis"><span>Temps théorique de rejet</span><strong id="toxSumEmpty">—</strong><small>Masse liquide / débit total retenu</small></div>
           <div class="summary-card"><span>Rejet</span><strong id="toxSumRelease">—</strong><small>Panache / bouffée</small></div>
           <div class="summary-card"><span>Concentration ext.</span><strong id="toxSumCext">—</strong><small>ppm</small></div>
           <div class="summary-card"><span>Concentration int.</span><strong id="toxSumCint">—</strong><small>ppm</small></div>
@@ -2894,6 +2894,7 @@
           <div class="summary-card"><span>Masse liquide</span><strong id="fireSumMassLiq">—</strong><small>Phase liquide</small></div>
           <div class="summary-card"><span>Masse gaz</span><strong id="fireSumMassGas">—</strong><small>Ciel gazeux</small></div>
           <div class="summary-card emphasis"><span>Débit calculé</span><strong id="fireSumLeakFlow">—</strong><small>Qdiphasique total si L &gt; 3D ; Qgaz si L &lt; 3D</small></div>
+          <div class="summary-card emphasis"><span>Temps théorique de rejet</span><strong id="fireSumLeakTime">—</strong><small>Masse liquide / débit total retenu</small></div>
           <div class="summary-card emphasis"><span>Boule de feu</span><strong id="fireSumBall">—</strong><small>Diamètre / durée</small></div>
           <div class="summary-card emphasis"><span>Thermique 3 kW/m²</span><strong id="fireSumThermal3">—</strong><small>Zone d'exclusion</small></div>
           <div class="summary-card"><span>Thermique 5 kW/m²</span><strong id="fireSumThermal5">—</strong><small>Premiers effets létaux</small></div>
@@ -7769,6 +7770,7 @@ updateRchSummary();
     setText("fireSumMassLiq", state.massLiq!=null ? `${f(state.massLiq,1)} kg` : "—");
     setText("fireSumMassGas", state.massGas!=null ? `${f(state.massGas,2)} kg` : "—");
     setText("fireSumLeakFlow", state.leakFlow!=null ? `${f(state.leakFlow,3)} kg/s` : "—");
+    setText("fireSumLeakTime", Number.isFinite(state.leakTime) ? `${f(state.leakTime,1)} s (${f(state.leakTime/60,2)} min)` : "—");
     setText("fireSumBall", state.ballD!=null ? `${f(state.ballD,1)} m / ${f(state.ballT,1)} s` : "—");
     setText("fireSumThermal3", state.thermal3!=null ? `${f(state.thermal3,1)} m` : "—");
     setText("fireSumThermal5", state.thermal5!=null ? `${f(state.thermal5,1)} m` : "—");
