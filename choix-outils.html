@@ -6892,6 +6892,8 @@ function calcStep1() {
   rchState.areaM2 = null;
   rchState.deltaPPa = null;
   rchState.emptySeconds = null;
+  ["releaseType","concentrationPct","concentrationLabel","mTnt","r50","r140","r200"].forEach(key => { rchState[key] = null; });
+  updateRchSummary();
 
   clearResultsFrom(2);
 
@@ -7159,7 +7161,7 @@ function calcStep7B() {
   const errors = [];
   if (!(uvceMass > 0)) errors.push("Renseignez la masse de gaz réellement libérée mc.");
   if (!(uvcePci > 0)) errors.push("Renseignez le PCI du produit.");
-  if (!(uvceYieldPct > 0)) errors.push("Renseignez le rendement explosion.");
+  if (!(uvceYieldPct > 0 && uvceYieldPct <= 100)) errors.push("Renseignez un rendement explosion entre 0 et 100 %.");
 
   if (errors.length) {
     rchState.mTnt = null;
@@ -7216,6 +7218,10 @@ function hideStepResult(id) {
 }
 
 function autoComputeRch() {
+  // v38 : aucune donnée calculée ne doit subsister d'une saisie précédente.
+  ["rho","massKg","retainedVolume","flowKgS","areaM2","deltaPPa",
+   "emptySeconds","releaseType","concentrationPct","concentrationLabel",
+   "mTnt","r50","r140","r200"].forEach(key => { rchState[key] = null; });
   const molarMass = numberValue("leakMolarMass");
   const pressure = numberValue("leakPressure");
   const temp = numberValue("leakTemp");
@@ -7239,6 +7245,7 @@ function autoComputeRch() {
     rchState.deltaPPa = null;
     rchState.emptySeconds = null;
     ["resultStep1","resultStep2","resultStep3","resultStep4","resultStep5","resultStep6","resultStep7A","resultStep7B"].forEach(hideStepResult);
+    updateRchSummary();
     return;
   }
 
@@ -7271,6 +7278,7 @@ function autoComputeRch() {
     if (distance > 0 && wind > 0) {
       calcStep6();
     } else {
+      rchState.releaseType = null;
       hideStepResult("resultStep6");
     }
 
@@ -7279,6 +7287,8 @@ function autoComputeRch() {
     if (cta > 0) {
       calcStep7A();
     } else {
+      rchState.concentrationPct = null;
+      rchState.concentrationLabel = null;
       hideStepResult("resultStep7A");
     }
   }
@@ -7287,7 +7297,7 @@ function autoComputeRch() {
   const uvceMass = numberValue("uvceMassReleased");
   const uvcePci = numberValue("uvcePci");
   const uvceYield = numberValue("uvceYield");
-  if (rchState.emptySeconds !== null && uvceMass > 0 && uvcePci > 0 && uvceYield > 0) {
+  if (rchState.emptySeconds !== null && uvceMass > 0 && uvcePci > 0 && uvceYield > 0 && uvceYield <= 100) {
     calcStep7B();
   } else {
     rchState.mTnt = null;
@@ -7413,7 +7423,12 @@ function updateToxSummary() {
   set("toxSumRhoLiq", Number.isFinite(toxState.rhoLiquid) ? `${formatNumber(toxState.rhoLiquid,2)} kg/m³` : "—");
   set("toxSumMassLiq", Number.isFinite(toxState.liquidMass) ? `${formatNumber(toxState.liquidMass,1)} kg` : "—");
   set("toxSumRhoGas", Number.isFinite(toxState.gasDensity) ? `${formatNumber(toxState.gasDensity,4)} kg/m³` : "—");
-  set("toxSumQTotal", Number.isFinite(toxState.qTotal) ? `${formatNumber(toxState.qTotal,5)} kg/s` : "—");
+  const qManual = numberValue("toxTankLiquidFlow");
+  const pipeL = numberValue("toxPipeLength"), pipeD = numberValue("toxPipeDiameter");
+  const pipeDunit = document.getElementById("toxPipeDiameterUnit")?.value;
+  const tankCase = Number.isFinite(pipeL) && pipeD > 0 && pipeL < 3 * diameterToMeters(pipeD, pipeDunit);
+  const qDisplay = Number.isFinite(toxState.qTotal) ? toxState.qTotal : (tankCase && Number.isFinite(toxState.qMono) && qManual > 0 ? qManual : null);
+  set("toxSumQTotal", Number.isFinite(qDisplay) ? `${formatNumber(qDisplay,5)} kg/s${tankCase ? " (saisi)" : ""}` : "—");
   set("toxSumQGas", Number.isFinite(toxState.qGas) ? `${formatNumber(toxState.qGas,5)} kg/s` : "—");
   set("toxSumEmpty", Number.isFinite(toxState.emptySeconds) ? formatDuration(toxState.emptySeconds) : "—");
   set("toxSumRelease", toxState.releaseType || "—");
@@ -7423,7 +7438,7 @@ function updateToxSummary() {
 
   const status = document.getElementById("toxSummaryStatus");
   if (!status) return;
-  const completed = [toxState.rhoLiquid,toxState.liquidMass,toxState.gasDensity,toxState.qTotal,toxState.qGas,toxState.emptySeconds,toxState.cExtPpm,toxState.cIntPpm,toxState.r50].filter(Number.isFinite).length + (toxState.releaseType ? 1 : 0);
+  const completed = [toxState.rhoLiquid,toxState.liquidMass,toxState.gasDensity,qDisplay,toxState.qGas,toxState.emptySeconds,toxState.cExtPpm,toxState.cIntPpm,toxState.r50].filter(Number.isFinite).length + (toxState.releaseType ? 1 : 0);
   status.classList.remove("ready","partial");
   if (!completed) status.textContent = "En attente de données";
   else if (completed < 10) { status.textContent = `Synthèse partielle · ${completed}/10`; status.classList.add("partial"); }
@@ -7481,7 +7496,7 @@ function computeToxStep4() {
   const mm = numberValue("toxMolarMass");
   const pvs = numberValue("toxPvs");
   const temp = numberValue("toxTemp");
-  if (!Number.isFinite(toxState.capacityMass) || !(fill > 0 && fill <= 100) || !(volume > 0) || !(mm > 0) || !(pvs > 0) || temp === null) { toxHide("toxResult4"); return false; }
+  if (!Number.isFinite(toxState.capacityMass) || !(fill > 0 && fill <= 100) || !(volume > 0) || !(mm > 0) || !(pvs > 0) || !(temp > -273)) { toxHide("toxResult4"); return false; }
 
   const frac = fill / 100;
   const gasVolume = volume * (1 - frac);
@@ -7507,7 +7522,10 @@ function computeToxStep5() {
   const Dinput = numberValue("toxPipeDiameter");
   const Dunit = document.getElementById("toxPipeDiameterUnit").value;
 
-  if (!Number.isFinite(toxState.rhoLiquid) || !(d > 0) || !(cd > 0) || !(L >= 0) || !(Dinput > 0)) { toxHide("toxResult5"); return false; }
+  if (!Number.isFinite(toxState.rhoLiquid) || !(d > 0) || !(cd > 0) || !(L >= 0) || !(Dinput > 0)) {
+    document.getElementById("toxTankLiquidFlowWrap").style.display = "none";
+    toxHide("toxResult5"); return false;
+  }
   if (cdPreset === "venturi" && !(cd > 1)) { toxSetResult("toxResult5", "Pour un Venturi, renseignez un Cd supérieur à 1.", true); return false; }
 
   const dm = diameterToMeters(d,dUnit);
@@ -7529,14 +7547,15 @@ function computeToxStep5() {
   } else if (L < 3 * Dm) {
     scenario = "Fuite sur citerne - L < 3D";
     ratio = "citerne";
-    toxState.qTotal = toxState.qMono;
+    // L < 3D : Qmono n'est PAS un débit diphasique total validé.
+    toxState.qTotal = null;
     toxState.qGas = 0.30 * toxState.qMono;
     toxState.qAerosol = null;
     toxState.qLiquid = null; // La fiche ne fournit pas cette fraction pour L < 3D.
   } else {
     scenario = "Cas limite L = 3D - non tranché par la fiche";
     ratio = "limite";
-    toxState.qTotal = toxState.qMono;
+    toxState.qTotal = null;
     toxState.qGas = null;
     toxState.qAerosol = null;
     toxState.qLiquid = null;
@@ -7573,13 +7592,18 @@ function computeToxStep6() {
 function computeToxStep7() {
   const dist = numberValue("toxTargetDistance");
   const windKmh = numberValue("toxWindKmh");
-  if (!Number.isFinite(toxState.storedMass) || !Number.isFinite(toxState.qTotal) || !(dist > 0) || !(windKmh > 0)) { toxState.releaseType=null; toxHide("toxResult7"); return false; }
+  // La même durée que l'étape 6 est utilisée pour la qualification du rejet.
+  // Si L < 3D et que Qtotal n'est pas justifié, on ne classe pas le rejet.
+  if (!(toxState.emptySeconds > 0) || !(dist > 0) || !(windKmh > 0)) {
+    toxState.releaseType = null;
+    toxHide("toxResult7"); return false;
+  }
   const wind = windKmh * 1000/3600;
   const transfer = dist / wind;
-  const duration = toxState.storedMass / toxState.qTotal;
+  const duration = toxState.emptySeconds;
   const limit = 4 * transfer;
   toxState.releaseType = duration > limit ? "PANACHE - rejet prolongé" : duration < limit ? "BOUFFÉE - rejet instantané" : "CAS LIMITE";
-  toxSetResult("toxResult7", `Vvent = <strong>${formatNumber(wind,3)} m/s</strong><br>ttransfert = <strong>${formatDuration(transfer)}</strong><br>tdurée rejet = Mproduit / Qtotal = <strong>${formatDuration(duration)}</strong><br>4 × ttransfert = <strong>${formatDuration(limit)}</strong><span class="big-result">${toxState.releaseType}</span>`);
+  toxSetResult("toxResult7", `Vvent = <strong>${formatNumber(wind,3)} m/s</strong><br>ttransfert = <strong>${formatDuration(transfer)}</strong><br>tdurée rejet = temps théorique de l’étape 6 = <strong>${formatDuration(duration)}</strong><br>4 × ttransfert = <strong>${formatDuration(limit)}</strong><span class="big-result">${toxState.releaseType}</span>`);
   return true;
 }
 
@@ -7616,7 +7640,7 @@ function computeToxStep9() {
 
 function computeToxStep10() {
   const mass = numberValue("toxUvceMass"), pci = numberValue("toxUvcePci"), yieldPct = numberValue("toxUvceYield");
-  if (!(mass > 0) || !(pci > 0) || !(yieldPct > 0)) { toxState.r50=toxState.r140=toxState.r200=null; toxHide("toxResult10"); return false; }
+  if (!(mass > 0) || !(pci > 0) || !(yieldPct > 0 && yieldPct <= 100)) { toxState.r50=toxState.r140=toxState.r200=null; toxHide("toxResult10"); return false; }
   const mTnt = (yieldPct/100) * (pci/4.69) * mass;
   const cube = Math.cbrt(mTnt);
   toxState.r50 = 25*cube; toxState.r140=9*cube; toxState.r200=7.5*cube;
@@ -7625,6 +7649,8 @@ function computeToxStep10() {
 }
 
 function autoComputeToxicLiquefied() {
+  // v38 : recompute from a clean state to prevent stale values after invalid edits.
+  Object.keys(toxState).forEach(key => { toxState[key] = null; });
   const cdPreset = document.getElementById("toxCdPreset");
   const cdWrap = document.getElementById("toxCdCustomWrap");
   if (cdPreset && cdWrap) cdWrap.style.display = cdPreset.value === "venturi" ? "block" : "none";
@@ -7803,7 +7829,7 @@ updateRchSummary();
       setResult("fireLeakResult",`<div class="calc-warning">Citerne vide non dégazée : pas de phase liquide disponible. Le modèle de fuite liquide/diphasique n’est pas applicable. Utiliser un modèle de fuite gazeuse approprié.</div>`);
       return;
     }
-    if (!(state.rhoLiq>0 && hole>0 && cd>0 && pvs>1.013 && length!=null && pipeD>0)) {
+    if (!(state.rhoLiq>0 && hole>0 && cd>0 && pvs>1.013 && length>=0 && pipeD>0)) {
       if (tankWrap) tankWrap.style.display="none";
       hideResult("fireLeakResult");
       return;
@@ -7849,7 +7875,26 @@ updateRchSummary();
     const density=n("fireLiquidDensity"), M=n("fireMolarMass"), pvs=n("firePvs"), temp=n("fireTemp"), vol=n("fireVolume");
     let fill=n("fireFillRate");
     const empty=document.getElementById("fireEmptyNotDegassed")?.checked;
-    if(fill!=null && (fill<0 || fill>100)){ fill=Math.max(0,Math.min(100,fill)); document.getElementById("fireFillRate").value=String(fill); }
+    const issues = [];
+    if (!(density > 0)) issues.push("Densité liquide strictement positive requise.");
+    if (!(M > 0)) issues.push("Masse molaire strictement positive requise.");
+    if (!(vol > 0)) issues.push("Volume du contenant strictement positif requis.");
+    if (!(temp > -273)) issues.push("Température supérieure à -273 °C requise.");
+    if (!empty && !(pvs > 1.013)) issues.push("PVS supérieure à 1,013 bar requise pour la fuite sous pression.");
+    if (!empty && !(fill > 0 && fill <= 100)) issues.push("Remplissage à renseigner entre 0 et 100 %.");
+    if (empty && fill != null && !(fill >= 0 && fill <= 100)) issues.push("Remplissage entre 0 et 100 % requis.");
+    const y = n("fireYield");
+    if (y != null && !(y > 0 && y <= 100)) issues.push("Rendement TNT strictement positif et inférieur ou égal à 100 %.");
+    if (issues.length) {
+      Object.keys(state).forEach(key => { state[key] = null; });
+      for (let i=2; i<=6; i++) hideResult(`fireResult${i}`);
+      hideResult("fireLeakResult");
+      setResult("fireResult1", `<div class="calc-error"><strong>Données à corriger :</strong><br>${issues.join("<br>")}</div>`);
+      updateSummary();
+      return;
+    }
+    // Recalcul complet : aucune valeur précédente ne doit survivre à ce passage.
+    Object.keys(state).forEach(key => { state[key] = null; });
 
     setResult("fireResult1", `<strong>Données RCH 004 retenues</strong><div class="result-kpis"><span>Remplissage : ${fill!=null?f(fill,1)+" %":"—"}</span><span>${empty?"Citerne vide non dégazée":"Citerne en charge"}</span></div>${!empty && fill>85 ? `<div class="calc-warning">Remplissage supérieur à 85 % : calcul conservé à titre théorique ; vérifier les prescriptions de remplissage et les conditions réelles de pression/température.</div>` : ""}`);
 
@@ -7887,7 +7932,7 @@ updateRchSummary();
     const select=document.getElementById("firePciPreset");
     const pciKnown = pci!=null && pci>0;
     if(state.massProduct!=null && state.massProduct>0){
-      if(pciKnown && yieldPct!=null){
+      if(pciKnown && yieldPct>0 && yieldPct<=100){
         state.mTnt=(yieldPct/100)*(pci/4.69)*state.massProduct;
       } else if(select && select.value===""){
         state.mTnt=state.massProduct;
