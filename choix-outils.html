@@ -5824,53 +5824,33 @@ const CMIC_PRODUCT_SHEETS = {
 
 };
 
+// v39 : une fiche CMIC-OPS ne doit etre proposee que si le produit est
+// explicitement identifie. Ne jamais assimiler une famille (acide, chlore,
+// hydrogene...) a tous les derives portant ce mot dans leur designation.
+function cmicSheetUnMatches(sheet, un) {
+  const code = String(un || "").trim();
+  if (!/^\d{4}$/.test(code)) return false;
+  const known = String(sheet.un || "").match(/\b\d{4}\b/g) || [];
+  return known.includes(code);
+}
+
+function cmicSheetNames(sheet) {
+  return [sheet.title, ...(sheet.names || [])]
+    .map(normalizeText)
+    .filter(Boolean);
+}
+
 function findCmicProductSheet(item) {
-  const norm = normalizeText(item?.name || "");
-  if (!norm) return null;
+  const name = normalizeText(item?.name || "");
+  const un = String(item?.un || "").trim();
+  if (!name || !un) return null;
 
-  for (const sheet of Object.values(CMIC_PRODUCT_SHEETS)) {
-    if (sheet.names.includes(norm)) return sheet;
-  }
-
-  // Correspondances prudentes uniquement pour les formes explicites du nom.
-  if (/^propane(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.propane;
-  if (/^(?:n\s+)?butane$/.test(norm)) return CMIC_PRODUCT_SHEETS.butane;
-  if (/^methane(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.methane;
-  if (/^(?:di)?hydrogene(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hydrogen;
-  if (/^ethane(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.ethane;
-  if (/^(?:ethylene|ethene)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.ethylene;
-  if (/^(?:propylene|propene)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.propylene;
-  if (/^(?:acetylene|ethyne|ethine)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.acetylene;
-  if (/^(?:n\s+)?pentane$/.test(norm)) return CMIC_PRODUCT_SHEETS.pentane;
-  if (/^(?:n\s+)?hexane$/.test(norm)) return CMIC_PRODUCT_SHEETS.hexane;
-  if (/^(?:n\s+)?heptane$/.test(norm)) return CMIC_PRODUCT_SHEETS.heptane;
-  if (/^(?:n\s+)?octane$/.test(norm)) return CMIC_PRODUCT_SHEETS.octane;
-  if (/^cyclohexane$/.test(norm)) return CMIC_PRODUCT_SHEETS.cyclohexane;
-  if (/^benzene$/.test(norm)) return CMIC_PRODUCT_SHEETS.benzene;
-  if (/^(?:toluene|methylbenzene|toluol)$/.test(norm)) return CMIC_PRODUCT_SHEETS.toluene;
-  if (/^(?:o\s*xylene|ortho\s*xylene|1\s*2\s*dimethylbenzene)$/.test(norm)) return CMIC_PRODUCT_SHEETS.xylene_o;
-  if (/^(?:m\s*xylene|meta\s*xylene|1\s*3\s*dimethylbenzene)$/.test(norm)) return CMIC_PRODUCT_SHEETS.xylene_m;
-  if (/^(?:p\s*xylene|para\s*xylene|paraxylene|1\s*4\s*dimethylbenzene)$/.test(norm)) return CMIC_PRODUCT_SHEETS.xylene_p;
-  if (/^(?:diesel|gazole|gasoil|gas\s*oil|diesel\s*b7|gazole\s*b7)$/.test(norm)) return CMIC_PRODUCT_SHEETS.diesel_gazole;
-  if (/^(?:fioul|fioul\s*domestique|fod|fuel\s*domestique|fuel\s*oil\s*domestique)$/.test(norm)) return CMIC_PRODUCT_SHEETS.fioul_fod;
-  if (/^(?:sp\s*95|sans\s*plomb\s*95|essence\s*sp\s*95|super\s*95|sp\s*95\s*e5|sp\s*95\s*e10)$/.test(norm)) return CMIC_PRODUCT_SHEETS.sp95;
-  if (/^(?:sp\s*98|sans\s*plomb\s*98|essence\s*sp\s*98|super\s*98|sp\s*98\s*e5)$/.test(norm)) return CMIC_PRODUCT_SHEETS.sp98;
-  if (/^chlore(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.chlorine_rch;
-  if (/^(?:ammoniac|ammoniaque)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.ammonia_rch;
-  if (/^(?:sulfure\s+d\s*hydrogene|hydrogene\s+sulfure|h2s)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.h2s_rch;
-  if (/^(?:dioxyde\s+de\s+soufre|anhydride\s+sulfureux|so2)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.so2_rch;
-  if (/^acide\s+chlorhydrique(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hcl37_rch;
-  if (/^(?:monoxyde\s+de\s+carbone|oxyde\s+de\s+carbone|co)$/.test(norm)) return CMIC_PRODUCT_SHEETS.carbon_monoxide_rch;
-  if (/^(?:acide\s+cyanhydrique|cyanure\s+d\s*hydrogene|hcn)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hcn_rch;
-  if (/^(?:dioxyde\s+d\s*azote|peroxyde\s+d\s*azote|vapeurs\s+nitreuses|no2|n2o4)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.no2_rch;
-  if (/^(?:dioxyde\s+de\s+carbone|gaz\s+carbonique|co2)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.co2_rch;
-  if (/^acide\s+sulfurique(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.sulfuric_acid_rch;
-  if (/^(?:acetone|propanone|dimethylcetone)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.acetone_rch;
-  if (/^(?:phosgene|oxychlorure\s+de\s+carbone|carbonyl\s+dichloride|cocl2)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.phosgene_rch;
-  if (/^(?:acide\s+fluorhydrique|fluorure\s+d\s*hydrogene|hydrofluorure|hf)(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.hf_rch;
-  if (/^acide\s+phosphorique(?:\s|$)/.test(norm)) return CMIC_PRODUCT_SHEETS.phosphoric_acid_rch;
-
-  return null;
+  // Association exigeant simultanement le bon ONU et un nom/synonyme exact.
+  // Une simple correspondance de debut de nom est insuffisante :
+  // « chlore » ne doit jamais associer « chlorure de ... » ou un derive.
+  return Object.values(CMIC_PRODUCT_SHEETS).find(sheet =>
+    cmicSheetUnMatches(sheet, un) && cmicSheetNames(sheet).includes(name)
+  ) || null;
 }
 
 function renderCmicProductTable(rows) {
@@ -6366,49 +6346,24 @@ function searchByUn() {
 function findCmicSheetsByQuery(query) {
   const q = normalizeText(query || "");
   if (!q) return [];
-
   const results = [];
   const add = sheet => {
     if (sheet && !results.some(x => x.key === sheet.key)) results.push(sheet);
   };
 
-  // Cas génériques explicitement demandés.
-  if (q === "essence" || q === "essences" || q === "essence sans plomb") {
+  // Les seules familles generiques autorisees sont celles explicitement
+  // associees a plusieurs fiches dans CMIC-OPS.
+  if (["essence", "essences", "essence sans plomb"].includes(q)) {
     add(CMIC_PRODUCT_SHEETS.sp95);
     add(CMIC_PRODUCT_SHEETS.sp98);
     return results;
   }
 
-  if (/^(?:sp\s*95|essence\s*sp\s*95|sans\s*plomb\s*95|super\s*95|sp\s*95\s*e10|sp\s*95\s*e5)$/.test(q)) {
-    add(CMIC_PRODUCT_SHEETS.sp95);
-  }
-
-  if (/^(?:sp\s*98|essence\s*sp\s*98|sans\s*plomb\s*98|super\s*98|sp\s*98\s*e5)$/.test(q)) {
-    add(CMIC_PRODUCT_SHEETS.sp98);
-  }
-
-  if (/^(?:fioul|fioul\s*domestique|fod|fuel\s*domestique|fuel\s*oil\s*domestique)$/.test(q)) {
-    add(CMIC_PRODUCT_SHEETS.fioul_fod);
-  }
-
-  if (/^(?:diesel|gazole|gasoil|gas\s*oil|diesel\s*b7|gazole\s*b7)$/.test(q)) {
-    add(CMIC_PRODUCT_SHEETS.diesel_gazole);
-  }
-
-  // Recherche directe dans les alias des fiches CMIC.
+  // Pas de correspondances par inclusion partielle : un alias tel que
+  // « acide » ou « hydrogene » ne doit pas declencher des fiches sans rapport.
   for (const sheet of Object.values(CMIC_PRODUCT_SHEETS)) {
-    const titleNorm = normalizeText(sheet.title || "");
-    const aliases = (sheet.names || []).map(normalizeText);
-
-    if (
-      titleNorm === q ||
-      titleNorm.includes(q) ||
-      aliases.some(alias => alias === q || alias.includes(q) || q.includes(alias))
-    ) {
-      add(sheet);
-    }
+    if (cmicSheetNames(sheet).includes(q)) add(sheet);
   }
-
   return results;
 }
 
