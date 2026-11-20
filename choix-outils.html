@@ -2380,7 +2380,7 @@
           </div>
 
           <div class="calc-field">
-            <label for="leakCta">CTA lu sur l'abaque (s/m³)</label>
+            <div class="field-help-row"><label for="leakCta">CTA lu sur l'abaque (s/m³)</label><button type="button" class="help-btn cta-abaque-open" aria-haspopup="dialog" aria-controls="ctaAbaqueHelp">Abaque</button></div>
             <input id="leakCta" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 0,000001">
             <small>À lire sur l'abaque selon diffusion, hauteur du rejet, vitesse du vent et distance.</small>
           </div>
@@ -2401,7 +2401,8 @@
             <input id="uvceMassReleased" type="number" inputmode="decimal" step="any" min="0" placeholder="À renseigner selon le scénario">
           </div>
 
-          <div class="calc-field">
+          <div class="calc-field"><label for="uvceGas">Gaz retenu pour l'UVCE</label><select id="uvceGas"><option value="">Sélectionner le gaz (obligatoire)</option><option value="methane">Méthane — 0,68 kg/m³ ; 9,5 %</option><option value="propane">Propane — 1,91 kg/m³ ; 4 %</option><option value="butane">Butane — 2,5 kg/m³ ; 3,1 %</option><option value="propylene">Propylène / propène — 1,81 kg/m³ ; 4,4 %</option><option value="acetylene">Acétylène — 1,11 kg/m³ ; 7,7 %</option><option value="hydrogen">Hydrogène — 0,065 kg/m³ ; 29,5 %</option></select><small>Les données de masse volumique et de concentration stœchiométrique proviennent du tableau fourni.</small></div>
+          <div class="calc-field" style="display:none;">
             <label for="uvcePciPreset">PCI du produit (MJ/kg)</label>
             <select id="uvcePciPreset">
               <option value="">Sélectionner un produit</option>
@@ -2421,7 +2422,7 @@
             <input id="uvcePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none; margin-top:8px;">
           </div>
 
-          <div class="calc-field">
+          <div class="calc-field" style="display:none;">
             <label for="uvceYield">Rendement explosion a (%)</label>
             <input id="uvceYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="5">
             <small>La fiche indique 5 % pour un UVCE.</small>
@@ -2429,16 +2430,15 @@
         </div>
 
         <div class="formula-card">
-          <code>mTNT = a × (PCI / 4,69) × mc</code><br>
-          <code>R = λ × ∛mTNT</code><br>
-          λ = 25 pour 50 mbar ; λ = 9 pour 140 mbar ; λ = 7,5 pour 200 mbar.
+          <code>Vexplosible = m (kg) / [ρgaz (kg/m³) × Cstœch (coefficient numérique)]</code><br>
+          Distances 20 / 50 / 140 / 200 mbar : lecture approchée de l'abaque (0 à 20 000 m³), sans extrapolation.
         </div>
         <div class="calc-result step-result" id="resultStep7B" aria-live="polite"></div>
       </div>
 
       <div class="calc-note">
         <strong>Transparence :</strong> les calculs restent séparés par étape.
-        Le CTA et la masse réellement libérée pour l'UVCE ne sont jamais inventés.
+        Le CTA et la masse réellement libérée pour l'UVCE ne sont jamais inventés. Les distances UVCE sont lues approximativement sur l'abaque fourni (0 à 20 000 m³).
       </div>
 
       <div class="final-summary" id="rchFinalSummary" aria-live="polite">
@@ -2488,11 +2488,12 @@
           </div>
 
           <div class="summary-card uvce-card">
-            <span>Étape 7B</span>
+            <span>V explosible UVCE</span>
             <strong id="sumTnt">—</strong>
-            <small>Masse équivalente TNT</small>
+            <small>Volume exploitable sur l'abaque</small>
           </div>
 
+          <div class="summary-card uvce-card"><span>UVCE 20 mbar</span><strong id="sumR20">—</strong><small>Lecture indicative de l'abaque</small></div>
           <div class="summary-card uvce-card">
             <span>UVCE 50 mbar</span>
             <strong id="sumR50">—</strong>
@@ -2652,7 +2653,7 @@
         <h4><span class="step-badge">8</span>Concentration toxique en fonction de la distance</h4>
         <div class="calc-grid">
           <div class="calc-field"><label for="toxDiffusion">Diffusion utilisée sur l'abaque</label><select id="toxDiffusion"><option value="normale">Normale</option><option value="faible">Faible</option></select></div>
-          <div class="calc-field"><label for="toxCta">CTA lu sur l'abaque (s/m³)</label><input id="toxCta" type="number" inputmode="decimal" step="any" min="0"><small>Lecture manuelle selon distance, hauteur de rejet, vent et diffusion.</small></div>
+          <div class="calc-field"><div class="field-help-row"><label for="toxCta">CTA lu sur l'abaque (s/m³)</label><button type="button" class="help-btn cta-abaque-open" aria-haspopup="dialog" aria-controls="ctaAbaqueHelp">Abaque</button></div><input id="toxCta" type="number" inputmode="decimal" step="any" min="0"><small>Lecture manuelle selon distance, hauteur de rejet, vent et diffusion.</small></div>
         </div>
         <div class="formula-card"><code>C (mg/m³) = CTA × Qgaz × 10⁶</code><br><code>Cppm = Cmg/m³ × 24 / M</code><br><code>C%vol = Cppm / 10⁴</code></div>
         <div class="calc-result step-result" id="toxResult8" aria-live="polite"></div>
@@ -2673,7 +2674,8 @@
         <h4><span class="step-badge">10</span>Effets de l'UVCE</h4>
         <div class="calc-grid">
           <div class="calc-field"><label for="toxUvceMass">Masse de gaz libérée mc (kg)</label><input id="toxUvceMass" type="number" inputmode="decimal" step="any" min="0"></div>
-          <div class="calc-field">
+          <div class="calc-field"><label for="toxUvceGas">Gaz retenu pour l'UVCE</label><select id="toxUvceGas"><option value="">Sélectionner le gaz (obligatoire)</option><option value="methane">Méthane — 0,68 kg/m³ ; 9,5 %</option><option value="propane">Propane — 1,91 kg/m³ ; 4 %</option><option value="butane">Butane — 2,5 kg/m³ ; 3,1 %</option><option value="propylene">Propylène / propène — 1,81 kg/m³ ; 4,4 %</option><option value="acetylene">Acétylène — 1,11 kg/m³ ; 7,7 %</option><option value="hydrogen">Hydrogène — 0,065 kg/m³ ; 29,5 %</option></select></div>
+          <div class="calc-field" style="display:none;">
             <label for="toxUvcePciPreset">PCI (MJ/kg)</label>
             <select id="toxUvcePciPreset">
               <option value="">Sélectionner un produit</option>
@@ -2692,9 +2694,9 @@
             </select>
             <input id="toxUvcePci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none; margin-top:8px;">
           </div>
-          <div class="calc-field"><label for="toxUvceYield">Rendement explosion (%)</label><input id="toxUvceYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="5"><small>RCH 003 : 5 % pour un UVCE.</small></div>
+          <div class="calc-field" style="display:none;"><label for="toxUvceYield">Rendement explosion (%)</label><input id="toxUvceYield" type="number" inputmode="decimal" step="any" min="0" max="100" value="5"><small>RCH 003 : 5 % pour un UVCE.</small></div>
         </div>
-        <div class="formula-card"><code>mTNT = a × (PCI / 4,69) × mc</code><br><code>R = λ × ∛mTNT</code><br>λ = 25 (50 mbar) ; 9 (140 mbar) ; 7,5 (200 mbar).</div>
+        <div class="formula-card"><code>Vexplosible = m / (ρgaz × Cstœch)</code> (Cstœch utilisé directement : hydrogène = 29,5, sans division par 100). Distances 20 / 50 / 140 / 200 mbar : lecture approximative de l'abaque, sans extrapolation.</div>
         <div class="calc-result step-result" id="toxResult10" aria-live="polite"></div>
       </div>
 
@@ -2712,7 +2714,7 @@
           <div class="summary-card"><span>Rejet</span><strong id="toxSumRelease">—</strong><small>Panache / bouffée</small></div>
           <div class="summary-card"><span>Concentration ext.</span><strong id="toxSumCext">—</strong><small>ppm</small></div>
           <div class="summary-card"><span>Concentration int.</span><strong id="toxSumCint">—</strong><small>ppm</small></div>
-          <div class="summary-card uvce-card"><span>UVCE 50 / 140 / 200 mbar</span><strong id="toxSumUvce">—</strong><small>Rayons de surpression</small></div>
+          <div class="summary-card uvce-card"><span>UVCE 20 / 50 / 140 / 200 mbar</span><strong id="toxSumUvce">—</strong><small>Rayons de surpression</small></div>
         </div>
       </div>
 
@@ -3030,7 +3032,7 @@
       <div class="school-step">
         <h4><span class="step-badge">8</span>Calcul de l'explosion du local</h4>
         <div class="calc-grid">
-          <div class="calc-field"><label for="spillPciPreset">PCI du produit (MJ/kg)</label><select id="spillPciPreset">
+          <div class="calc-field" id="spillPciWrap"><label for="spillPciPreset">PCI du produit (MJ/kg)</label><select id="spillPciPreset">
               <option value="">Sélectionner un produit</option>
               <option value="10.9">CO - 10,9 MJ/kg</option>
               <option value="38.1">Gaz naturel - 38,1 MJ/kg</option>
@@ -3045,13 +3047,14 @@
               <option value="317000">Ammoniac - 317×10³ MJ/kg</option>
               <option value="manual">Autre / saisie manuelle</option>
             </select><input id="spillPci" type="number" inputmode="decimal" step="any" min="0" placeholder="Saisie manuelle du PCI" style="display:none;margin-top:8px;"></div>
-          <div class="calc-field"><label for="spillYield">Rendement explosion (%)</label><select id="spillYield"><option value="10" selected>10 % - BLEVE (valeur RCH)</option><option value="5">5 % - UVCE</option></select></div>
+          <div class="calc-field"><label for="spillYield">Méthode de calcul</label><select id="spillYield"><option value="10" selected>Équivalent TNT (méthode existante)</option><option value="5">UVCE : volume explosible + abaque</option></select></div>
+          <div class="calc-field" id="spillUvceGasWrap" style="display:none;"><label for="spillUvceGas">Gaz utilisé pour l'abaque UVCE</label><select id="spillUvceGas"><option value="">Sélectionner le gaz (obligatoire)</option><option value="methane">Méthane — 0,68 kg/m³ ; 9,5 %</option><option value="propane">Propane — 1,91 kg/m³ ; 4 %</option><option value="butane">Butane — 2,5 kg/m³ ; 3,1 %</option><option value="propylene">Propylène / propène — 1,81 kg/m³ ; 4,4 %</option><option value="acetylene">Acétylène — 1,11 kg/m³ ; 7,7 %</option><option value="hydrogen">Hydrogène — 0,065 kg/m³ ; 29,5 %</option></select><small>Uniquement pour un des six gaz du tableau. Les autres produits restent hors méthode.</small></div>
         </div>
         <div class="formula-card">
           <strong>8.1 :</strong> <code>Vgaz,LSE = Vlocal × LSE</code> ; <code>PLSE = Vgaz,LSE × Patm / Vlocal</code><br>
           <strong>8.2 :</strong> <code>mc = M × PLSE × V / (R × T)</code><br>
           <code>mTNT = a × (PCI / 4,69) × mc</code><br>
-          <strong>8.3 :</strong> <code>R = λ × ∛mTNT</code> avec λ = 25 / 9 / 7,5 pour 50 / 140 / 200 mbar.
+          <strong>8.3 :</strong> mode équivalent TNT : <code>R = λ × ∛mTNT</code> ; mode UVCE : <code>Vexplosible = m / (ρgaz × Cstœch)</code> avec Cstœch utilisé directement sans conversion, puis lecture approximative 20 / 50 / 140 / 200 mbar sur l'abaque.
         </div>
         <div class="calc-result step-result" id="spillResult8" aria-live="polite"></div>
       </div>
@@ -3070,6 +3073,7 @@
           <div class="summary-card uvce-card spill-pressure-card">
             <div class="fire-pressure-head"><span>Surpressions</span><small>Rayons calculés</small></div>
             <div class="fire-pressure-grid">
+              <div class="fire-pressure-box"><span>20 mbar (UVCE)</span><strong id="spillSumR20">—</strong><small>Lecture de l'abaque</small></div>
               <div class="fire-pressure-box"><span>50 mbar</span><strong id="spillSumR50">—</strong><small>Effets irréversibles</small></div>
               <div class="fire-pressure-box"><span>140 mbar</span><strong id="spillSumR140">—</strong><small>Premiers effets létaux</small></div>
               <div class="fire-pressure-box"><span>200 mbar</span><strong id="spillSumR200">—</strong><small>Effets létaux</small></div>
@@ -6506,6 +6510,55 @@ const closeToxicLiquefiedCalc = document.getElementById("closeToxicLiquefiedCalc
 const leakCdPreset = document.getElementById("leakCdPreset");
 const leakCdCustomWrap = document.getElementById("leakCdCustomWrap");
 
+
+// ===== UVCE PAR VOLUME EXPLOSIBLE - lecture APPROXIMATIVE de l'abaque fourni =====
+// Convention de calcul specifique demandee : les valeurs Cstoech sont des coefficients numeriques bruts
+// (hydrogene = 29.5), sans conversion en fraction ni multiplication par 100.
+// Attention : cette convention est differente de la concentration exprimee en pourcentage volumique.
+// Les distances sont des lectures graphiques arrondies (non des mesures metrologiques).
+// Ne pas extrapoler au-dela de 20 000 m3 ; ces resultats doivent etre verifies sur l'abaque.
+const UVCE_GASES = Object.freeze({
+  methane:{name:"Méthane",rho:0.68,stoich:9.5},
+  propane:{name:"Propane",rho:1.91,stoich:4},
+  butane:{name:"Butane",rho:2.5,stoich:3.1},
+  propylene:{name:"Propylène / propène",rho:1.81,stoich:4.4},
+  acetylene:{name:"Acétylène",rho:1.11,stoich:7.7},
+  hydrogen:{name:"Hydrogène",rho:0.065,stoich:29.5}
+});
+// Points [Vexplosible (m3), R20, R50, R140, R200 (m)] estimes sur l'abaque photographie.
+const UVCE_ABAQUE_POINTS = [
+  [0,0,0,0,0],[150,160,65,22,18],[500,210,85,33,27],
+  [1000,270,115,45,36],[2000,350,165,65,55],
+  [4000,465,230,92,76],[6000,550,280,113,90],
+  [8000,625,320,129,101],[10000,680,352,140,109],
+  [12000,730,382,150,117],[14000,777,408,160,123],
+  [16000,815,429,167,129],[18000,850,446,174,134],
+  [20000,880,458,179,137]
+];
+function uvceAbaqueCalculate(massKg,gasId){
+  const gas=UVCE_GASES[gasId];
+  if(!gas || !Number.isFinite(massKg) || massKg<=0) return null;
+  const volume=massKg/(gas.rho*gas.stoich);
+  if(!Number.isFinite(volume) || volume<=0) return null;
+  if(volume>20000) return {gas,volume,outOfRange:true};
+  for(let i=1;i<UVCE_ABAQUE_POINTS.length;i++){
+    const p0=UVCE_ABAQUE_POINTS[i-1],p1=UVCE_ABAQUE_POINTS[i];
+    if(volume<=p1[0]){
+      const t=(volume-p0[0])/(p1[0]-p0[0]);
+      const a=p0.slice(1).map((v,k)=>v+t*(p1[k+1]-v));
+      return {gas,volume,r20:a[0],r50:a[1],r140:a[2],r200:a[3],outOfRange:false};
+    }
+  }
+  return null;
+}
+function uvceAbaqueHtml(result,format){
+  if(!result) return '<strong>Choisir un des six gaz et renseigner une masse positive.</strong>';
+  const coeff=result.gas.stoich;
+  const intro=`<strong>${result.gas.name}</strong> : masse volumique ${format(result.gas.rho,3)} kg/m³ ; coefficient stœchiométrique retenu ${format(coeff,1)} (sans division par 100)<br>Vexplosible = m / (ρ × Cstœch) = <strong>${format(result.volume,1)} m³</strong>.`; 
+  if(result.outOfRange) return intro+'<div class="calc-warning"><strong>Hors abaque :</strong> volume supérieur à 20 000 m³. Aucune distance extrapolée.</div>';
+  return intro+`<div class="result-kpis"><span>20 mbar : ≈ ${format(result.r20,0)} m</span><span>50 mbar : ≈ ${format(result.r50,0)} m</span><span>140 mbar : ≈ ${format(result.r140,0)} m</span><span>200 mbar : ≈ ${format(result.r200,0)} m</span></div><div class="calc-note">Distances <strong>approximatives</strong> issues d'une lecture numérique de l'abaque fourni et interpolées entre points. Vérifier sur le graphique d'origine avant toute décision opérationnelle. Les valeurs ne sont pas des distances réglementaires.</div>`;
+}
+
 const rchState = {
   step1: null,
   rho: null,
@@ -6702,27 +6755,24 @@ function updateRchSummary() {
       : "—"
   );
 
-  setText("sumTnt",
-    Number.isFinite(rchState.mTnt)
-      ? `${formatNumber(rchState.mTnt,3)} kg TNT`
-      : "—"
-  );
+  setText("sumTnt", Number.isFinite(rchState.uvceVolume) ? `${formatNumber(rchState.uvceVolume,1)} m³` : "—");
+  setText("sumR20", Number.isFinite(rchState.r20) ? `≈ ${formatNumber(rchState.r20,0)} m` : "—");
 
   setText("sumR50",
     Number.isFinite(rchState.r50)
-      ? `${formatNumber(rchState.r50,1)} m`
+      ? `≈ ${formatNumber(rchState.r50,1)} m`
       : "—"
   );
 
   setText("sumR140",
     Number.isFinite(rchState.r140)
-      ? `${formatNumber(rchState.r140,1)} m`
+      ? `≈ ${formatNumber(rchState.r140,1)} m`
       : "—"
   );
 
   setText("sumR200",
     Number.isFinite(rchState.r200)
-      ? `${formatNumber(rchState.r200,1)} m`
+      ? `≈ ${formatNumber(rchState.r200,1)} m`
       : "—"
   );
 
@@ -6733,7 +6783,7 @@ function updateRchSummary() {
     Number.isFinite(rchState.emptySeconds),
     !!rchState.releaseType,
     Number.isFinite(rchState.concentrationPct),
-    Number.isFinite(rchState.mTnt)
+    Number.isFinite(rchState.uvceVolume)
   ].filter(Boolean).length;
 
   const status = document.getElementById("rchSummaryStatus");
@@ -7109,60 +7159,16 @@ function calcStep7A() {
 }
 
 function calcStep7B() {
-  const uvceMass = numberValue("uvceMassReleased");
-  const uvcePci = numberValue("uvcePci");
-  const uvceYieldPct = numberValue("uvceYield");
-
-  const errors = [];
-  if (!(uvceMass > 0)) errors.push("Renseignez la masse de gaz réellement libérée mc.");
-  if (!(uvcePci > 0)) errors.push("Renseignez le PCI du produit.");
-  if (!(uvceYieldPct > 0 && uvceYieldPct <= 100)) errors.push("Renseignez un rendement explosion entre 0 et 100 %.");
-
-  if (errors.length) {
-    rchState.mTnt = null;
-    rchState.r50 = null;
-    rchState.r140 = null;
-    rchState.r200 = null;
-    updateRchSummary();
-
-    showStepResult("resultStep7B", `<strong>Données à corriger :</strong><br>${errors.join("<br>")}`, true);
-    return;
-  }
-
-  const a = uvceYieldPct / 100;
-  const mTnt = a * (uvcePci / 4.69) * uvceMass;
-  const cube = Math.cbrt(mTnt);
-
-  const r50 = 25 * cube;
-  const r140 = 9 * cube;
-  const r200 = 7.5 * cube;
-
-  // Synchronisation des résultats UVCE avec la synthèse finale
-  rchState.mTnt = mTnt;
-  rchState.r50 = r50;
-  rchState.r140 = r140;
-  rchState.r200 = r200;
+  const mass=numberValue("uvceMassReleased");
+  const gas=document.getElementById("uvceGas")?.value;
+  const result=uvceAbaqueCalculate(mass,gas);
+  rchState.mTnt=null; rchState.uvceVolume=result?.volume??null;
+  rchState.r20=result && !result.outOfRange ? result.r20 : null;
+  rchState.r50=result && !result.outOfRange ? result.r50 : null;
+  rchState.r140=result && !result.outOfRange ? result.r140 : null;
+  rchState.r200=result && !result.outOfRange ? result.r200 : null;
   updateRchSummary();
-
-  showStepResult("resultStep7B", `
-    <strong>Calcul détaillé</strong><br>
-    a = ${formatNumber(uvceYieldPct,2)} % = <strong>${formatNumber(a,4)}</strong><br>
-
-    mTNT = a × (PCI / 4,69) × mc<br>
-    mTNT = ${formatNumber(a,4)} × (${formatNumber(uvcePci,3)} / 4,69) × ${formatNumber(uvceMass,3)}
-    <span class="big-result">mTNT = ${formatNumber(mTnt,3)} kg TNT</span>
-
-    ∛mTNT = <strong>${formatNumber(cube,4)}</strong><br><br>
-
-    <strong>50 mbar - effets irréversibles</strong><br>
-    R = 25 × ∛mTNT = <strong>${formatNumber(r50,1)} m</strong><br><br>
-
-    <strong>140 mbar - premiers effets létaux</strong><br>
-    R = 9 × ∛mTNT = <strong>${formatNumber(r140,1)} m</strong><br><br>
-
-    <strong>200 mbar - effets létaux</strong><br>
-    R = 7,5 × ∛mTNT = <strong>${formatNumber(r200,1)} m</strong>
-  `);
+  showStepResult("resultStep7B",uvceAbaqueHtml(result,formatNumber),!result||!!result.outOfRange);
 }
 
 function hideStepResult(id) {
@@ -7173,6 +7179,8 @@ function hideStepResult(id) {
 }
 
 function autoComputeRch() {
+  rchState.r20=null;
+  rchState.uvceVolume=null;
   // v38 : aucune donnée calculée ne doit subsister d'une saisie précédente.
   ["rho","massKg","retainedVolume","flowKgS","areaM2","deltaPPa",
    "emptySeconds","releaseType","concentrationPct","concentrationLabel",
@@ -7250,9 +7258,8 @@ function autoComputeRch() {
 
   // Etape 7B : UVCE est autonome a partir des donnees de scenario.
   const uvceMass = numberValue("uvceMassReleased");
-  const uvcePci = numberValue("uvcePci");
-  const uvceYield = numberValue("uvceYield");
-  if (rchState.emptySeconds !== null && uvceMass > 0 && uvcePci > 0 && uvceYield > 0 && uvceYield <= 100) {
+  const uvceGas = document.getElementById("uvceGas")?.value;
+  if (uvceMass > 0 && uvceGas) {
     calcStep7B();
   } else {
     rchState.mTnt = null;
@@ -7275,7 +7282,7 @@ function scheduleAutoComputeRch() {
   "leakPressure","leakTemp","leakVolume","leakFillRate",
   "leakDiameter","leakDiameterUnit","leakCdPreset","leakCdCustom",
   "leakTargetDistance","leakWindKmh","leakDiffusion","leakCta",
-  "uvceMassReleased","uvcePci","uvceYield"
+  "uvceMassReleased","uvcePci","uvceYield","uvceGas"
 ].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
@@ -7298,6 +7305,7 @@ document.getElementById("resetLeak").addEventListener("click", () => {
 
   document.getElementById("leakFillRate").value = "85";
   document.getElementById("uvceYield").value = "5";
+  document.getElementById("uvceGas").value = "";
   document.getElementById("leakDiameterUnit").value = "mm";
   document.getElementById("leakDiffusion").value = "normale";
 
@@ -7389,7 +7397,7 @@ function updateToxSummary() {
   set("toxSumRelease", toxState.releaseType || "—");
   set("toxSumCext", Number.isFinite(toxState.cExtPpm) ? `${formatNumber(toxState.cExtPpm,1)} ppm` : "—");
   set("toxSumCint", Number.isFinite(toxState.cIntPpm) ? `${formatNumber(toxState.cIntPpm,1)} ppm` : "—");
-  set("toxSumUvce", Number.isFinite(toxState.r50) ? `${formatNumber(toxState.r50,0)} / ${formatNumber(toxState.r140,0)} / ${formatNumber(toxState.r200,0)} m` : "—");
+  set("toxSumUvce", Number.isFinite(toxState.r20) ? `≈ ${formatNumber(toxState.r20,0)} / ${formatNumber(toxState.r50,0)} / ${formatNumber(toxState.r140,0)} / ${formatNumber(toxState.r200,0)} m` : "—");
 
   const status = document.getElementById("toxSummaryStatus");
   if (!status) return;
@@ -7594,13 +7602,17 @@ function computeToxStep9() {
 }
 
 function computeToxStep10() {
-  const mass = numberValue("toxUvceMass"), pci = numberValue("toxUvcePci"), yieldPct = numberValue("toxUvceYield");
-  if (!(mass > 0) || !(pci > 0) || !(yieldPct > 0 && yieldPct <= 100)) { toxState.r50=toxState.r140=toxState.r200=null; toxHide("toxResult10"); return false; }
-  const mTnt = (yieldPct/100) * (pci/4.69) * mass;
-  const cube = Math.cbrt(mTnt);
-  toxState.r50 = 25*cube; toxState.r140=9*cube; toxState.r200=7.5*cube;
-  toxSetResult("toxResult10", `mTNT = <strong>${formatNumber(mTnt,3)} kg TNT</strong><br><br>50 mbar - effets irréversibles : <strong>${formatNumber(toxState.r50,1)} m</strong><br>140 mbar - premiers effets létaux : <strong>${formatNumber(toxState.r140,1)} m</strong><br>200 mbar - effets létaux : <strong>${formatNumber(toxState.r200,1)} m</strong>`);
-  return true;
+  const mass=numberValue("toxUvceMass");
+  const gas=document.getElementById("toxUvceGas")?.value;
+  const result=uvceAbaqueCalculate(mass,gas);
+  toxState.uvceVolume=result?.volume??null;
+  toxState.r20=result && !result.outOfRange ? result.r20 : null;
+  toxState.r50=result && !result.outOfRange ? result.r50 : null;
+  toxState.r140=result && !result.outOfRange ? result.r140 : null;
+  toxState.r200=result && !result.outOfRange ? result.r200 : null;
+  if(!result){toxHide("toxResult10");return false;}
+  toxSetResult("toxResult10",uvceAbaqueHtml(result,formatNumber));
+  return !result.outOfRange;
 }
 
 function autoComputeToxicLiquefied() {
@@ -7642,7 +7654,7 @@ function scheduleAutoComputeToxicLiquefied() {
   "toxProduct","toxLiquidDensity","toxGasDensityRef","toxMolarMass","toxPvs","toxTemp","toxLie","toxLse","toxVolume","toxFillRate",
   "toxThresholdLabel1","toxThreshold1","toxThresholdLabel2","toxThreshold2","toxThresholdLabel3","toxThreshold3",
   "toxLeakDiameter","toxLeakDiameterUnit","toxCdPreset","toxCdCustom","toxPipeLength","toxPipeDiameter","toxPipeDiameterUnit","toxTankLiquidFlow",
-  "toxTargetDistance","toxWindKmh","toxDiffusion","toxCta","toxLocalW","toxLocalWCustom","toxLocalTimeMin","toxUvceMass","toxUvcePci","toxUvceYield"
+  "toxTargetDistance","toxWindKmh","toxDiffusion","toxCta","toxLocalW","toxLocalWCustom","toxLocalTimeMin","toxUvceMass","toxUvcePci","toxUvceYield","toxUvceGas"
 ].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
@@ -7665,6 +7677,7 @@ if (resetToxicLiquefiedCalc) {
     document.getElementById("toxDiffusion").value = "normale";
     document.getElementById("toxLocalW").value = "0.5";
     document.getElementById("toxUvceYield").value = "5";
+    document.getElementById("toxUvceGas").value = "";
     Object.keys(toxState).forEach(k => toxState[k]=null);
     for (let n=1;n<=10;n++) toxHide(`toxResult${n}`);
     updateToxSummary();
@@ -7675,6 +7688,27 @@ if (resetToxicLiquefiedCalc) {
 scheduleAutoComputeToxicLiquefied();
 
 </script>
+
+  <div class="image-help-overlay" id="ctaAbaqueHelp" aria-hidden="true">
+    <div class="image-help-box" role="dialog" aria-modal="true" aria-label="Abaques du coefficient de transfert atmosphérique">
+      <button type="button" class="image-help-close" id="closeCtaAbaqueHelp" aria-label="Fermer l'abaque">×</button>
+      <img src="images/abaque-cta.png" alt="Abaques CTA selon distance, vitesse du vent et condition de diffusion normale ou faible" loading="lazy">
+      <p style="margin:10px 2px 0;color:#475569;font-size:.85rem;">Lecture manuelle du CTA (s/m³) : choisir la condition de diffusion, la vitesse du vent et la distance sur l’abaque correspondant.</p>
+    </div>
+  </div>
+  <script>
+  (() => {
+    const overlay=document.getElementById('ctaAbaqueHelp');
+    const closeBtn=document.getElementById('closeCtaAbaqueHelp');
+    const openBtns=document.querySelectorAll('.cta-abaque-open');
+    if(!overlay || !closeBtn || !openBtns.length) return;
+    const close=()=>{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');};
+    openBtns.forEach(btn=>btn.addEventListener('click',()=>{overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');closeBtn.focus();}));
+    closeBtn.addEventListener('click',close);
+    overlay.addEventListener('click',ev=>{if(ev.target===overlay) close();});
+    document.addEventListener('keydown',ev=>{if(ev.key==='Escape' && overlay.classList.contains('open')) close();});
+  })();
+  </script>
 
   <div class="image-help-overlay" id="cdImageHelp" aria-hidden="true">
     <div class="image-help-box" role="dialog" aria-modal="true" aria-label="Aide coefficient de décharge Cd">
@@ -7986,15 +8020,21 @@ updateRchSummary();
     setText("spillSumTime",state.emptyTime!=null?formatDuration(state.emptyTime):"—");
     setText("spillSumConc",state.concPct!=null?`${f(state.concPct,2)} % vol.`:"—");
     setText("spillSumRisk",state.risk||"—");
-    setText("spillSumR50",state.r50!=null?`${f(state.r50,1)} m`:"—");
-    setText("spillSumR140",state.r140!=null?`${f(state.r140,1)} m`:"—");
-    setText("spillSumR200",state.r200!=null?`${f(state.r200,1)} m`:"—");
+    setText("spillSumR20",state.r20!=null?`≈ ${f(state.r20,0)} m`:"—");
+    const abaqueMode=document.getElementById("spillYield")?.value==="5";
+    setText("spillSumR50",state.r50!=null?`${abaqueMode?"≈ ":""}${f(state.r50,1)} m`:"—");
+    setText("spillSumR140",state.r140!=null?`${abaqueMode?"≈ ":""}${f(state.r140,1)} m`:"—");
+    setText("spillSumR200",state.r200!=null?`${abaqueMode?"≈ ":""}${f(state.r200,1)} m`:"—");
     const ready=[state.rho,state.mass,state.flow,state.concPct,state.r50].filter(v=>v!=null).length;
     setText("spillSummaryStatus",ready>=5?"Calculs disponibles":ready?"Calcul partiel":"En attente de données");
   }
 
   function compute(){
     updateNature();
+    const uvceWrap=document.getElementById("spillUvceGasWrap");
+    if(uvceWrap) uvceWrap.style.display=document.getElementById("spillYield")?.value==="5"?"block":"none";
+    const pciWrap=document.getElementById("spillPciWrap");
+    if(pciWrap) pciWrap.style.display=document.getElementById("spillYield")?.value==="5"?"none":"block";
     const nature=document.getElementById("spillNature")?.value||"unique";
     const M=n("spillMolarMass"), pvs=n("spillPvs"), temp=n("spillTemp"), productVol=n("spillProductVolume");
     const lie=n("spillLie"), lse=n("spillLse");
@@ -8058,9 +8098,22 @@ updateRchSummary();
       state.massLse=(nLse*M)/1000;
       state.mTnt=pci!=null && yieldPct!=null?(yieldPct/100)*(pci/4.69)*state.massLse:null;
       if(state.mTnt!=null && state.mTnt>0){const root=Math.cbrt(state.mTnt);state.r50=25*root;state.r140=9*root;state.r200=7.5*root;}else state.r50=state.r140=state.r200=null;
+      const isUvce=document.getElementById("spillYield")?.value==="5";
+      const spg=document.getElementById("spillUvceGasWrap");
+      if(spg) spg.style.display=isUvce?"block":"none";
+      let uvceResult=null;
+      state.r20=null;
+      if(isUvce){
+        uvceResult=uvceAbaqueCalculate(state.massLse,document.getElementById("spillUvceGas")?.value);
+        state.mTnt=null;
+        state.r20=uvceResult && !uvceResult.outOfRange?uvceResult.r20:null;
+        state.r50=uvceResult && !uvceResult.outOfRange?uvceResult.r50:null;
+        state.r140=uvceResult && !uvceResult.outOfRange?uvceResult.r140:null;
+        state.r200=uvceResult && !uvceResult.outOfRange?uvceResult.r200:null;
+      }
       const attainable=state.massVapor!=null?state.massVapor>=state.massLse:null;
-      setResult("spillResult8",`<strong>Explosion théorique à la LSE</strong><div class="result-kpis"><span>Vgaz LSE : ${f(vGasLse,2)} m³</span><span>P LSE : ${f(pLseBar,4)} bar</span><span>Masse à la LSE : ${f(state.massLse,3)} kg</span><span>mTNT : ${state.mTnt!=null?f(state.mTnt,2)+" kg":"—"}</span><span>50 mbar : ${state.r50!=null?f(state.r50,1)+" m":"—"}</span><span>140 mbar : ${state.r140!=null?f(state.r140,1)+" m":"—"}</span><span>200 mbar : ${state.r200!=null?f(state.r200,1)+" m":"—"}</span></div>${attainable===false?'<div class="calc-note" style="margin-top:10px;"><strong>Attention :</strong> la masse vaporisable calculée est inférieure à la masse nécessaire pour atteindre la LSE. Les rayons à la LSE sont donc un scénario théorique non atteignable avec les données saisies.</div>':''}`);
-    }else{state.massLse=state.mTnt=state.r50=state.r140=state.r200=null;hideResult("spillResult8");}
+      setResult("spillResult8",`<strong>${isUvce?"UVCE - lecture abaque":"Explosion théorique à la LSE - équivalent TNT"}</strong>${isUvce?`<div class="calc-note">Le volume explosible est calculé avec la masse à la LSE, et non directement avec le volume du local. Valeur théorique soumise à la masse vaporisable.</div>${uvceAbaqueHtml(uvceResult,f)}`:""}<div class="result-kpis"><span>Vgaz LSE : ${f(vGasLse,2)} m³</span><span>P LSE : ${f(pLseBar,4)} bar</span><span>Masse à la LSE : ${f(state.massLse,3)} kg</span>${isUvce?"":`<span>mTNT : ${state.mTnt!=null?f(state.mTnt,2)+" kg":"—"}</span>`}<span>50 mbar : ${state.r50!=null?f(state.r50,1)+" m":"—"}</span><span>140 mbar : ${state.r140!=null?f(state.r140,1)+" m":"—"}</span><span>200 mbar : ${state.r200!=null?f(state.r200,1)+" m":"—"}</span></div>${attainable===false?'<div class="calc-note" style="margin-top:10px;"><strong>Attention :</strong> la masse vaporisable calculée est inférieure à la masse nécessaire pour atteindre la LSE. Les rayons à la LSE sont donc un scénario théorique non atteignable avec les données saisies.</div>':''}`);
+    }else{state.massLse=state.mTnt=state.r20=state.r50=state.r140=state.r200=null;hideResult("spillResult8");}
 
     updateSummary();
   }
@@ -8081,6 +8134,8 @@ updateRchSummary();
     document.getElementById("spillPciPreset").value="";
     document.getElementById("spillPci").style.display="none";
     document.getElementById("spillYield").value="10";
+    document.getElementById("spillUvceGas").value="";
+    document.getElementById("spillUvceGasWrap").style.display="none";
     if(cdCustomWrap)cdCustomWrap.style.display="none";
     Object.keys(state).forEach(k=>state[k]=null);
     [1,2,3,4,6,7,8].forEach(i=>hideResult(`spillResult${i}`));
