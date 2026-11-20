@@ -913,6 +913,20 @@
     background: #fffaf5;
   }
 
+  /* v44 : regrouper les quatre seuils UVCE sur une seule ligne. */
+  #rchSummaryGrid .summary-uvce-thresholds {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(135px, 1fr));
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+  #rchSummaryGrid .summary-uvce-thresholds .summary-card {
+    min-width: 135px;
+  }
+
+
   .final-summary-note {
     margin-top: 12px;
     padding-top: 12px;
@@ -2452,64 +2466,66 @@
 
         <div class="final-summary-grid" id="rchSummaryGrid">
           <div class="summary-card">
-            <span>Étape 2</span>
+            <span>Masse volumique du gaz</span>
             <strong id="sumRho">—</strong>
             <small>Masse volumique du gaz</small>
           </div>
 
           <div class="summary-card">
-            <span>Étape 3</span>
+            <span>Masse totale calculée</span>
             <strong id="sumMass">—</strong>
             <small>Masse totale calculée</small>
           </div>
 
           <div class="summary-card emphasis">
-            <span>Étape 4</span>
+            <span>Débit de fuite</span>
             <strong id="sumFlow">—</strong>
             <small>Débit de fuite</small>
           </div>
 
           <div class="summary-card emphasis">
-            <span>Étape 5</span>
+            <span>Temps théorique de vidange</span>
             <strong id="sumEmptyTime">—</strong>
             <small>Temps théorique de vidange</small>
           </div>
 
           <div class="summary-card">
-            <span>Étape 6</span>
+            <span>Nature du rejet</span>
             <strong id="sumReleaseType">—</strong>
             <small>Nature du rejet</small>
           </div>
 
           <div class="summary-card">
-            <span>Étape 7A</span>
+            <span>Concentration entre LIE et LSE</span>
             <strong id="sumConcentration">—</strong>
             <small>Concentration / position LIE-LSE</small>
           </div>
 
           <div class="summary-card uvce-card">
-            <span>V explosible UVCE</span>
+            <span>Volume explosible</span>
             <strong id="sumTnt">—</strong>
             <small>Volume exploitable sur l'abaque</small>
           </div>
 
-          <div class="summary-card uvce-card"><span>UVCE 20 mbar</span><strong id="sumR20">—</strong><small>Lecture indicative de l'abaque</small></div>
+          <div class="summary-uvce-thresholds" aria-label="Distances des effets UVCE selon les seuils de surpression">
+          <div class="summary-card uvce-card"><span>20 mbar</span><strong id="sumR20">—</strong><small>Lecture indicative de l'abaque</small></div>
           <div class="summary-card uvce-card">
-            <span>UVCE 50 mbar</span>
+            <span>50 mbar</span>
             <strong id="sumR50">—</strong>
             <small>Effets irréversibles</small>
           </div>
 
           <div class="summary-card uvce-card">
-            <span>UVCE 140 mbar</span>
+            <span>140 mbar</span>
             <strong id="sumR140">—</strong>
             <small>Premiers effets létaux</small>
           </div>
 
           <div class="summary-card uvce-card">
-            <span>UVCE 200 mbar</span>
+            <span>200 mbar</span>
             <strong id="sumR200">—</strong>
             <small>Effets létaux</small>
+          </div>
           </div>
         </div>
 
