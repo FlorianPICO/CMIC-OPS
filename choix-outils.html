@@ -2170,6 +2170,20 @@
 .rch-quantity-entry[hidden]{display:none!important}
 .rch-quantity-info{display:block;line-height:1.45;color:#475569}
 .rch-quantity-info.rch-quantity-warning{color:#9a3412;font-weight:600}
+
+/* V50 — repérage discret des cellules encore à compléter. */
+.calc-panel .calc-field input.rch-a-completer,
+.calc-panel .calc-field select.rch-a-completer,
+.calc-panel .school-step input.rch-a-completer,
+.calc-panel .school-step select.rch-a-completer {
+  background-color: #fff6c5 !important;
+  border-color: #e7bf45 !important;
+  box-shadow: inset 0 0 0 1px rgba(231,191,69,.16);
+}
+.calc-panel .rch-a-completer:focus {
+  outline: 2px solid #d3a52d;
+  outline-offset: 1px;
+}
 </style>
 </head>
 
@@ -8957,6 +8971,47 @@ updateRchSummary();
       el.addEventListener('change',()=>recalc(c));
     }
   }
+})();
+</script>
+
+<script>
+/* V50 — coloration des champs visibles restants à renseigner.
+   Un champ déjà complété ne peut jamais être recoloré ; les données d'origine ne sont pas modifiées. */
+(() => {
+  'use strict';
+  const selector = '.calc-panel .calc-field input, .calc-panel .calc-field select, .calc-panel .school-step input, .calc-panel .school-step select';
+  function emptyInput(el) {
+    if (el.disabled || el.readOnly || el.type === 'hidden' || el.type === 'checkbox' || el.type === 'radio') return false;
+    if (el.closest('[hidden], [aria-hidden="true"]')) return false;
+    if (!el.getClientRects().length) return false;
+    // Les références explicitement facultatives ne sont pas des valeurs à compléter.
+    const label = el.labels ? Array.from(el.labels).map(x => x.textContent).join(' ') : '';
+    if (/\bfacultatif(?:ve)?\b/i.test(label)) return false;
+    return String(el.value ?? '').trim() === '';
+  }
+  function update() {
+    document.querySelectorAll(selector).forEach(el => {
+      el.classList.toggle('rch-a-completer', emptyInput(el));
+    });
+  }
+  let queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; update(); });
+  }
+  document.addEventListener('input', schedule, true);
+  document.addEventListener('change', schedule, true);
+  document.addEventListener('click', schedule, true);
+  // Mettre à jour après ouverture/fermeture d'un outil ou changement d'un champ conditionnel.
+  const observer = new MutationObserver(mutations => {
+    if (mutations.some(m => m.type === 'attributes' && (m.attributeName === 'style' || m.attributeName === 'hidden' || m.attributeName === 'aria-expanded'))) schedule();
+  });
+  document.querySelectorAll('.calc-panel, .calc-panel [hidden], .calc-panel [style], .tool-card').forEach(el => {
+    observer.observe(el, {attributes:true, attributeFilter:['style','hidden','aria-expanded']});
+  });
+  window.addEventListener('pageshow', schedule);
+  update();
 })();
 </script>
 </body>
