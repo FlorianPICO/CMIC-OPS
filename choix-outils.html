@@ -2162,6 +2162,14 @@
 .irch-inline-cancel{background:#e5e7eb;color:#111827}
 .irch-inline-host .irch-summary{margin-top:10px}
 
+
+/* CMIC-OPS V49 — choix volume ou masse sans modifier les équations RCH existantes */
+.rch-quantity-field{display:flex;flex-direction:column;gap:7px}
+.rch-quantity-mode{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:10px;background:#fff;color:#172033;font:inherit}
+.rch-quantity-entry{display:flex;flex-direction:column;gap:6px}
+.rch-quantity-entry[hidden]{display:none!important}
+.rch-quantity-info{display:block;line-height:1.45;color:#475569}
+.rch-quantity-info.rch-quantity-warning{color:#9a3412;font-weight:600}
 </style>
 </head>
 
@@ -2305,9 +2313,21 @@
             <input id="leakTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20">
           </div>
 
-          <div class="calc-field">
-            <label for="leakVolume">Volume du contenant (m³)</label>
-            <input id="leakVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55">
+          <div class="calc-field rch-quantity-field" data-rch-volume="leakVolume">
+            <label for="leakVolumeMode">Donnée disponible pour le contenant</label>
+            <select id="leakVolumeMode" class="rch-quantity-mode" aria-label="Choix volume ou masse">
+              <option value="volume">Volume du contenant (m³)</option>
+              <option value="mass">Masse de combustible (kg)</option>
+            </select>
+            <div id="leakVolumeVolumeWrap" class="rch-quantity-entry">
+              <label for="leakVolume">Volume du contenant (m³)</label>
+              <input id="leakVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Volume en m³">
+            </div>
+            <div id="leakVolumeMassWrap" class="rch-quantity-entry" hidden>
+              <label for="leakVolumeMass">Masse de combustible (kg)</label>
+              <input id="leakVolumeMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Masse en kg">
+            </div>
+            <small id="leakVolumeMassInfo" class="rch-quantity-info" aria-live="polite">Choisir une donnée d’entrée. Les calculs restent fondés sur le volume équivalent.</small>
           </div>
 
           <div class="calc-field">
@@ -2629,7 +2649,22 @@
           <div class="calc-field"><label for="toxTemp">Température du produit (°C)</label><input id="toxTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20"></div>
           <div class="calc-field"><label for="toxLie">LIE (% vol.)</label><input id="toxLie" type="number" inputmode="decimal" step="any" min="0"></div>
           <div class="calc-field"><label for="toxLse">LSE (% vol.)</label><input id="toxLse" type="number" inputmode="decimal" step="any" min="0"></div>
-          <div class="calc-field"><label for="toxVolume">Volume du contenant (m³)</label><input id="toxVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55"></div>
+          <div class="calc-field rch-quantity-field" data-rch-volume="toxVolume">
+            <label for="toxVolumeMode">Donnée disponible pour le contenant</label>
+            <select id="toxVolumeMode" class="rch-quantity-mode" aria-label="Choix volume ou masse">
+              <option value="volume">Volume du contenant (m³)</option>
+              <option value="mass">Masse de combustible (kg)</option>
+            </select>
+            <div id="toxVolumeVolumeWrap" class="rch-quantity-entry">
+              <label for="toxVolume">Volume du contenant (m³)</label>
+              <input id="toxVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Volume en m³">
+            </div>
+            <div id="toxVolumeMassWrap" class="rch-quantity-entry" hidden>
+              <label for="toxVolumeMass">Masse de combustible (kg)</label>
+              <input id="toxVolumeMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Masse en kg">
+            </div>
+            <small id="toxVolumeMassInfo" class="rch-quantity-info" aria-live="polite">Choisir une donnée d’entrée. Les calculs restent fondés sur le volume équivalent.</small>
+          </div>
           <div class="calc-field"><label for="toxFillRate">Taux de remplissage (%)</label><input id="toxFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85"><small>Saisie jusqu’à 100 % autorisée ; au-delà de 85 %, vérifier l’hypothèse physique et les prescriptions de remplissage applicables.</small></div>
         </div>
 
@@ -2815,7 +2850,22 @@
           <div class="calc-field"><label for="fireMolarMass">Masse molaire M (g/mol)</label><input id="fireMolarMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 44,1"></div>
           <div class="calc-field"><label for="firePvs">Pression de vapeur saturante PVS (bar abs.)</label><input id="firePvs" type="number" inputmode="decimal" step="any" min="0" placeholder="SPG / BIG"></div>
           <div class="calc-field"><label for="fireTemp">Température du produit (°C)</label><input id="fireTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20"></div>
-          <div class="calc-field"><label for="fireVolume">Volume du contenant (m³)</label><input id="fireVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 55"></div>
+          <div class="calc-field rch-quantity-field" data-rch-volume="fireVolume">
+            <label for="fireVolumeMode">Donnée disponible pour le contenant</label>
+            <select id="fireVolumeMode" class="rch-quantity-mode" aria-label="Choix volume ou masse">
+              <option value="volume">Volume du contenant (m³)</option>
+              <option value="mass">Masse de combustible (kg)</option>
+            </select>
+            <div id="fireVolumeVolumeWrap" class="rch-quantity-entry">
+              <label for="fireVolume">Volume du contenant (m³)</label>
+              <input id="fireVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Volume en m³">
+            </div>
+            <div id="fireVolumeMassWrap" class="rch-quantity-entry" hidden>
+              <label for="fireVolumeMass">Masse de combustible (kg)</label>
+              <input id="fireVolumeMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Masse en kg">
+            </div>
+            <small id="fireVolumeMassInfo" class="rch-quantity-info" aria-live="polite">Choisir une donnée d’entrée. Les calculs restent fondés sur le volume équivalent.</small>
+          </div>
           <div class="calc-field"><label for="fireFillRate">Taux de remplissage (%)</label><input id="fireFillRate" type="number" inputmode="decimal" step="any" min="0" max="100" value="85"><small>Saisie jusqu’à 100 % autorisée ; au-delà de 85 %, vérifier l’hypothèse physique et les prescriptions de remplissage applicables.</small></div>
           <div class="calc-field fire-special-case">
             <div class="fire-special-head">
@@ -3229,9 +3279,21 @@
             <input id="vpTemp" type="number" inputmode="decimal" step="any" placeholder="Ex. 20">
           </div>
 
-          <div class="calc-field">
-            <label for="vpContainerVolume">Volume du contenant (m³)</label>
-            <input id="vpContainerVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Ex. 1">
+          <div class="calc-field rch-quantity-field" data-rch-volume="vpContainerVolume">
+            <label for="vpContainerVolumeMode">Donnée disponible pour le contenant</label>
+            <select id="vpContainerVolumeMode" class="rch-quantity-mode" aria-label="Choix volume ou masse">
+              <option value="volume">Volume du contenant (m³)</option>
+              <option value="mass">Masse de combustible (kg)</option>
+            </select>
+            <div id="vpContainerVolumeVolumeWrap" class="rch-quantity-entry">
+              <label for="vpContainerVolume">Volume du contenant (m³)</label>
+              <input id="vpContainerVolume" type="number" inputmode="decimal" step="any" min="0" placeholder="Volume en m³">
+            </div>
+            <div id="vpContainerVolumeMassWrap" class="rch-quantity-entry" hidden>
+              <label for="vpContainerVolumeMass">Masse de combustible (kg)</label>
+              <input id="vpContainerVolumeMass" type="number" inputmode="decimal" step="any" min="0" placeholder="Masse en kg">
+            </div>
+            <small id="vpContainerVolumeMassInfo" class="rch-quantity-info" aria-live="polite">Choisir une donnée d’entrée. Les calculs restent fondés sur le volume équivalent.</small>
           </div>
 
           <div class="calc-field">
@@ -8788,6 +8850,113 @@ updateRchSummary();
   if(nameInput)nameInput.addEventListener('input',()=>{if(nameInput.value){selected=-1;applyBtn.disabled=true;choiceHost.textContent='Pour précharger les constantes, recherchez le numéro ONU.';applied.innerHTML='';}});
   showForUn(unInput.value.replace(/\D/g,''));
   wireIrchLoadButtons(document);
+})();
+</script>
+<script>
+/* CMIC-OPS V49 : masse du contenu -> volume total equivalent.
+   Les 4 calculateurs existants continuent d'utiliser leur champ volume,
+   mais celui-ci est converti automatiquement en mode masse. */
+(() => {
+  'use strict';
+  const modules = [
+    {id:'leakVolume', kind:'gas', deps:['leakMolarMass','leakPressure','leakTemp','leakFillRate']},
+    {id:'toxVolume', kind:'liquefied', deps:['toxLiquidDensity','toxMolarMass','toxPvs','toxTemp','toxFillRate']},
+    {id:'fireVolume', kind:'liquefied', deps:['fireLiquidDensity','fireMolarMass','firePvs','fireTemp','fireFillRate','fireEmptyNotDegassed']},
+    {id:'vpContainerVolume', kind:'liquid', deps:['vpNature','vpLiquidDensity','vpFillRate','vpMixD1','vpMixP1','vpMixD2','vpMixP2','vpMixD3','vpMixP3','vpMixD4','vpMixP4']}
+  ];
+  function positive(id){
+    const el=document.getElementById(id);
+    if(!el||!el.value.trim())return null;
+    const n=Number(el.value.replace(',','.'));
+    return Number.isFinite(n)&&n>0?n:null;
+  }
+  function numeric(id){
+    const el=document.getElementById(id);
+    if(!el||!el.value.trim())return null;
+    const n=Number(el.value.replace(',','.'));
+    return Number.isFinite(n)?n:null;
+  }
+  function liquidMixtureDensity(){
+    if(document.getElementById('vpNature')?.value!=='mixture'){
+      const d=positive('vpLiquidDensity');return d===null?null:d*1000;
+    }
+    let sum=0, pct=0;
+    for(let i=1;i<=4;i++){
+      const d=positive('vpMixD'+i),p=positive('vpMixP'+i);
+      if(d!==null&&p!==null){sum+=d*1000*p;pct+=p;}
+    }
+    if(Math.abs(pct-100)>0.5)return null;
+    return sum/pct;
+  }
+  function denominator(c){
+    const prefix=c.id==='toxVolume'?'tox':c.id==='fireVolume'?'fire':c.id==='leakVolume'?'leak':'vp';
+    const fill=numeric(prefix+'FillRate');
+    if(!(fill>0&&fill<=100))return {error:'Renseigner un taux de remplissage compris entre 0 et 100 %.'};
+    const fraction=fill/100;
+    if(c.kind==='liquid'){
+      const rho=liquidMixtureDensity();
+      if(!(rho>0))return {error:'Renseigner la densité du liquide (et 100 % de composition pour un mélange).'};
+      return {value:rho*fraction, detail:'Masse du liquide présent = densité × 1 000 × volume × remplissage.'};
+    }
+    if(c.id==='fireVolume'&&document.getElementById('fireEmptyNotDegassed')?.checked){
+      return {error:'Citerne vide non dégazée : renseigner le volume réel du contenant, et non une masse.'};
+    }
+    const mm=positive(prefix+'MolarMass'), temp=numeric(prefix+'Temp');
+    if(!(mm>0)||temp===null||temp<=-273)return {error:'Renseigner la masse molaire et la température du produit.'};
+    const pressure=positive(c.kind==='gas'?'leakPressure':prefix+'Pvs');
+    if(!(pressure>0))return {error:'Renseigner la pression absolue du gaz / la PVS en bar.'};
+    const rhoGas=(pressure*100000)*(mm/1000)/(8.314*(temp+273));
+    if(c.kind==='gas')return {value:rhoGas*fraction,detail:'Masse de gaz présente calculée selon P, M, T et taux de remplissage (gaz parfait).'};
+    const density=positive(prefix+'LiquidDensity');
+    if(!(density>0))return {error:'Renseigner la densité du liquide.'};
+    const rhoLiquid=density*1000;
+    return {value:rhoLiquid*fraction+rhoGas*(1-fraction),detail:'Masse totale (liquide + gaz) estimée aux conditions saisies.'};
+  }
+  function recalc(c){
+    const mode=document.getElementById(c.id+'Mode');
+    if(!mode||mode.value!=='mass')return;
+    const vol=document.getElementById(c.id), mass=positive(c.id+'Mass');
+    const info=document.getElementById(c.id+'MassInfo');
+    const d=denominator(c);
+    const valid=mass!==null&&d.value>0&&Number.isFinite(d.value);
+    const v=valid?mass/d.value:null;
+    if(valid&&!(v>0&&Number.isFinite(v)))return;
+    const next=valid?String(Number(v.toPrecision(12))):'';
+    info.classList.toggle('rch-quantity-warning',!valid);
+    info.textContent=!mass?'Renseigner une masse strictement positive en kg.':d.error?d.error:`Volume équivalent : ${Number(v.toPrecision(6)).toLocaleString('fr-FR')} m³. ${d.detail} Vérifier les hypothèses.`;
+    if(vol.value!==next){
+      vol.value=next;
+      vol.dispatchEvent(new Event('input',{bubbles:true}));
+      vol.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+  }
+  for(const c of modules){
+    const mode=document.getElementById(c.id+'Mode'),vol=document.getElementById(c.id);
+    const wrapVol=document.getElementById(c.id+'VolumeWrap'),wrapMass=document.getElementById(c.id+'MassWrap');
+    const mass=document.getElementById(c.id+'Mass'),info=document.getElementById(c.id+'MassInfo');
+    if(!mode||!vol||!wrapVol||!wrapMass||!mass||!info)continue;
+    let manualVolume=vol.value;
+    mode.addEventListener('change',()=>{
+      const isMass=mode.value==='mass';
+      if(isMass)manualVolume=vol.value;
+      wrapVol.hidden=isMass;wrapMass.hidden=!isMass;
+      if(isMass){recalc(c);}
+      else{
+        vol.value=manualVolume;
+        info.classList.remove('rch-quantity-warning');
+        info.textContent='Mode volume : saisir directement la capacité totale du contenant en m³.';
+        vol.dispatchEvent(new Event('input',{bubbles:true}));
+        vol.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+    });
+    mass.addEventListener('input',()=>recalc(c));
+    for(const id of c.deps){
+      const el=document.getElementById(id);
+      if(!el)continue;
+      el.addEventListener('input',()=>recalc(c));
+      el.addEventListener('change',()=>recalc(c));
+    }
+  }
 })();
 </script>
 </body>
