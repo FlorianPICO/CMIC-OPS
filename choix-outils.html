@@ -2122,8 +2122,20 @@
   @media(max-width:560px){.spg-panel-body iframe{min-height:380px;height:68vh;}}
 
 
+/* Inter RCH : mise en page autonome, sans reproduction du visuel des fiches sources. */
+.inter-rch-panel{border:1px solid #cbd5e1;border-radius:14px;overflow:hidden;background:#fff;color:#172033;margin-top:12px}
+.inter-rch-header{display:flex;flex-direction:column;gap:4px;padding:16px 18px;background:linear-gradient(110deg,#14334f,#21516f);color:white}
+.inter-rch-header strong{font-size:1.14rem}.inter-rch-header small{opacity:.88}
+.inter-rch-content{padding:16px 18px;display:grid;gap:16px}
+.inter-rch-part{display:grid;gap:12px}.inter-rch-part h3{margin:0;font-size:1rem}
+.inter-rch-section{border-left:3px solid #d97706;padding:8px 12px;background:#f8fafc;border-radius:0 8px 8px 0}
+.inter-rch-section h4{margin:0 0 6px;color:#0e354d;font-size:.95rem}
+.inter-rch-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:.94rem}
+.inter-rch-foot{padding:12px 18px;border-top:1px solid #e2e8f0;background:#f8fafc;color:#475569;font-size:.8rem}
+.inter-rch-notice{padding:14px;border:1px solid #f5c88b;background:#fff8ed;border-radius:9px}
 
-/* Inter RCH V44+ — sélection explicite de la fiche et préremplissage traçable */
+
+/* Inter RCH V45+ — sélection explicite de la fiche et préremplissage traçable */
 .irch-panel{margin:16px 0 8px;padding:18px;border:1px solid #f3c38a;border-radius:15px;background:#fffbf5;color:#243247}
 .irch-panel h4{margin:0 0 8px;color:#9a3412;font-size:1.05rem}
 .irch-panel p{margin:5px 0 12px;font-size:.88rem;line-height:1.5}
@@ -2138,7 +2150,6 @@
 .irch-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.8rem}.irch-table th,.irch-table td{padding:6px;border-bottom:1px solid #e2e8f0;text-align:left}
 .irch-tag{display:inline-block;background:#ecfdf5;color:#065f46;padding:2px 6px;border-radius:6px;font-size:.72rem;font-weight:700}
 .irch-note{font-size:.78rem;color:#854d0e}
-
 </style>
 </head>
 
@@ -4181,7 +4192,7 @@ function closeOtherIdentificationSheets(activeButton) {
     if (!otherHost) return;
     otherHost.hidden = true;
     otherButton.setAttribute("aria-expanded", "false");
-    otherButton.textContent = otherButton.classList.contains("inrs-modules-btn") ? "Modules INRS" : otherButton.classList.contains("spg-sheet-btn") ? "Fiche SPG" : "Fiche CMIC-OPS";
+    otherButton.textContent = otherButton.classList.contains("inrs-modules-btn") ? "Modules INRS" : otherButton.classList.contains("spg-sheet-btn") ? "Inter RCH" : "Fiche CMIC-OPS";
   });
 }
 
@@ -6172,8 +6183,22 @@ SPG_FILES.forEach((entry, i) => {
   if (!SPG_BY_UN.has(entry.u)) SPG_BY_UN.set(entry.u, []);
   SPG_BY_UN.get(entry.u).push(entry);
 });
+/* INTER RCH : seules les transcriptions intégrales avec vérification humaine
+   et confirmation des annexes/recto-verso sont publiables. Aucune retranscription
+   non contrôlée ne peut être présentée comme consigne opérationnelle.
+   Ajouter les fiches validées dans INTER_RCH_VERIFIED avant publication. */
+const INTER_RCH_VERIFIED = Object.freeze({});
+function interRchRecord(un) {
+  const r = INTER_RCH_VERIFIED[String(un).padStart(4, "0")];
+  return r && r.verified === true && r.complete === true &&
+    Array.isArray(r.parts) && r.parts.length > 0 &&
+    r.parts.every(p => Array.isArray(p.sections) && p.sections.length > 0 &&
+      p.sections.every(section => typeof section.heading === "string" && typeof section.text === "string" && section.text.trim())) ? r : null;
+}
 function spgForUn(un) {
-  return (SPG_BY_UN.get(String(un).padStart(4,"0")) || []).slice();
+  const code=String(un).padStart(4,"0");
+  if (!interRchRecord(code)) return [];
+  return (SPG_BY_UN.get(code) || []).slice();
 }
 function spgFileUrl(entry) {
   // Repartition GitHub : ONU 1000-2757 dans spg/, ONU 2758 et suivants dans spg2/.
@@ -6220,26 +6245,33 @@ function spgCardButtons(entries, prefix) {
   return groups.map(group => {
     const entry=group[0];
     const host=`spg-${prefix}-${entry.i}`;
-    const label=group.length>1 ? `Fiche SPG (${group.length} documents)` :
-      `Fiche SPG${groups.length>1 ? " : "+escapeHtml(spgLabel(entry)) : ""}`;
+    const label=`Inter RCH${groups.length>1 ? " : "+escapeHtml(spgLabel(entry)) : ""}`;
     return `<button type="button" class="pdf-link spg-sheet-btn" data-spg="${entry.i}" data-host="${host}" aria-expanded="false" title="${escapeHtml(group.map(e=>e.f).join(' + '))}">${label}</button>`;
   }).join("");
 }
 function spgCardHosts(entries,prefix) {
   return spgGroupedEntries(entries).map(group => `<div class="spg-host" id="spg-${prefix}-${group[0].i}" hidden></div>`).join("");
 }
-function renderOriginalSpg(entry) {
-  const href=spgFileUrl(entry);
-  const isPdf=entry.t==="pdf";
-  const fileName=escapeHtml(entry.f);
-  return `<div class="spg-panel">
-    <div class="spg-panel-head"><div><strong>Fiche SPG originale — ONU ${escapeHtml(entry.u)}</strong><small>${fileName}</small></div>
-      <a href="${href}" target="_blank" rel="noopener" class="pdf-link">Ouvrir l'original</a></div>
-    <div class="spg-panel-body">${isPdf
-       ? `<iframe src="${href}#toolbar=1" title="Fiche SPG ONU ${escapeHtml(entry.u)}" loading="lazy"></iframe>`
-       : `<a href="${href}" target="_blank" rel="noopener"><img src="${href}" loading="lazy" alt="Fiche SPG ONU ${escapeHtml(entry.u)}"></a>`
-    }</div>
-    <p class="spg-panel-foot">Document SPG original. Consulter toutes ses pages, notamment les distances d'évacuation lorsqu'elles figurent sur une deuxième page. Vérifier l'adéquation avec le produit et sa forme réelle.</p>
+function renderInterRch(un) {
+  const record = interRchRecord(un);
+  if (!record) return `<div class="inter-rch-notice">Transcription complète non vérifiée : module indisponible pour cette référence.</div>`;
+  const parts=record.parts.map((part, index) => {
+    const sections=part.sections.map(section => `<section class="inter-rch-section">
+      <h4>${escapeHtml(section.heading)}</h4>
+      <div class="inter-rch-text">${escapeHtml(section.text)}</div>
+    </section>`).join("");
+    return `<article class="inter-rch-part">
+      ${record.parts.length>1 ? `<h3>Partie ${index+1} / ${record.parts.length} — ${escapeHtml(part.label||"Document associé")}</h3>` : ""}
+      ${sections}
+    </article>`;
+  }).join("");
+  return `<div class="inter-rch-panel">
+    <header class="inter-rch-header"><strong>Inter RCH — ONU ${escapeHtml(un)}</strong>
+      <small>Transcription intégrale vérifiée · ${escapeHtml(record.title||"")}</small></header>
+    <div class="inter-rch-content">${parts}</div>
+    <footer class="inter-rch-foot">Source documentaire : fiches SPG fournies par l'utilisateur.
+      Présentation CMIC-OPS. Texte reproduit sans adaptation ; vérifier l'actualité des consignes,
+      la forme du produit et les procédures opérationnelles.</footer>
   </div>`;
 }
 function toggleSpgSheet(button) {
@@ -6249,14 +6281,11 @@ function toggleSpgSheet(button) {
   const opening=host.hidden;
   if(opening)closeOtherIdentificationSheets(button);
   if(!host.dataset.loaded){
-    const group=spgGroupedEntries(spgForUn(entry.u)).find(g=>g[0].i===entry.i) || [entry];
-    host.innerHTML=group.map((file, index)=>
-      `${group.length>1 ? `<div class="spg-multi-part">${index===0 ? "Document principal" : "Complément / verso"} · ${index+1}/${group.length}</div>` : ""}${renderOriginalSpg(file)}`
-    ).join("");
+    host.innerHTML=renderInterRch(entry.u);
     host.dataset.loaded="true";
   }
   host.hidden=!opening;
-  button.textContent=opening ? "Masquer SPG" : "Fiche SPG";
+  button.textContent=opening ? "Masquer Inter RCH" : "Inter RCH";
   button.setAttribute("aria-expanded",String(opening));
   if(opening)host.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
@@ -6270,7 +6299,7 @@ function wireSpgButtons(){
 function appendStandaloneSpgResults(entries,limit=20) {
   if(!entries.length)return false;
   let list=resultArea.querySelector(".result-list");
-  if(!list){resultArea.innerHTML=`<div class="result-message">${entries.length} document(s) SPG trouvé(s).</div><div class="result-list"></div>`;list=resultArea.querySelector(".result-list");}
+  if(!list){resultArea.innerHTML=`<div class="result-message">${entries.length} fiche(s) Inter RCH vérifiée(s).</div><div class="result-list"></div>`;list=resultArea.querySelector(".result-list");}
   const existing=new Set(Array.from(resultArea.querySelectorAll(".spg-sheet-btn")).map(b=>Number(b.dataset.spg)));
   const byUn=new Map();
   entries.forEach(e=>{if(!byUn.has(e.u))byUn.set(e.u,[]);byUn.get(e.u).push(e);});
@@ -6281,7 +6310,7 @@ function appendStandaloneSpgResults(entries,limit=20) {
       const entry=group[0];
       const prefix=`extra-${entry.i}`;
       const description=group.length>1 ? `${group.length} documents associés (principal + complément)` : escapeHtml(entry.f);
-      return `<div class="result-card"><div class="result-main"><strong>SPG — ONU ${escapeHtml(entry.u)}${entry.l ? " — "+escapeHtml(entry.l):""}</strong><div class="result-meta">Document original · ${description}</div><div class="result-doc-badges"><span class="doc-badge available">SPG</span></div></div><div class="result-links">${spgCardButtons(group,prefix)}</div>${spgCardHosts(group,prefix)}</div>`;
+      return `<div class="result-card"><div class="result-main"><strong>Inter RCH — ONU ${escapeHtml(entry.u)}${entry.l ? " — "+escapeHtml(entry.l):""}</strong><div class="result-meta">Transcription intégrale vérifiée · ${description}</div><div class="result-doc-badges"><span class="doc-badge available">Inter RCH</span></div></div><div class="result-links">${spgCardButtons(group,prefix)}</div>${spgCardHosts(group,prefix)}</div>`;
     }).join(""));
     wireSpgButtons();
   }
@@ -6291,7 +6320,7 @@ function spgStandaloneQuery(q) {
   const n=normalizeText(q||"");
   if(/^\d{4}$/.test(n))return spgForUn(n);
   if(n.length<3)return [];
-  return SPG_FILES.filter(e => e.l && normalizeText(e.l).includes(n)).slice(0,15);
+  return SPG_FILES.filter(e => interRchRecord(e.u) && e.l && normalizeText(e.l).includes(n)).slice(0,15);
 }
 
 function renderResults(items, heading) {
