@@ -2150,6 +2150,18 @@
 .irch-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.8rem}.irch-table th,.irch-table td{padding:6px;border-bottom:1px solid #e2e8f0;text-align:left}
 .irch-tag{display:inline-block;background:#ecfdf5;color:#065f46;padding:2px 6px;border-radius:6px;font-size:.72rem;font-weight:700}
 .irch-note{font-size:.78rem;color:#854d0e}
+.irch-dock{display:none!important}
+.irch-load-btn{display:block;margin-top:8px;background:#f4d03f!important;color:#111!important;border:1px solid #caa31a!important;font-weight:800}
+.irch-load-btn:hover{filter:brightness(.98)}
+.irch-inline-host{width:100%}
+.irch-inline-panel{margin-top:10px;padding:12px;border:1px solid #f3c38a;border-radius:12px;background:#fffbf5}
+.irch-inline-panel .irch-sub{display:block;margin-bottom:8px}
+.irch-inline-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.irch-inline-confirm,.irch-inline-cancel{display:inline-block;border:0;border-radius:10px;padding:10px 14px;font-weight:750;cursor:pointer}
+.irch-inline-confirm{background:#a7460a;color:#fff}
+.irch-inline-cancel{background:#e5e7eb;color:#111827}
+.irch-inline-host .irch-summary{margin-top:10px}
+
 </style>
 </head>
 
@@ -2219,9 +2231,7 @@
       </div>
 
       <div class="result-area" id="resultArea" aria-live="polite"></div>
-<div class="irch-panel" id="irchPanel" aria-live="polite">
-<h4>Inter RCH — choisir le produit et précharger ses constantes</h4>
-<p>Renseignez un numéro ONU dans le panneau orange puis cliquez sur « Rechercher avec la plaque ». Cochez <strong>la fiche exacte</strong> et choisissez « Précharger ». Les données proviennent exclusivement des fiches validées dans votre sauvegarde Inter RCH V9.</p>
+<div class="irch-dock" id="irchPanel" aria-live="polite" hidden>
 <div id="irchChoices" class="irch-sub">Aucun produit sélectionné.</div>
 <button type="button" id="irchApply" class="irch-apply" disabled>Précharger les constantes dans les outils RCH</button>
 <div id="irchApplied" role="status"></div>
@@ -6323,6 +6333,10 @@ function spgStandaloneQuery(q) {
   return SPG_FILES.filter(e => interRchRecord(e.u) && e.l && normalizeText(e.l).includes(n)).slice(0,15);
 }
 
+function interRchPreloadAvailable(un) {
+  return typeof window.hasInterRchPreload === "function" && window.hasInterRchPreload(String(un));
+}
+
 function renderResults(items, heading) {
   items = uniqueResults(items);
   if (!items.length) {
@@ -6341,6 +6355,8 @@ function renderResults(items, heading) {
     const spgPrefix = `gmu-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}`;
     const moduleHostId = inrs ? `inrs-modules-${escapeHtml(inrs.ft)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
     const cmicHostId = cmicSheet ? `cmic-product-${escapeHtml(cmicSheet.key)}-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
+    const irchPreload = interRchPreloadAvailable(item.un);
+    const irchHostId = irchPreload ? `irch-preload-${escapeHtml(item.un)}-${Math.random().toString(36).slice(2,8)}` : "";
 
     const docLinks = [];
     if (inrs) {
@@ -6378,7 +6394,9 @@ function renderResults(items, heading) {
       <div class="result-links">
         <a class="pdf-link" href="${href}" target="_blank" rel="noopener">Guide GMU ${item.guide.replace("P","")}</a>
         ${extraDocumentation}
+        ${irchPreload ? `<button type="button" class="pdf-link irch-load-btn" data-irch-un="${escapeHtml(item.un)}" data-irch-host="${irchHostId}">Charger constantes dans l'outil</button>` : ""}
       </div>
+      ${irchPreload ? `<div class="irch-inline-host" id="${irchHostId}"></div>` : ""}
       ${inrs ? `<div class="inrs-module-host" id="${moduleHostId}"></div>` : ""}
       ${cmicSheet ? `<div class="cmic-product-host" id="${cmicHostId}"></div>` : ""}
       ${spgCardHosts(spgSheets,spgPrefix)}
@@ -6393,6 +6411,7 @@ function renderResults(items, heading) {
   wireInrsModuleButtons();
   wireCmicProductButtons();
   wireSpgButtons();
+  if (window.wireIrchLoadButtons) window.wireIrchLoadButtons(resultArea);
   resultArea.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
@@ -8710,6 +8729,55 @@ updateRchSummary();
     const notes=Object.entries(v).filter(([k,val])=>String(val??'').trim() && !['PM','P_vap','d_gaz','d_liq','Lim_expl'].includes(k)).map(([k,val])=>`${k}: ${val}`);
     applied.innerHTML=`<div class="irch-summary"><strong>Produit sélectionné : ${esc(display)} — ONU ${esc(r.onu)}</strong><br><span class="irch-tag">${count} cellules de référence préremplies</span><br>Source : ${esc(r.file)} (contrôle Inter RCH validé).<br>${skips.length?'<strong>À contrôler avant calcul :</strong> '+esc(skips.join(' ; '))+'<br>':''}<strong>Autres constantes conservées (non injectées sans cellule correspondante) :</strong> ${notes.length?esc(notes.join(' · ')):'aucune'}<br><strong>Évacuation :</strong> ${r.evacStatus==='present'?esc(r.evacText):'Absence indiquée dans la fiche vérifiée.'}<br><span class="irch-note">Vérifier la pertinence du produit, les unités, la température de référence de la pression de vapeur et chaque donnée avant usage opérationnel. Les conditions de scénario ne sont jamais remplies automatiquement.</span></div>`;
   }
+  function showInlineResult(host, html) {
+    host.innerHTML = html;
+    host.hidden = false;
+  }
+  function renderInlinePicker(un, host) {
+    const hits = byUn.get(String(un)) || [];
+    if (!hits.length) {
+      showInlineResult(host, `<div class="irch-summary">Aucune constante Inter RCH validée n’est intégrée pour l’ONU <strong>${esc(un)}</strong>.</div>`);
+      return;
+    }
+    if (hits.length === 1) {
+      fill(hits[0].r);
+      showInlineResult(host, applied.innerHTML);
+      return;
+    }
+    host.innerHTML = `<div class="irch-inline-panel"><span class="irch-sub">${hits.length} fiches validées sont disponibles pour l’ONU ${esc(un)}. Choisissez le produit à précharger :</span>${hits.map(({r,i})=>`<label class="irch-choice"><input type="radio" name="irchInline-${esc(un)}" value="${i}"><span><strong>${esc(productName(r))}</strong><small>ONU ${esc(r.onu)} · ${esc(r.file)} · fiche validée</small></span></label>`).join('')}<div class="irch-inline-actions"><button type="button" class="irch-inline-confirm" disabled>Charger ce produit</button><button type="button" class="irch-inline-cancel">Annuler</button></div></div>`;
+    host.hidden = false;
+    let pick = -1;
+    const confirmBtn = host.querySelector('.irch-inline-confirm');
+    host.querySelectorAll(`input[name="irchInline-${CSS.escape(String(un))}"]`).forEach(el => {
+      el.addEventListener('change', () => {
+        pick = Number(el.value);
+        confirmBtn.disabled = !(pick >= 0 && RECORDS[pick]);
+      });
+    });
+    confirmBtn.addEventListener('click', () => {
+      if (!(pick >= 0 && RECORDS[pick])) return;
+      fill(RECORDS[pick]);
+      showInlineResult(host, applied.innerHTML);
+    });
+    host.querySelector('.irch-inline-cancel').addEventListener('click', () => {
+      host.innerHTML = '';
+      host.hidden = true;
+    });
+  }
+  function wireIrchLoadButtons(scope=document) {
+    scope.querySelectorAll('.irch-load-btn').forEach(button => {
+      if (button.dataset.irchWired) return;
+      button.dataset.irchWired = '1';
+      button.addEventListener('click', () => {
+        const un = String(button.dataset.irchUn || '').replace(/\D/g, '');
+        const host = document.getElementById(button.dataset.irchHost);
+        if (!un || !host) return;
+        renderInlinePicker(un, host);
+      });
+    });
+  }
+  window.wireIrchLoadButtons = wireIrchLoadButtons;
+  window.hasInterRchPreload = un => byUn.has(String(un));
   applyBtn.addEventListener('click',()=>{if(selected>=0 && RECORDS[selected]) fill(RECORDS[selected]);});
   // Show the selection immediately on ONU entry, and after the existing GMU search action.
   unInput.addEventListener('input',()=>showForUn(unInput.value.replace(/\D/g,'')));
@@ -8719,6 +8787,7 @@ updateRchSummary();
   if(searchName)searchName.addEventListener('click',()=>{selected=-1;applyBtn.disabled=true;choiceHost.textContent='Pour le préremplissage Inter RCH, indiquez le numéro ONU dans le panneau orange.';applied.innerHTML='';});
   if(nameInput)nameInput.addEventListener('input',()=>{if(nameInput.value){selected=-1;applyBtn.disabled=true;choiceHost.textContent='Pour précharger les constantes, recherchez le numéro ONU.';applied.innerHTML='';}});
   showForUn(unInput.value.replace(/\D/g,''));
+  wireIrchLoadButtons(document);
 })();
 </script>
 </body>
